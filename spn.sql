@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.2
+-- version 5.1.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 07, 2021 at 10:37 AM
--- Server version: 10.4.11-MariaDB
--- PHP Version: 7.4.4
+-- Generation Time: Nov 08, 2021 at 09:48 AM
+-- Server version: 10.4.19-MariaDB
+-- PHP Version: 8.0.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -79,8 +79,36 @@ CREATE TABLE `inventorygmb` (
 --
 
 INSERT INTO `inventorygmb` (`id`, `nama_barang`, `stock`, `choose`, `update_stock`, `unit`, `type`, `total_stock`, `text`, `created_at`, `updated_at`) VALUES
-(6, 'ayam geprek', 12, '-', 2, 'pcs', 'All Size', 10, 'gurih', '2021-11-07 02:24:24', '2021-11-07 02:30:03'),
-(7, 'ikan goreng', 3, '+', 3, 'Karung', 'All Size', 6, 'nikmat', '2021-11-07 02:24:59', '2021-11-07 02:30:14');
+(8, 'baju edit', 11, '-', 10, 'pcs', 'All Size', 1, 'bersih edit', '2021-11-08 00:00:09', '2021-11-08 00:35:16'),
+(9, 'celana edit', 90, '-', 80, 'Karung', 'All Size', 10, 'kotor sekali', '2021-11-08 00:00:22', '2021-11-08 00:37:34'),
+(10, 'topi', 5, ' ', 0, 'Roll', '3/4', 5, 'kepala', '2021-11-08 00:00:41', '2021-11-08 00:00:41'),
+(11, 'sendal', 5, ' ', 0, 'pcs', 'All Size', 5, 'kaki', '2021-11-08 00:00:56', '2021-11-08 00:00:56'),
+(12, 'batu', 8, ' ', 0, 'Karung', '3/4', 8, 'berat', '2021-11-08 00:36:46', '2021-11-08 00:36:46');
+
+--
+-- Triggers `inventorygmb`
+--
+DELIMITER $$
+CREATE TRIGGER `delete_status_inventorygmb` AFTER DELETE ON `inventorygmb` FOR EACH ROW BEGIN
+    INSERT INTO loginvgmb (keterangan,waktu,nama_barang,stock,choose,update_stock,unit,type,total_stock,text)
+    VALUES ('hapus data',now(),OLD.nama_barang,OLD.stock,OLD.choose,OLD.update_stock,OLD.unit,OLD.type,OLD.total_stock,OLD.text);
+END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `edit_status_inventorygmb` AFTER UPDATE ON `inventorygmb` FOR EACH ROW BEGIN
+    INSERT INTO loginvgmb (keterangan,waktu,nama_barang,stock,choose,update_stock,unit,type,total_stock,text)
+    VALUES ('edit data',now(),NEW.nama_barang,NEW.stock,NEW.choose,NEW.update_stock,NEW.unit,NEW.type,NEW.total_stock,NEW.text);
+END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `insert_status_inventorygmb` AFTER INSERT ON `inventorygmb` FOR EACH ROW BEGIN
+    INSERT INTO loginvgmb (keterangan,waktu,nama_barang,stock,choose,update_stock,unit,type,total_stock,text)
+    VALUES ('tambah data',now(),NEW.nama_barang,NEW.stock,NEW.choose,NEW.update_stock,NEW.unit,NEW.type,NEW.total_stock,NEW.text);
+END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -107,10 +135,33 @@ CREATE TABLE `inventoryspn` (
 --
 
 INSERT INTO `inventoryspn` (`id`, `nama_barang`, `stock`, `choose`, `update_stock`, `unit`, `type`, `total_stock`, `text`, `created_at`, `updated_at`) VALUES
-(1, 'cat edit', 50, ' ', 0, 'pcs', '3/4', 50, 'bersih', '2021-11-07 00:00:13', '2021-11-07 00:10:10'),
-(2, 'paku edit', 10, ' ', 0, 'karung', '3/4', 10, 'tajam', '2021-11-07 00:06:49', '2021-11-07 00:10:17'),
-(3, 'sepeda', 15, '+', 5, 'pcs', 'BMM', 20, 'gowes', '2021-11-07 00:09:07', '2021-11-07 00:11:46'),
-(4, 'motor', 3, ' ', 0, 'pcs', 'BMM', 3, 'besar', '2021-11-07 00:09:28', '2021-11-07 00:09:28');
+(1, 'cat', 5, ' ', 0, 'roll', '3/4', 5, 'putih', '2021-11-07 20:52:05', '2021-11-07 20:52:05'),
+(2, 'paku', 8, ' ', 0, 'karung', 'all-size', 8, 'tajam', '2021-11-07 20:52:39', '2021-11-07 20:52:39');
+
+--
+-- Triggers `inventoryspn`
+--
+DELIMITER $$
+CREATE TRIGGER `delete_status_inventoryspn` AFTER DELETE ON `inventoryspn` FOR EACH ROW BEGIN
+    INSERT INTO loginvspn (keterangan,waktu,nama_barang,stock,choose,update_stock,unit,type,total_stock,text)
+    VALUES ('hapus data',now(),OLD.nama_barang,OLD.stock,OLD.choose,OLD.update_stock,OLD.unit,OLD.type,OLD.total_stock,OLD.text);
+END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `edit_status_inventoryspn` AFTER UPDATE ON `inventoryspn` FOR EACH ROW BEGIN
+    INSERT INTO loginvspn (keterangan,waktu,nama_barang,stock,choose,update_stock,unit,type,total_stock,text)
+    VALUES ('edit data',now(),NEW.nama_barang,NEW.stock,NEW.choose,NEW.update_stock,NEW.unit,NEW.type,NEW.total_stock,NEW.text);
+END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `insert_status_inventoryspn` AFTER INSERT ON `inventoryspn` FOR EACH ROW BEGIN
+    INSERT INTO loginvspn (keterangan,waktu,nama_barang,stock,choose,update_stock,unit,type,total_stock,text)
+    VALUES ('tambah data',now(),NEW.nama_barang,NEW.stock,NEW.choose,NEW.update_stock,NEW.unit,NEW.type,NEW.total_stock,NEW.text);
+END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -226,6 +277,87 @@ INSERT INTO `kru` (`id`, `photo`, `nama`, `phone`, `tempat_lahir`, `tgl_lahir`, 
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `loginvgmb`
+--
+
+CREATE TABLE `loginvgmb` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `keterangan` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `waktu` datetime NOT NULL,
+  `nama_barang` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `stock` int(11) NOT NULL,
+  `choose` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT ' ',
+  `update_stock` int(11) NOT NULL DEFAULT 0,
+  `unit` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `total_stock` int(11) NOT NULL,
+  `text` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `loginvgmb`
+--
+
+INSERT INTO `loginvgmb` (`id`, `keterangan`, `waktu`, `nama_barang`, `stock`, `choose`, `update_stock`, `unit`, `type`, `total_stock`, `text`, `created_at`, `updated_at`) VALUES
+(3, 'tambah data', '2021-11-08 14:00:09', 'baju', 7, ' ', 0, 'pcs', 'All Size', 7, 'bersih', NULL, NULL),
+(4, 'tambah data', '2021-11-08 14:00:22', 'celana', 9, ' ', 0, 'pcs', 'All Size', 9, 'kotor', NULL, NULL),
+(5, 'tambah data', '2021-11-08 14:00:41', 'topi', 5, ' ', 0, 'Roll', '3/4', 5, 'kepala', NULL, NULL),
+(6, 'tambah data', '2021-11-08 14:00:56', 'sendal', 5, ' ', 0, 'pcs', 'All Size', 5, 'kaki', NULL, NULL),
+(7, 'edit data', '2021-11-08 14:01:42', 'celana edit', 90, ' ', 0, 'Karung', 'All Size', 90, 'kotor sekali', NULL, NULL),
+(8, 'edit data', '2021-11-08 14:33:06', 'baju edit', 17, ' ', 0, 'pcs', 'All Size', 17, 'bersih edit', NULL, NULL),
+(9, 'edit data', '2021-11-08 14:33:39', 'baju edit', 11, ' ', 0, 'pcs', 'All Size', 11, 'bersih edit', NULL, NULL),
+(10, 'edit data', '2021-11-08 14:33:56', 'baju edit', 11, '+', 4, 'pcs', 'All Size', 15, 'bersih edit', NULL, NULL),
+(11, 'edit data', '2021-11-08 14:35:16', 'baju edit', 11, '-', 10, 'pcs', 'All Size', 1, 'bersih edit', NULL, NULL),
+(12, 'edit data', '2021-11-08 14:35:39', 'celana edit', 90, '-', 50, 'Karung', 'All Size', 40, 'kotor sekali', NULL, NULL),
+(13, 'tambah data', '2021-11-08 14:36:46', 'batu', 8, ' ', 0, 'Karung', '3/4', 8, 'berat', NULL, NULL),
+(14, 'edit data', '2021-11-08 14:37:34', 'celana edit', 90, '-', 80, 'Karung', 'All Size', 10, 'kotor sekali', NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `loginvspn`
+--
+
+CREATE TABLE `loginvspn` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `keterangan` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `waktu` datetime NOT NULL,
+  `nama_barang` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `stock` int(11) NOT NULL,
+  `choose` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT ' ',
+  `update_stock` int(11) NOT NULL DEFAULT 0,
+  `unit` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `total_stock` int(11) NOT NULL,
+  `text` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `loginvspn`
+--
+
+INSERT INTO `loginvspn` (`id`, `keterangan`, `waktu`, `nama_barang`, `stock`, `choose`, `update_stock`, `unit`, `type`, `total_stock`, `text`, `created_at`, `updated_at`) VALUES
+(1, 'tambah data', '2021-11-08 10:52:05', 'cat', 5, ' ', 0, 'roll', '3/4', 5, 'putih', NULL, NULL),
+(2, 'tambah data', '2021-11-08 10:52:39', 'paku', 8, ' ', 0, 'karung', 'all-size', 8, 'tajam', NULL, NULL),
+(3, 'tambah data', '2021-11-08 11:23:35', 'pasir', 7, ' ', 0, 'roll', 'all-size', 7, 'berat', NULL, NULL),
+(4, 'tambah data', '2021-11-08 11:23:54', 'semen', 10, ' ', 0, 'karung', '3/4', 10, 'keras', NULL, NULL),
+(5, 'edit data', '2021-11-08 11:24:19', 'pasir edit', 70, ' ', 0, 'roll', 'all-size', 70, 'berat', NULL, NULL),
+(6, 'edit data', '2021-11-08 11:29:53', 'pasir edit', 70, '-', 10, 'roll', 'all-size', 60, 'berat', NULL, NULL),
+(7, 'edit data', '2021-11-08 12:01:35', 'semen', 10, '+', 10, 'karung', '3/4', 20, 'keras', NULL, NULL),
+(8, 'hapus data', '2021-11-08 12:01:35', 'semen', 10, ' ', 0, 'karung', '3/4', 10, 'keras', NULL, NULL),
+(9, 'edit data', '2021-11-08 12:01:44', 'semen', 10, '-', 5, 'karung', '3/4', 5, 'keras', NULL, NULL),
+(10, 'hapus data', '2021-11-08 12:01:44', 'semen', 10, '+', 10, 'karung', '3/4', 20, 'keras', NULL, NULL),
+(11, 'edit data', '2021-11-08 12:01:57', 'semen', 10, '+', 10, 'karung', '3/4', 20, 'keras', NULL, NULL),
+(12, 'hapus data', '2021-11-08 12:01:57', 'semen', 10, '-', 5, 'karung', '3/4', 5, 'keras', NULL, NULL),
+(13, 'hapus data', '2021-11-08 12:28:11', 'pasir edit', 70, '-', 10, 'roll', 'all-size', 60, 'berat', NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `migrations`
 --
 
@@ -250,7 +382,9 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (8, '2021_10_25_062717_create_kp_table', 1),
 (20, '2021_10_26_084827_create_inventoryspn_table', 2),
 (21, '2021_10_29_092358_create_inventorygmb_table', 2),
-(22, '2021_11_03_045910_create_kru_table', 3);
+(22, '2021_11_03_045910_create_kru_table', 3),
+(23, '2021_11_08_031311_create_loginvspn_table', 4),
+(24, '2021_11_08_050445_create_loginvgmb_table', 5);
 
 -- --------------------------------------------------------
 
@@ -336,6 +470,18 @@ ALTER TABLE `kru`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `loginvgmb`
+--
+ALTER TABLE `loginvgmb`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `loginvspn`
+--
+ALTER TABLE `loginvspn`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `migrations`
 --
 ALTER TABLE `migrations`
@@ -375,7 +521,7 @@ ALTER TABLE `gambar`
 -- AUTO_INCREMENT for table `inventorygmb`
 --
 ALTER TABLE `inventorygmb`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `inventoryspn`
@@ -408,10 +554,22 @@ ALTER TABLE `kru`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
+-- AUTO_INCREMENT for table `loginvgmb`
+--
+ALTER TABLE `loginvgmb`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
+--
+-- AUTO_INCREMENT for table `loginvspn`
+--
+ALTER TABLE `loginvspn`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+
+--
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
