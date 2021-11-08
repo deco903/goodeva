@@ -110,17 +110,13 @@ class KapalSewaController extends Controller
         $kapal_sewa->delete();
         return redirect()->back()->with('pesan','Data berhasil di hapus...!!!');
     }
-
-    public function quo_sw(){
-        return view('admin.quotation.quo_sw');
-    }
-
-    public function invoice_sw(){
-        return view('admin.invoice.invoice_sw');
-    }
-
+    
     public function vendor(){
         return view('admin.vendor');
+    }
+
+    public function table_vendor(){
+        return view('admin.table.table_vendor');
     }
 }
 

@@ -1,90 +1,90 @@
 @extends('layouts.app')
 @section('content')
-<div class="content-wrap">
-    <div class="main">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-lg-8 p-r-0 title-margin-right">
-                    <div class="page-header">
-                        <div class="page-title">
-                            <ol class="breadcrumb float-left" >
-                                <li class="breadcrumb-item"><a href="index-km.html">Daftar Kapal Sewaan</a></li>
-                                <li class="breadcrumb-item active"><b>Tambah Unit</b></li>
-                            </ol>
-                        </div>
+<div class="content-body">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="row page-titles mx-0">
+                <div class="col-sm-6 p-md-0">
+                    <div class="welcome-text" style="margin-bottom: 2em;" >
+                        <h4>Data Kapal Sewa</h4>
                     </div>
                 </div>
-            </div>
-            <!-- /# row -->
-            <section id="main-content">
-                <div class="col-md-12">
-                  <form action="{{route('storetable.sw')}}" method="POST">
-                    @csrf   
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="inputUnit">
-                                <input type="text" name="unit" class="form-Input" placeholder="No" required>
-                            </div>
-                            <div class="inputUnit">
-                                <input type="text" name="nama_kapal" class="form-Input" placeholder="Nama Kapal" required>
-                            </div>
-                            <div class="inputUnit">
-                                <input type="text" name="owner" class="form-Input" placeholder="Owner" required>
-                            </div>
-                            <div class="inputUnit">
-                                <input type="text" name="owner" class="form-Input" placeholder="Penanggung Jawab" required>
-                            </div>
-                            <div class="inputUnit">
-                                <div class="row">
-                                    <button type="menu" class="btn plusSa" data-toggle="modal" data-target="#UploadFile">
-                                        <i class="fas fa-plus"></i>
-                                    </button>
-                                    <p class="textIcon">Upload Sertifikat</p>
+                <div class="col-lg-12">
+                    <div class="table-responsive">
+                        <div class="card-body">
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label>No</label>
+                                    <input type="number" class="form-control" placeholder="No">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label>Destinasi Keberangkatan</label>
+                                    <select id="inputState" class="form-control">
+                                        <option selected>Choose...</option>
+                                        <option>Jakarta</option>
+                                        <option>Bandung</option>
+                                        <option>Madura</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label>Nama Kapal</label>
+                                    <input type="name" class="form-control" placeholder="Nama Kapal">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label>Destinasi Tujuan</label>
+                                    <select id="inputState" class="form-control">
+                                        <option selected>Choose...</option>
+                                        <option>Jakarta</option>
+                                        <option>Bandung</option>
+                                        <option>Madura</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label>Owner</label>
+                                    <input type="name" class="form-control" placeholder="Owner">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label>Tanggal Keberangkatan</label>
+                                    <div class="dateMounth">
+                                        <input type="date" name="dateofbirth" id="dateofbirth" class="dateTerm">
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label>Penanggu Jawab</label>
+                                    <input type="name" class="form-control" placeholder="Penanggung Jawab">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label>Tanggal Tiba</label>
+                                    <div class="dateMounth">
+                                        <input type="date" name="dateofbirth" id="dateofbirth" class="dateTerm">
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <div class="row">
+                                        <button type="menu" class="btn plusSa" data-toggle="modal" data-target="#UploadFile">
+                                            <i class="fas fa-plus"></i>
+                                        </button>
+                                        <p class="textIcon">Upload File</p>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <textarea class="form-control" rows="4" id="comment" placeholder="Note"></textarea>
+                                </div>
+                                <div class="from-group">
+                                    <div class="row">
+                                        <div class="col">
+                                            <button type="submit" class="btn btn-default" style="background-color: #55B0DC; color: #fff;">Save</button>
+                                        </div>
+                                        <div class="col">
+                                            <button type="submit" class="btn btn-danger">Cancel</button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="inputUnit">
-                                <select class="form-select dateTerm" aria-label="Default select example">
-                                    <option selected>Destinasi Keberangkatan</option>
-                                    <option value="1">Jakarta</option>
-                                    <option value="2">Bandung</option>
-                                    <option value="3">Semarang</option>
-                                </select>
-                                <!-- <input type="text" name="penanggung_jawab" class="form-Input" placeholder="Destinasi" required> -->
-                            </div>
-                            <div class="inputUnit">
-                                <select class="form-select dateTerm" aria-label="Default select example">
-                                    <option selected>Destinasi Tujuan</option>
-                                    <option value="1">Jakarta</option>
-                                    <option value="2">Bandung</option>
-                                    <option value="3">Semarang</option>
-                                </select>
-                                <!-- <input type="text" name="penanggung_jawab" class="form-Input" placeholder="Destinasi" required> -->
-                            </div>
-                            <div class="inputUnit">
-                                <div class="dateMounth">
-                                    <input type="date" name="dateofbirth" id="dateofbirth" class="dateTerm" style="background-color: #f4f4f4;">
-                                </div>
-                            </div>
-                            <div class="inputUnit">
-                                <div class="dateMounth">
-                                    <input type="date" name="dateofbirth" id="dateofbirth" class="dateTerm" style="background-color: #f4f4f4;">
-                                </div>
-                            </div>
-                            <div class="inputUnit">
-                                <input type="text" name="penanggung_jawab" class="form-Input" placeholder="Nilai Sewa" required>
-                            </div>
-                            <center>
-                                <button type="submit" class="btn btn-secondary btnSubmitUnit" data-toggle="modal" data-target="uploadFile"><a>Simpan</a></button>
-                            </center>
                         </div>
                     </div>
-                  </form>
-                    
-
-                  <!----Modal Upload File-->
-                  <div class="modal hide" id="UploadFile" role="dialog">
+                        <!----Modal Upload File-->
+                    <div class="modal show" id="UploadFile" role="dialog">
                         <div class="modal-dialog" id="modalTemp">
 
                             <!---Content model-->
@@ -101,11 +101,15 @@
                                             <p class="text-upload-file">Unggah File</p>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <input type="name" class="form-Input input-Form" placeholder="Nama File">
-                                        <input type="name" class="form-Input input-Form" placeholder="No Periijinan">
-                                        <input type="name" class="form-Input input-Form" placeholder="Tanggal terbit file">
-                                        <input type="name" class="form-Input input-Form" placeholder="Tanggal berakhir file">
+                                    <div class="col-md-6" style="padding-right: 35px;">
+                                        <input type="name" class="form-control inputText" placeholder="Nama File">
+                                        <input type="name" class="form-control inputText" placeholder="Nama Sertifikat">
+                                        <div class="dateMounth" style="margin-top: 1em; margin-bottom: 1em;">
+                                            <input type="date" name="dateofbirth" id="dateofbirth" class="dateTerm">
+                                        </div>
+                                        <div class="dateMounth" style="margin-top: 1em; margin-bottom: 1em;">
+                                            <input type="date" name="dateofbirth" id="dateofbirth" class="dateTerm">
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -118,8 +122,9 @@
                         </div>
                     </div>
                 </div>
-            </section>
+            </div>
         </div>
     </div>
 </div>
+
 @endsection

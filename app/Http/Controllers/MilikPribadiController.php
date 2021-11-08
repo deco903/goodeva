@@ -4,74 +4,264 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Pribadi;
+use App\Models\Gambar;
+use App\Models\kruModel;
+USE Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 
 class MilikPribadiController extends Controller
 {
-    public function index() 
-    {
-        return view('admin.page_km');
+    public function index() {
+        $pribadi = Pribadi::all();
+        return view('admin.page_km', compact('pribadi'));
     }
 
-    public function table_km(){
+    public function table_km(Request $request){
         return view('admin.table.table_km');
     }
     
-    public function store(Request $request){
+    public function storeTablekm(Request $request)
+    {
+
+        // DB::table('kapal_pribadi')->insert([
+
+        //     'nama_kapal' => $request->nama_kapal,
+        //     'kru_kapal' => $request->kru_kapal,
+        //     'nama_penyewa' => $request->nama_penyewa,
+        //     'tgl_keberangkatan' => $request->tgl_keberangkatan,
+        //     'sertifikat' => $request->sertifikat,
+
+        //     'keberangkatan' => $request->keberangkatan,
+        //     'tujuan' => $request->tujuan,
+            
+        //     'tgl_tiba' => $request->tgl_tiba,
+        //     'keterangan' => $request->keterangan,
+
+        // ]);
 
         $validated = $request->validate([
-            'unit' => 'required',
             'nama_kapal' => 'required',
-            'owner' => 'required',
-            'penanggung_jawab' => 'required',
-            'kru_karyawan' => 'required',
-            'no_sertifikat' => 'required',
             'keberangkatan' => 'required',
-            'tujuan' => 'required',
-            'tgl_berangkat' => 'required',
-            'tgl_datang' => 'required',
+            'kru_kapal' => 'required',
+             'tujuan' => 'required',
+            'nama_penyewa' => 'required',
+            'tgl_keberangkatan' => 'required',
+            'sertifikat' => 'required',
+            'tgl_tiba' => 'required',
+            'keterangan' => 'required',
 
         ]);
 
-        $unit = $request->unit;
         $nama_kapal = $request->nama_kapal;
-        $owner = $request->owner;
-        $penanggung_jawab = $request->penanggung_jawab;
-        $kru_karyawan = $request->kru_karyawan;
-        $no_sertifikat = $request->no_sertifikat;
         $keberangkatan = $request->keberangkatan;
+        $kru_kapal = $request->kru_kapal;
         $tujuan = $request->tujuan;
-        $tgl_berangkat = $request->tgl_berangkat;
-        $tgl_datang = $request->tgl_datang;
+        $nama_penyewa = $request->nama_penyewa;
+        $tgl_keberangkatan = $request->tgl_keberangkatan;
+        $sertifikat = $request->sertifikat; 
+        $tgl_tiba = $request->tgl_tiba;
+        $keterangan = $request->keterangan;
 
 
         $pribadi = new Pribadi();
-        $pribadi->unit = $unit;
         $pribadi->nama_kapal = $nama_kapal;
-        $pribadi->owner = $owner;
-        $pribadi->penanggung_jawab = $penanggung_jawab;
-        $pribadi->kru_karyawan = $kru_karyawan;
-        $pribadi->no_sertifikat = $no_sertifikat;
         $pribadi->keberangkatan = $keberangkatan;
+        $pribadi->kru_kapal = $kru_kapal;
         $pribadi->tujuan = $tujuan;
-        $pribadi->tgl_berangkat = $tgl_berangkat;
-        $pribadi->tgl_datang = $tgl_datang;
-        $pribadi->save();
-        //dd($pribadi);
+        $pribadi->nama_penyewa = $nama_penyewa;
+        $pribadi->tgl_keberangkatan = $tgl_keberangkatan;
+        $pribadi->sertifikat = $sertifikat;
+        $pribadi->tgl_tiba = $tgl_tiba;
+        $pribadi->keterangan = $keterangan;
 
-        return redirect()->route('page.km')->with('pesan','data berhasil di inputkan');
+        // dd($pribadi);
+        if($pribadi->save()){
+            return redirect()->route('page.km')->with('pesan','data berhasil di inputkan');
+        }else{
+            return redirect()->back()->with('pesan','data gagal di inputkan'); 
+        }
+        
+        
+    }
+
+    public function storePhoto(Request $request){
+
+        
+     $validated = $request->validate([
+        'nama_file' => 'required',
+        'no_izin' => 'required',
+        'tgl_terbitfile' => 'required',
+        'tgl_berakhirfile' => 'required',
+        'photo' => 'required|mimes:jpg,jpeg,bmp,png|max:1024',
+    ]);
+
+
+        $image = $request->file('photo');
+        $imageName = Request()->nama_file.'.'.$image->getClientOriginalExtension();
+        $image->move(public_path('uploads1/img'),$imageName);
+        $nama_file = $request->nama_file;
+        $no_izin = $request->no_izin;
+        $tgl_terbitfile = $request->tgl_terbitfile;
+        $tgl_berakhirfile = $request->tgl_berakhirfile;
+
+
+        // $gambar = new Gambar();
+        // $gambar->nama_file = $nama_file;
+        // $gambar->no_izin = $no_izin;
+        // $gambar->tgl_terbitfile = $tgl_terbitfile;
+        // $gambar->tgl_berakhirfile = $tgl_berakhirfile;
+        // $gambar->photo = $imageName;
+
+        // dd($gambar);
+        $dataImg = [
+            'nama_file' => $nama_file,
+            'no_izin' => $no_izin,
+            'tgl_terbit' => $tgl_terbitfile,
+            'tgl_berakhir' => $tgl_berakhirfile,
+            'photo' => $imageName
+        ];
+        $request->session()->put('dataImg', $dataImg);
+        // if($gambar->save()){
+            return redirect()->back()->with('pesan','data sertifikat berhasil ditambah');
+        // }else{
+        //     return redirect()->back()->with('pesan','data gagal di inputkan'); 
+        // }
+
+     
 
     }
 
-    public function inventory(){
-        return view('admin.inventory');
+    public function editTablekm($id)
+    {
+        $pribadi = Pribadi::find($id);
+        return view('admin.table.editTablekm', compact('pribadi'));
     }
+
+    public function updateTablekm(Request $request)
+    {
+        $validated = $request->validate([
+            'nama_kapal' => 'required',
+            'keberangkatan' => 'required',
+            'kru_kapal' => 'required',
+            'tujuan' => 'required',
+            'nama_penyewa' => 'required',
+            'tgl_keberangkatan' => 'required',
+            'sertifikat' => 'required',
+            'tgl_tiba' => 'required',
+            'keterangan' => 'required',
+
+        ]);
+
+        $pribadi = Pribadi::find($request->id);
+
+        $pribadi_data = [
+            'nama_kapal' => $request->nama_kapal, 
+            'keberangkatan' => $request->keberangkatan,
+            'kru_kapal' => $request->kru_kapal, 
+            'tujuan' => $request->tujuan,
+            'nama_penyewa' => $request->nama_penyewa, 
+            'tgl_keberangkatan' => $request->tgl_keberangkatan,
+            'sertifikat' => $request->sertifikat, 
+            'tgl_tiba' => $request->tgl_tiba,
+
+        ];
+
+    }
+
     
-    public function quo_km(){
-        return view('admin.quotation.quo_km');
+  
+
+    public function kru(){
+        $kru = kruModel::paginate(2);
+        return view('admin.kru',compact('kru'));
     }
 
-    public function invoice_km(){
-        return view('admin.invoice.invoice_km');
+    public function table_kru(){
+        return view ('admin.table.table_kru');
     }
-    
+
+    public function storeKru(Request $request)
+    {
+        $validated = $request->validate([
+            'photo' => 'required|mimes:jpg,jpeg,bmp,png|max:1024',
+            'phone' => 'required',
+            'nama' => 'required',
+            'email' => 'required|email',
+            'tempat_lahir' => 'required',
+            'tgl_lahir' => 'required',
+            'nama_sertifikat' => 'required',
+            'no_sertifikat' => 'required',
+            'jenis_kelamin' => 'required',
+            'tgl_gabung' => 'required',
+            'identitas' => 'required',
+            'no_identitas' => 'required',
+            'status' => 'required',
+            'provinsi' => 'required',
+            'kota' => 'required',
+            'kecamatan' => 'required',
+            'kelurahan' => 'required',
+            'rt' => 'required',
+            'rw' => 'required',
+            'alamat' => 'required',
+        ]);
+
+
+        $image = $request->file('photo');
+        $imageName = Request()->nama.'.'.$image->getClientOriginalExtension();
+        $image->move(public_path('uploads/img_kru'),$imageName);
+        $phone = $request->phone;
+        $nama = $request->nama;
+        $email = $request->email;
+        $tempat_lahir = $request->tempat_lahir;
+        $tgl_lahir = $request->tgl_lahir;
+        $nama_sertifikat = $request->nama_sertifikat;
+        $no_sertifikat = $request->no_sertifikat;
+        $jenis_kelamin = $request->jenis_kelamin;
+        $tgl_gabung = $request->tgl_gabung;
+        $identitas = $request->identitas;
+        $no_identitas = $request->no_identitas;
+        $status = $request->status;
+        $provinsi = $request->provinsi;
+        $kota = $request->kota;
+        $kecamatan = $request->kecamatan;
+        $kelurahan = $request->kelurahan;
+        $rt = $request->rt;
+        $rw = $request->rw;
+        $alamat = $request->alamat;
+
+        $kru = new kruModel();
+        $kru->photo = $imageName;
+        $kru->phone = $phone;
+        $kru->nama = $nama;
+        $kru->email = $email;
+        $kru->tempat_lahir = $tempat_lahir;
+        $kru->tgl_lahir = $tgl_lahir;
+        $kru->nama_sertifikat = $nama_sertifikat;
+        $kru->no_sertifikat = $no_sertifikat;
+        $kru->jenis_kelamin = $jenis_kelamin;
+        $kru->tgl_gabung = $tgl_gabung;
+        $kru->identitas = $identitas;
+        $kru->no_identitas = $no_identitas;
+        $kru->status = $status;
+        $kru->provinsi = $provinsi;
+        $kru->kota = $kota;
+        $kru->kecamatan = $kecamatan;
+        $kru->kelurahan = $kelurahan;
+        $kru->rt = $rt;
+        $kru->rw = $rw;
+        $kru->alamat = $alamat;
+
+        $kru->save();
+
+        // dd($kru);
+
+        return redirect()->route('kru')->with('pesan','Data Berhasil di Input');
+
+    }
+
+    public function resetSession($key) {
+        if (Session::has($key)) {
+            Session::forget($key);
+        }
+    }
 }

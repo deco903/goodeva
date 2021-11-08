@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/lib/themify-icons.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/lib/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/lib/helper.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
 
     <!---Fontawesome-->
     <link
@@ -36,5 +36,10 @@
 
 <body>
     @yield('content')
+
+
+    <script src="{{ asset('assets/vendor/global/global.min.js') }}"></script>
+    <script src="{{ asset('assets/js/quixnav-init.js') }}"></script>
+    <script src="{{ asset('assets/js/custom.min.js') }}"></script>
 </body>
 </html>

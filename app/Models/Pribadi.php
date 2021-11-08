@@ -10,8 +10,11 @@ class Pribadi extends Model
 {
     use HasFactory;
     protected $table = 'kapal_pribadi';
-    protected $fillable = ['unit','nama_kapal','owner','penanggung_jawab','kru_karyawan','no_sertifikat','keberangkatan','tgl_berangkat','tujuan','tgl_datang'];
+    protected $fillable = ['nama_kapal','gambar_id','keberangkatan','kru_kapal','tujuan','nama_penyewa','tgl_keberangkatan','tgl_tiba','keterangan'];
 
- 
+    // public function gambar()
+    // {
+    // 	return $this->belongsTo(gambar::class,'gambar_id');
+    // }
 
 }

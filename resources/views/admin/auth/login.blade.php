@@ -1,45 +1,43 @@
 @extends('admin.auth.header.app')
-<body style="background-color: #5AB6DE;">
-    <div id="wrapper">
-        <div class="vertical-align-wrap">
-            <div class="vertical-align-middle">
-                <div class="auth-box">
-                    <div class="header-content">
-                        <center>
-                            <div class="header">
-                                <div class="logo text-center"><img src="assets/images/logo.png"  alt="Tajuk Logo"></div>
+<body class="h-100" style="background-color: #5AB6DE">
+<div class="authincation h-100">
+    <div class="container-fluid h-100 w-50">
+        <div class="row justify-content-center h-100 align-items-center">
+            <div class="col-md-6">
+                <div class="authincation-content">
+                    <div class="row no-gutters">
+                        <div class="col-xl-12">
+                            <div class="auth-form">
+                                <h4 class="text-center mb-4">
+                                    <img src="{{ asset('assets/images/logo.png') }}">
+                                </h4>
+                                <form action="index.html">
+                                    <div class="form-group mt-5">
+                                        <input type="Username" class="form-control" value="Username">
+                                    </div>
+                                    <div class="form-group"> 
+                                        <input type="password" class="form-control" value="Password">
+                                    </div>
+                                    <div class="form-row d-flex justify-content-between mt-4 mb-2">
+                                        <div class="form-group">
+                                            <div class="form-check ml-2">
+                                                <input class="form-check-input" type="checkbox" id="basic_checkbox_1">
+                                                <label class="form-check-label" for="basic_checkbox_1">Remember me</label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <a href="page-forgot-password.html">Forgot Password?</a>
+                                        </div>
+                                    </div>
+                                    <div class="text-center">
+                                        <button type="submit" class="btn btn-primary btn-block">Sign in</button>
+                                    </div>
+                                </form>
                             </div>
-                        </center>
-                        <form class="form-auth-small" action="{{ route('post.login') }}" method="POST">
-                        <center>
-                        @csrf
-                        @include('admin.auth.notiflogin.notifemail')
-                            <div class="form-group-login">
-                                <div class="input-group inputLogin mb-4 border rounded-pill p-1">
-                                    <input type="email" name="email"  placeholder="Masukan email" id="email" class="form-control" required>
-                                </div>
-                            </div>
-                            <div class="form-group-login">
-                                <div class="input-group inputLogin  mb-4 border rounded-pill p-1">
-                                    <input type="password" name="password" placeholder="password" id="password" class="form-control" required>  
-                                </div>
-                            </div>
-                        </center>
-                            <div class="form-group">
-                                <center> 
-                                    <i class="fas fa-lock"></i>
-                                    <span class="helper-text-login"> <a href="#">Lupa Password</a></span>
-                                    </center>
-                            </div>
-                            <div class="col-md-12">
-                                <center>
-                                    <button type="submit" class="btn-page-login"><a>Masuk</a></button>
-                                </center>
-                            </div>
-                        </form>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</body>
+</div>

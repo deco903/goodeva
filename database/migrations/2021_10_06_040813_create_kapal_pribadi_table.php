@@ -15,16 +15,15 @@ class CreateKapalPribadiTable extends Migration
     {
         Schema::create('kapal_pribadi', function (Blueprint $table) {
             $table->id();
-            $table->string('unit');
             $table->string('nama_kapal');
-            $table->string('owner');
-            $table->string('penanggung_jawab');
-            $table->string('kru_karyawan');
-            $table->string('no_sertifikat');
             $table->string('keberangkatan');
-            $table->string('tgl_berangkat');
+            $table->string('kru_kapal');
             $table->string('tujuan');
-            $table->string('tgl_datang');
+            $table->string('nama_penyewa');
+            $table->string('tgl_keberangkatan');
+            $table->string('sertifikat');
+            $table->string('tgl_tiba');
+            $table->string('keterangan');
             $table->timestamps();
         });
     }
