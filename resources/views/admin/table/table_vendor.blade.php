@@ -10,17 +10,24 @@
                             <h4>Tambah Data vendor Kapal</h4>
                         </div>
                     </div>
+
+                    @if(session()->has('success'))
+                    <div class="alert alert-success" role="alert">
+                        {{ session('success') }}
+                    </div>
+                    @endif
                 <div class="col-lg-12">
                     <div class="table-responsive">
+                    <form action="/page/vendor/store" method="POST" enctype="multipart/form-data">
+                       @csrf    
                         <div class="card-body">
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <div class="row">
-                                        <button type="menu" class="btn came">
-                                            <i class="fas fa-camera"></i>
-                                        </button>
+                                        <img class="ml-3" id="preview" src="#" alt="" style="width:100px;height:96px;margin-left:-16px;margin-right:10px;"/> 
+
                                         <form action="/action_page.php" style="margin-left: 2em">
-                                            <input type="file" id="myFile" name="filename" />
+                                            <input type="file" id="myFile" name="image" />
                                         </form>
                                     </div>
                                 </div>
@@ -28,34 +35,34 @@
                                     <div class="row">
                                         <div class="form-group col-md-6">
                                             <label>Phone</label>
-                                            <input type="number" class="form-control" placeholder="+62" />
+                                            <input type="text" id="phone" name="phone" class="form-control" placeholder="+62" required/>
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label>Mobile</label>
-                                            <input type="number" class="form-control" placeholder="+62" />
+                                            <input type="text" id="mobile" name="mobile" class="form-control" placeholder="+62" required/>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label>Nama Perusahaan </label>
-                                    <input type="name" class="form-control" placeholder="Nama Perusahaan" />
+                                    <input type="text" id="nama_perusahaan" name="nama_perusahaan" class="form-control" placeholder="Nama Perusahaan"required/>
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label>Email</label>
-                                    <input type="email" class="form-control" placeholder="email" />
+                                    <input type="email" id="email" name="email" class="form-control" placeholder="email" required/>
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label>Nama PIC</label>
-                                    <input type="name" class="form-control" placeholder="Nama Pimpinan" />
+                                    <input type="nama_pic" id="nama_pic" name="nama_pic" class="form-control" placeholder="Nama Pimpinan" required/>
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label>Website</label>
-                                    <input type="url" class="form-control" placeholder="www." />
+                                    <input type="text" id="website" name="website" class="form-control" placeholder="www." required/>
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label>Jabatan</label>
-                                    <select id="inputState" class="form-control">
-                                        <option selected>Choose...</option>
+                                    <select id="jabatan" name="jabatan" class="form-control" required>
+                                        <option selected>Pilih...</option>
                                         <option>Direktur</option>
                                         <option>Manager</option>
                                     </select>
@@ -64,7 +71,7 @@
                                     <div class="row">
                                         <div class="form-group col-md-3">
                                             <label>Provinsi</label>
-                                            <select id="inputState" class="form-control">
+                                            <select id="provinsi" name="provinsi" class="form-control" required>
                                                 <option selected>Jawa Barat</option>
                                                 <option>Jawa Tengah</option>
                                                 <option>Jawa Timur</option>
@@ -72,7 +79,7 @@
                                         </div>
                                         <div class="form-group col-md-3">
                                             <label>Kota</label>
-                                            <select id="inputState" class="form-control">
+                                            <select id="kota" name="kota" class="form-control" required>
                                                 <option selected>Depok</option>
                                                 <option>DKI Jakarta</option>
                                                 <option>Yogyakarta</option>
@@ -80,7 +87,7 @@
                                         </div>
                                         <div class="form-group col-md-3">
                                             <label>Kecamatan</label>
-                                            <select id="inputState" class="form-control">
+                                            <select id="kecamatan" name="kecamatan" class="form-control" required>
                                                 <option selected>Limo</option>
                                                 <option>Jagakarsa</option>
                                                 <option>Pasar Minggu</option>
@@ -88,7 +95,7 @@
                                         </div>
                                         <div class="form-group col-md-3">
                                             <label>Kelurahan</label>
-                                            <select id="inputState" class="form-control">
+                                            <select id="kelurahan" name="kelurahan" class="form-control" required>
                                                 <option selected>Krukut</option>
                                                 <option>Gandul</option>
                                                 <option>Cilandak</option>
@@ -99,23 +106,25 @@
                                     <div class="row">
                                         <div class="form-group col-md-3">
                                             <label>RT</label>
-                                            <input type="number" class="form-control" placeholder="" />
+                                            <input type="number" name="rt" class="form-control" placeholder="" required/>
                                         </div>
                                         <div class="form-group col-md-3">
                                             <label>RW</label>
-                                            <input type="number" class="form-control" placeholder="" />
+                                            <input type="number" name="rw" class="form-control" placeholder="" required/>
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label>Alamat</label>
-                                            <input type="address" class="form-control" placeholder="Alamat Lengkap" />
+                                            <input type="text" name="alamat_lengkap" class="form-control" placeholder="Alamat Lengkap" required/>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <button type="submit" class="btn btn-primary">Simpan</button>
+                                    <a href="/page_sw/vendor" class="btn btn-primary ">Back</a>
                                 </div>
                             </div>
                         </div>
+                    </form>
                     </div>
                 <!----Modal Upload File-->
                     <div class="modal show" id="UploadFile" role="dialog">
@@ -158,3 +167,21 @@
     </div>
 </div>
 @endsection
+@push('script')
+<script>
+    function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function(e) {
+            $('#preview').attr('src', e.target.result);
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+$("#myFile").change(function() {
+    readURL(this);
+});
+</script>
+@endpush

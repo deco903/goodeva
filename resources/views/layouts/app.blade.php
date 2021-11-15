@@ -13,6 +13,7 @@
         <link rel="stylesheet" href="{{ asset('assets/vendor/jqvmap/css/jqvmap.min.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}">
+        
 
         <!---Fontawesome-->
         <link
@@ -57,7 +58,7 @@
             Nav header start
         ***********************************-->
         <div class="nav-header">
-            <a href="index.html" class="brand-logo">
+            <a href="/home" class="brand-logo">
                 <img class="logo-compact" src="{{ asset('assets/images/logo.png') }}" alt="">
                 <img class="brand-title" src="{{ asset('assets/images/logo.png') }}" alt="">
             </a>

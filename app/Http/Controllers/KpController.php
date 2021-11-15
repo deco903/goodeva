@@ -7,6 +7,11 @@ use App\Models\kp;
 
 class KpController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index() {
         $pribadi = Pribadi::all();
         return view('admin.page_km', compact('pribadi'));

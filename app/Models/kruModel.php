@@ -9,5 +9,5 @@ class kruModel extends Model
 {
     use HasFactory;
     protected $table = 'kru';
-    protected $fillable = ['photo','phone','nama','email','tempat_lahir','tgl_lahir','nama_sertifikat','no_sertifikat','jenis_kelamin','tgl_gabung','identitas','no_identitas','status','provinsi','kota','kecamatan','kelurahan','rt','rw','alamat']; 
+    protected $fillable = ['photo','nama','tempat_lahir','tgl_lahir','jenis_kelamin','identitas','no_identitas','provinsi','kota','RT','RW','kecamatan','kelurahan','alamat','email','nama_sertifikat','no_sertifikat','tgl_gabung','status']; 
 }

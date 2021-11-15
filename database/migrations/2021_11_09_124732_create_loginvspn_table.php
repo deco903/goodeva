@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateLoginvgmbTable extends Migration
+class CreateLoginvspnTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,10 @@ class CreateLoginvgmbTable extends Migration
      */
     public function up()
     {
-        Schema::create('loginvgmb', function (Blueprint $table) {
+        Schema::create('loginvspn', function (Blueprint $table) {
             $table->id();
             $table->string('keterangan');
+            $table->string('status');
             $table->datetime('waktu');
             $table->string('nama_barang');
             $table->integer('stock');
@@ -36,6 +37,6 @@ class CreateLoginvgmbTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('loginvgmb');
+        Schema::dropIfExists('loginvspn');
     }
 }

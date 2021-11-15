@@ -10,7 +10,7 @@ class Pribadi extends Model
 {
     use HasFactory;
     protected $table = 'kapal_pribadi';
-    protected $fillable = ['nama_kapal','gambar_id','keberangkatan','kru_kapal','tujuan','nama_penyewa','tgl_keberangkatan','tgl_tiba','keterangan'];
+    protected $fillable = ['no','nama_kapal','gambar','keberangkatan','nama_kru','tujuan','nama_penyewa','mulai_sewa','sewa_selesai','keterangan'];
 
     // public function gambar()
     // {

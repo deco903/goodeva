@@ -1,4 +1,5 @@
 @extends('layouts.template')
+@section('title','Inventori SPN')
 @section('content')
 <div class="content-body">
     <div class="container-fluid">
@@ -31,7 +32,7 @@
                                 <tr class="table-iven">
                                     <th>#</th>
                                     <th> Nama Barang</th>
-                                    <th>Satuan</th>
+                                    <th>Unit</th>
                                     <th>Stock</th>
                                     <th>Update Stock</th>
                                     <th>Total Stock</th>
@@ -97,19 +98,19 @@
                                             <div class="form-group col-md-6">
                                                 <label>Unit</label>
                                                 <select name="unit" id="inputState" class="form-control">
-                                                    <option value="">Pilih Unit</option>
-                                                    <option value="pcs">pcs</option>
-                                                    <option value="karung">Karung</option>
-                                                    <option value="roll">Roll</option>
+                                                    <option selected>Pilih Unit</option>
+                                                    <option>pcs</option>
+                                                    <option>Karung</option>
+                                                    <option>Roll</option>
                                                 </select>
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label>Type</label>
                                                 <select name="type" id="inputState" class="form-control">
-                                                    <option value="">Choose...</option>
-                                                    <option value="3/4">3/4</option>
-                                                    <option value="all-size">All Size</option>
-                                                    <option value="BMM">BMM</option>
+                                                    <option selected>Choose...</option>
+                                                    <option>3/4</option>
+                                                    <option>All Size</option>
+                                                    <option>BMM</option>
                                                 </select>
                                             </div>
                                             <div class="form-group col-md-6">
@@ -140,74 +141,77 @@
         
 
                     <!----Modal edit stock-->
-                    @foreach($spn as $data)
+                    @foreach($spn as $data) 
                     <div class="modal fade" id="modalStock-{{$data->id}}" role="dialog">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h6 class="modal-title titleModal">Edit Barang</h6>
-                                    <div class="vl"></div>
-                                </div>
-                                <div class="card-body">
-                                    <div class="basic-form">
-                                        <form action="{{url('/spn/edit/'.$data->id)}}" method="POST">
-                                          @csrf 
-                                            <div class="form-row">
-                                                <div class="form-group col-md-12">
-                                                    <label>Nama Barang</label>
-                                                    <input type="text" name="nama_barang" class="form-control" value="{{$data->nama_barang}}">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h6 class="modal-title titleModal">Edit Barang</h6>
+                                <div class="vl"></div>
+                            </div>
+                            <div class="card-body">
+                                <div class="basic-form">
+                                    <form action="{{ url('/spn/edit/'.$data->id) }}" method="POST">
+                                      @csrf 
+                                        <div class="form-row">
+                                            <div class="form-group col-md-12">
+                                                <label>Nama Barang</label>
+                                                <input type="text" name="nama_barang" class="form-control" placeholder="Nama Barang" value="{{$data->nama_barang}}">
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label>Stock</label>
+                                                <input type="number" name="stock" id="stockspn-{{$data->id}}" class="form-control" min="0" placeholder="Stock" value="{{$data->stock}}">
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label>Unit</label>
+                                                <select name="unit" id="inputState" class="form-control">
+                                                    <option selected>{{$data->unit}}</option>
+                                                    <option>pcs</option>
+                                                    <option>Karung</option>
+                                                    <option>Roll</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label>Type</label>
+                                                <select name="type" id="inputState" class="form-control">
+                                                    <option selected>{{$data->type}}</option>
+                                                    <option>3/4</option>
+                                                    <option>All Size</option>
+                                                    <option>BMM</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label>Total Stock</label>
+                                                <input ttype="text" name="total_stock" id="sumspn-{{$data->id}}" class="form-control" value="{{$data->total_stock}}">
+                                            </div>
+                                        </div>
+                                        <div class="basic-form">
+                                                <div class="form-group">
+                                                    <textarea name="text" class="form-control" rows="4" id="comment" placeholder="Note">{{$data->text}}</textarea>
                                                 </div>
-                                                <div class="form-group col-md-6">
-                                                    <label>Stock</label>
-                                                    <input type="number" name="stock" id="stockspn-{{$data->id}}" class="form-control" min="0" value="{{$data->stock}}">
-                                                </div>
-                                                <div class="form-group col-md-6">
-                                                    <label>Unit</label>
-                                                    <select name="unit" id="inputState"  class="form-control">
-                                                        <option selected>{{$data->unit}}</option>
-                                                        <option>pcs</option>
-                                                        <option>Karung</option>
-                                                        <option>Roll</option>
-                                                    </select>
-                                                </div>
-                                                <div class="form-group col-md-6">
-                                                    <label>Type</label>
-                                                    <select name="type" id="inputState"  class="form-control">
-                                                        <option selected>{{$data->type}}</option>
-                                                        <option>3/4</option>
-                                                        <option>All Size</option>
-                                                        <option>BMM</option>
-                                                        </select>
-                                                </div>
-                                                <div class="form-group col-md-6">
-                                                    <label>Total Stock</label>
-                                                    <input type="text" name="total_stock" id="sumspn-{{$data->id}}" class="form-control" value="{{$data->total_stock}}" />
+                                        </div>
+                                        <div class="from-group col-md-6">
+                                            <div class="row">
+                                                <div class="col-3">
+                                                    <button type="submit" class="btn btn-default" style="background-color: #55B0DC; color: #fff;">Edit</button>
+                                                </div>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <div class="col-3">
+                                                    <button type="cancel" class="btn btn-default" style="background-color: #FF0000; color: #fff;">Cancel</button>
                                                 </div>
                                             </div>
-                                            <div class="basic-form">
-                                                    <div class="form-group">
-                                                        <textarea name="text" class="form-control" rows="4" id="comment" placeholder="Note">{{$data->text}}</textarea>
-                                                    </div>
-                                            </div>
-                                            <div class="from-group col-md-6">
-                                                <div class="row">
-                                                    <div class="col-3">
-                                                        <button type="submit" class="btn btn-default" style="background-color: #55B0DC; color: #fff;">Edit</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div>
                     @endforeach
                     <!--end of Modal edit stock-->
 
 
-                   <!----Modal edit tambah/kurang stock1-->
-                   @foreach($spn as $data=>$res)
+                 <!----Modal edit tambah/kurang stock1-->
+                 @foreach($spn as $data=>$res)
                     <div class="modal fade" id="modalUpdate-{{$res->id}}" role="dialog">
                         <div class="modal-dialog">
                             <div class="modal-content">
@@ -346,5 +350,4 @@
     });
 </script>
 @endforeach
-
 @endpush

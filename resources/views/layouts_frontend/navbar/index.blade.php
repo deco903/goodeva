@@ -22,7 +22,7 @@
                             <div class="pulse-css"></div>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right">
-                            <ul class="list-unstyled">
+                            <ul class="list-unstyled" id="submit-list">
                                 <li class="media dropdown-item notif-unread">
                                     <span class="success"><i class="fas fa-folder-plus"></i></span>
                                     <div class="media-body media-active">
@@ -31,60 +31,27 @@
                                             </p>
                                         </a>
                                     </div>
-                                    <span class="notify-time">3:20 am</span>
+                                    <span class="notify-time" id="waktu-notif"></span>
                                 </li>
-                                <li class="media dropdown-item notif-unread">
-                                    <span class="primary"><i class="fas fa-folder-plus"></i></span>
-                                    <div class="media-body media-active">
-                                        <a href="#">
-                                            <p><strong>Admin</strong> Menambahkan data kapal Successfully
-                                            </p>
-                                        </a>
-                                    </div>
-                                    <span class="notify-time">3:20 am</span>
-                                </li>
-                                <li class="media dropdown-item notif-unread">
-                                    <span class="danger"><i class="fas fa-check"></i></span>
-                                    <div class="media-body media-active">
-                                        <a href="#">
-                                            <p><strong>admin</strong> update progress kapal SpN123
-                                            </p>
-                                        </a>
-                                    </div>
-                                    <span class="notify-time">3:20 am</span>
-                                </li>
-                                <li class="media dropdown-item">
-                                    <span class="primary"><i class="fas fa-map-marker-alt"></i></span>
-                                    <div class="media-body">
-                                        <a href="#">
-                                            <p><strong>Admin</strong> Kapal <strong>SpN123</strong> tiba di destinasi</p>
-                                        </a>
-                                    </div>
-                                    <span class="notify-time">3:20 am</span>
-                                </li>
-                                <li class="media dropdown-item">
-                                    <span class="success"><i class="fas fa-calculator"></i></span>
-                                    <div class="media-body">
-                                        <a href="#">
-                                        <p><strong>Admin</strong> update stock Cat Minyak</p>
-                                        </a>
-                                    </div>
-                                    <span class="notify-time">3:20 am</span>
-                                </li>
+                               
                             </ul>
                             <a class="all-notification" href="#">See all notifications <i
                                     class="ti-arrow-right"></i></a>
                         </div>
                     </li>
+                    
                     <li class="nav-item dropdown header-profile">
                         <a class="nav-link" href="#" role="button" data-toggle="dropdown">
-                            <i class="mdi mdi-account"></i>
+                            <i class="mdi mdi-account"> {{ auth()->user()->name }}</i>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right">
-                            <a href="./page-login.html" class="dropdown-item">
+                            <a href=" {{ route('logout') }}"  onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();" class="dropdown-item">
                                 <i class="icon-key"></i>
-                                <span class="ml-2">Logout </span>
-                            </a>
+                                <span class="ml-2">Logout </span>  </a>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                        @csrf
+                                </form>
                         </div>
                     </li>
                 </ul>

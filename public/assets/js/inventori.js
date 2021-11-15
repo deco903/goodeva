@@ -1,31 +1,27 @@
-
-
-
 $(function(){
     $('#value1').keyup(function(){
         var value1 = parseFloat($('#value1').val()) || 0;
         $('#sum').val(value1);
     });
 
-    // $('#stockFinal').keyup(function() {
-    //     updateStock($id);
-    // });
+    $('#stockFinal').keyup(function() {
+        updateStock();
+    });
 
     // $('#stockFinal2').keyup(function() {
     //     updateStock2();
     // });
 });
 
-
-// function updateStock($id) {
-//     if ($('#mathState').val() == "-") {
-//         var minStock = $('#stockInit').val() - $('#stockFinal').val();
-//         $('#totalStock').val(minStock);
-//     } else if ($('#mathState').val() == "+") {
-//         var addStock = parseInt($('#stockInit').val()) + parseInt($('#stockFinal').val());
-//         $('#totalStock').val(addStock);
-//     }
-// };
+function updateStock() {
+    if ($('#mathState').val() == "-") {
+        var minStock = $('#stockInit').val() - $('#stockFinal').val();
+        $('#totalStock').val(minStock);
+    } else if ($('#mathState').val() == "+") {
+        var addStock = parseInt($('#stockInit').val()) + parseInt($('#stockFinal').val());
+        $('#totalStock').val(addStock);
+    }
+};
 
 // function updateStock2() {
 //     if ($('#mathState2').val() == "-") {

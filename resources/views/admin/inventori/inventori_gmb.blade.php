@@ -1,4 +1,5 @@
 @extends('layouts.template')
+@section('title','Inventori GBM')
 @section('content')
 <div class="content-body">
     <div class="container-fluid">
@@ -31,7 +32,7 @@
                                 <tr class="table-iven">
                                     <th>#</th>
                                     <th> Nama Barang</th>
-                                    <th>Satuan</th>
+                                    <th>Unit</th>
                                     <th>Stock</th>
                                     <th>Update Stock</th>
                                     <th>Total Stock</th>
@@ -69,7 +70,6 @@
 
 
                 <!----Modal Create-->
-
                 <div class="modal fade" id="modalCreate" role="dialog">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -204,7 +204,8 @@
                 @endforeach
                 <!----End Modal Edit stock-->
 
-                 <!----Modal edit tambah/kurang gmb-->
+
+                <!----Modal edit tambah/kurang gmb-->
                 @foreach($gmb as $res_gmb)
                     <div class="modal fade" id="modalUpdate-{{$res_gmb->id}}" role="dialog">
                         <div class="modal-dialog">
@@ -215,7 +216,7 @@
                                 </div>
                                 <div class="card-body">
                                     <div class="basic-form">
-                                        <form action="{{ url('/gmb/edit/update/'.$res_gmb->id) }}" method="POST">
+                                        <form action="{{ url('/gmb/edit/update/'. $res_gmb->id) }}" method="POST">
                                            @csrf
                                             <div class="form-row">
                                                 <div class="form-group col-md-12">
@@ -254,12 +255,11 @@
                                                     <label>Type</label>
                                                     <select name="type" id="inputState" class="form-control" readonly>
                                                        <option selected>{{$res_gmb->type}}</option>
-                                                       
                                                     </select>
                                                 </div>
                                                 <div class="form-group col-md-6">
                                                   <label>Total Stock</label>
-                                                  <input type="number" name="total_stock" id="totalStockgmb-{{$res_gmb->id}}" class="form-control" value="{{$res_gmb->total_stock}}" readonly>
+                                                  <input type="number" name="total_stock" id="totalStockgmb-{{$res_gmb->id}}"  class="form-control" value="{{$res_gmb->total_stock}}" readonly>
                                                 </div>
                                             </div>
                                             <div class="basic-form">
@@ -328,6 +328,7 @@
     });            
 </script>
 @endforeach
+
 
 @foreach($gmb as $res_gmb)
 <script>

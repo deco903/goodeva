@@ -1,12 +1,13 @@
 @extends('layouts.template')
 @section('content')
 <div class="content-body">
+            <!-- row -->
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-8 p-r-0 title-margin-right">
                 <div class="page-header">
                     <div class="page-title">
-                        <h3>Hello, <span>Welcome Here</span></h3>
+                        <h3>Kapal Pribadi</h3>
                     </div>
                 </div>
             </div>
@@ -34,14 +35,14 @@
                         <div class="stat-widget-one">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <div class="stat-icon dib img-profit">
-                                        <img src="{{ asset('assets/images/1.jpg') }}">
+                                    <div class="stat-icon dib ">
+                                        <h5>Kapal On Duty</h5>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="stat-content dib">
-                                        <div class="stat-text">Total Profit</div>
-                                        <div class="stat-digit">1,012</div>
+                                        <div class="stat-text">Unit</div>
+                                        <div class="stat-digit">3</div>
                                     </div>
                                 </div>
                             </div>
@@ -53,14 +54,14 @@
                         <div class="stat-widget-one">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <div class="stat-icon dib img-profit">
-                                        <img src="{{ asset('assets/images/1.jpg') }}">
+                                    <div class="stat-icon dib ">
+                                        <h5>Kapal idle</h5>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="stat-content dib">
-                                        <div class="stat-text">Total Profit</div>
-                                        <div class="stat-digit">1,012</div>
+                                        <div class="stat-text">Unit</div>
+                                        <div class="stat-digit">2</div>
                                     </div>
                                 </div>
                             </div>
@@ -72,14 +73,14 @@
                         <div class="stat-widget-one">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <div class="stat-icon dib img-profit">
-                                        <img src="{{ asset('assets/images/1.jpg') }}">
+                                    <div class="stat-icon dib ">
+                                        <h5>Total Kapal</h5>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="stat-content dib">
-                                        <div class="stat-text">Total Profit</div>
-                                        <div class="stat-digit">1,012</div>
+                                        <div class="stat-text">Unit</div>
+                                        <div class="stat-digit">5</div>
                                     </div>
                                 </div>
                             </div>
@@ -168,10 +169,10 @@
                     </div>
                 </div>
 
-                <div class="col-md-4">
+                <div class="col-md-8">
                     <div class="card">
                         <div class="card-header">
-                            <h4 class="card-title">New Orders</h4>
+                            <h4 class="card-title">Data Kapal Pribadi</h4>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -179,158 +180,33 @@
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>Name</th>
-                                            <th>Product</th>
-                                            <th>quantity</th>
+                                            <th>Name Kapal</th>
                                             <th>Status</th>
+                                            <th>Asal</th>
+                                            <th>Tujuan</th>
+                                            <th>Estimasi Selesai</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>
-                                                <div class="round-img">
-                                                    <a href=""><img width="35" src="./images/avatar/1.png" alt=""></a>
-                                                </div>
-                                            </td>
-                                            <td>Lew Shawon</td>
-                                            <td><span>Dell-985</span></td>
-                                            <td><span>456 pcs</span></td>
+                                            <td>1</td>
+                                            <td>Lorem</td>
                                             <td><span class="badge badge-success">Done</span></td>
+                                            <td><span>Semarang</span></td>
+                                            <td>Jakarta</td>
+                                            <td>12-08-2022</td>
                                         </tr>
                                         <tr>
-                                            <td>
-                                                <div class="round-img">
-                                                    <a href=""><img width="35" src="./images/avatar/1.png" alt=""></a>
-                                                </div>
-                                            </td>
-                                            <td>Lew Shawon</td>
-                                            <td><span>Asus-565</span></td>
-                                            <td><span>456 pcs</span></td>
-                                            <td><span class="badge badge-warning">Pending</span></td>
+                                            <td>2</td>
+                                            <td>Lorem</td>
+                                            <td><span class="badge badge-primary">Perjalanan</span></td>
+                                            <td><span>Semarang</span></td>
+                                            <td>Jakarta</td>
+                                            <td>22-08-2022</td>
                                         </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="round-img">
-                                                    <a href=""><img width="35" src="./images/avatar/1.png" alt=""></a>
-                                                </div>
-                                            </td>
-                                            <td>lew Shawon</td>
-                                            <td><span>Dell-985</span></td>
-                                            <td><span>456 pcs</span></td>
-                                            <td><span class="badge badge-success">Done</span></td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>
-                                                <div class="round-img">
-                                                    <a href=""><img width="35" src="./images/avatar/1.png" alt=""></a>
-                                                </div>
-                                            </td>
-                                            <td>Lew Shawon</td>
-                                            <td><span>Asus-565</span></td>
-                                            <td><span>456 pcs</span></td>
-                                            <td><span class="badge badge-warning">Pending</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="round-img">
-                                                    <a href=""><img width="35" src="./images/avatar/1.png" alt=""></a>
-                                                </div>
-                                            </td>
-                                            <td>lew Shawon</td>
-                                            <td><span>Dell-985</span></td>
-                                            <td><span>456 pcs</span></td>
-                                            <td><span class="badge badge-success">Done</span></td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>
-                                                <div class="round-img">
-                                                    <a href=""><img width="35" src="./images/avatar/1.png" alt=""></a>
-                                                </div>
-                                            </td>
-                                            <td>Lew Shawon</td>
-                                            <td><span>Asus-565</span></td>
-                                            <td><span>456 pcs</span></td>
-                                            <td><span class="badge badge-warning">Pending</span></td>
-                                        </tr>
+                                        
                                     </tbody>
                                 </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-4">
-                    <div class="card">
-                        <div class="card-header">
-                            <h4 class="card-title">Timeline</h4>
-                        </div>
-                        <div class="card-body">
-                            <div class="widget-timeline">
-                                <ul class="timeline">
-                                    <li>
-                                        <div class="timeline-badge primary"></div>
-                                        <a class="timeline-panel text-muted" href="#">
-                                            <span>10 minutes ago</span>
-                                            <h6 class="m-t-5">Youtube, a video-sharing website, goes live.</h6>
-                                        </a>
-                                    </li>
-
-                                    <li>
-                                        <div class="timeline-badge warning">
-                                        </div>
-                                        <a class="timeline-panel text-muted" href="#">
-                                            <span>20 minutes ago</span>
-                                            <h6 class="m-t-5">Mashable, a news website and blog, goes live.</h6>
-                                        </a>
-                                    </li>
-
-                                    <li>
-                                        <div class="timeline-badge danger">
-                                        </div>
-                                        <a class="timeline-panel text-muted" href="#">
-                                            <span>30 minutes ago</span>
-                                            <h6 class="m-t-5">Google acquires Youtube.</h6>
-                                        </a>
-                                    </li>
-
-                                    <li>
-                                        <div class="timeline-badge success">
-                                        </div>
-                                        <a class="timeline-panel text-muted" href="#">
-                                            <span>15 minutes ago</span>
-                                            <h6 class="m-t-5">StumbleUpon is acquired by eBay. </h6>
-                                        </a>
-                                    </li>
-
-                                    <li>
-                                        <div class="timeline-badge warning">
-                                        </div>
-                                        <a class="timeline-panel text-muted" href="#">
-                                            <span>20 minutes ago</span>
-                                            <h6 class="m-t-5">Mashable, a news website and blog, goes live.</h6>
-                                        </a>
-                                    </li>
-
-                                    <li>
-                                        <div class="timeline-badge dark">
-                                        </div>
-                                        <a class="timeline-panel text-muted" href="#">
-                                            <span>20 minutes ago</span>
-                                            <h6 class="m-t-5">Mashable, a news website and blog, goes live.</h6>
-                                        </a>
-                                    </li>
-
-                                    <li>
-                                        <div class="timeline-badge info">
-                                        </div>
-                                        <a class="timeline-panel text-muted" href="#">
-                                            <span>30 minutes ago</span>
-                                            <h6 class="m-t-5">Google acquires Youtube.</h6>
-                                        </a>
-                                    </li>
-                                </ul>
                             </div>
                         </div>
                     </div>
@@ -354,11 +230,11 @@
                         <div class="">
                             <div id="external-events" class="my-3">
                                 <p>Drag and drop your event or click in the calendar</p>
-                                <div class="external-event" data-class="bg-primary"><i class="fa fa-move"></i>New Theme Release</div>
-                                <div class="external-event" data-class="bg-success"><i class="fa fa-move"></i>My Event
+                                <div class="external-event" data-class="bg-primary"><i class="fa fa-move"></i>Kapal Pribadi</div>
+                                <div class="external-event" data-class="bg-success"><i class="fa fa-move"></i>Kapal Sewa
                                 </div>
-                                <div class="external-event" data-class="bg-warning"><i class="fa fa-move"></i>Meet manager</div>
-                                <div class="external-event" data-class="bg-dark"><i class="fa fa-move"></i>Create New theme</div>
+                                <div class="external-event" data-class="bg-warning"><i class="fa fa-move"></i>Warning</div>
+                                <div class="external-event" data-class="bg-dark"><i class="fa fa-move"></i>Note</div>
                             </div>
                             <!-- checkbox -->
                             <div class="checkbox checkbox-event pt-3 pb-5">

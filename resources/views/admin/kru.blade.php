@@ -21,7 +21,10 @@
                                 </div>
                                 <input type="search" placeholder="Pencarian.." aria-describedby="button-addon4" class="form-control bg-one border-0">
                             </div>
+                            @if( auth()->user()->level == '1')
                             <button type="button" class="btn btnUnit"><a href="{{ route ('tablekru') }}">Tambah Kru Kapal</a></button>
+                            @else
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -43,24 +46,31 @@
                                     <th>Bergabung Sejak</th>
                                 </tr>
                             </thead>
-                            @foreach($kru as $kru_data=>$res)
-                            <tbody>
-                                <tr>
-                                    <td>{{$kru_data + $kru->firstitem()}}</td>
-                                    <td>
-                                        <img src="{{ url('uploads/img_kru/'.$res->photo) }}"  width="50px;">
-                                    </td>
-                                    <td>{{$res->nama}}</td>
-                                    <td>{{$res->status}}</td>
-                                    <td>{{$res->alamat}} <br> {{$res->kecamatan}}</td>
-                                    <td>{{$res->phone}}</td>
-                                    <td>{{$res->email}}</td>
-                                    <td>{{$res->no_sertifikat}}</td>
-                                    <td>{{$res->nama_sertifikat}}</td>
-                                    <td>{{date('d-M-y', strtotime($res->tgl_gabung))}}</td>
-                                </tr>
-                            </tbody>
-                            @endforeach
+                            <?php $no=1; ?>
+                            @if($kru->count() > 0)
+                              @foreach($kru as $kru_data=>$res)
+                                <tbody>
+                                    <tr>
+                                        <td>{{$kru_data + $kru->firstitem()}}</td>
+                                        <td>
+                                            <img src="{{ url('uploads/img_kru/'.$res->photo) }}"  width="50px;">
+                                        </td>
+                                        <td>{{$res->nama}}</td>
+                                        <td>{{$res->status}}</td>
+                                        <td>{{$res->alamat}} <br> {{$res->kecamatan}}</td>
+                                        <td>{{$res->phone}}</td>
+                                        <td>{{$res->email}}</td>
+                                        <td>{{$res->no_sertifikat}}</td>
+                                        <td>{{$res->nama_sertifikat}}</td>
+                                        <td>{{date('d-M-y', strtotime($res->tgl_gabung))}}</td>
+                                    </tr>
+                                </tbody>
+                               @endforeach
+                             @else
+                             <tr>
+                               <td colspan="10"><center>Data Masih Kosong</center></td>
+                             </tr> 
+                            @endif
                         </table>
                         {{$kru->links()}}
                     </div>

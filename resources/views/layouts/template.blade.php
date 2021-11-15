@@ -15,6 +15,13 @@
     <link rel="stylesheet" href="{{ asset('assets/vendor/fullcalendar/css/fullcalendar.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}">
 
+
+    <link rel="stylesheet" href="{{ asset('assets/chosen/chosen.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('assets/chosen/prism.css') }}">
+
+    <link rel="stylesheet" href="http://stackoverflow.com/questions/22103006/css3-transition-doesnt-work-with-display-property" target="_blank">
+    <link rel="stylesheet" href="http://stackoverflow.com/questions/22103006/css3-transition-doesnt-work-with-display-property" >
+
     <!--cdn jquery sweetalert-->
     <script
     src="https://code.jquery.com/jquery-3.6.0.slim.js"
@@ -65,7 +72,7 @@
             Nav header start
         ***********************************-->
         <div class="nav-header">
-            <a href="{{route('home')}}" class="brand-logo">
+            <a href="/home" class="brand-logo">
                 <img class="logo-compact" src="{{ asset('assets/images/logo.png') }}" alt="">
                 <img class="brand-title" src="{{ asset('assets/images/logo.png') }}" alt="">
             </a>
@@ -85,6 +92,18 @@
     <!--**********************************
         Scripts
     ***********************************-->
+
+    <!----Chosen-->
+
+    <script src="{{ asset('assets/js/chosen/jquery-3.2.1.min.js') }}"></script>
+    <script src="{{ asset('assets/js/chosen/chosen.jquery.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('assets/js/chosen/prism.js') }}" type="text/javascript" charset="utf-8"></script>
+    <script src="{{ asset('assets/js/chosen/init.js') }}" type="text/javascript" charset="utf-8"></script>
+
+    <script src="{{ asset ('assets/js/hover.js') }}"></script>
+
+
+
     <!-- Initiators -->
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="{{ asset('assets/js/inventori.js') }}"></script>

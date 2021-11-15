@@ -2,35 +2,46 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Sewa; 
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class KapalSewaController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
+    
+    //index
     public function page_sw(){
-        $kapal_sewa = Sewa::paginate(10);
+        $kapal_sewa = Sewa::all();
         return view('admin.page_sw',compact('kapal_sewa'));
     }
 
+    //create
     public function table_sw(){
         return view('admin.table.table_sw');
+        
     }
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'unit' => 'required',
-            'nama_kapal' => 'required',
-            'owner' => 'required',
-            'penanggung_jawab' => 'required',
-            'kru_karyawan' => 'required',
-            'no_sertifikat' => 'required',
-            'keberangkatan' => 'required',
-            'tujuan' => 'required',
-            'tgl_berangkat' => 'required',
-            'tgl_datang' => 'required',
-        ]);
-
+        // dd($request->all());
+        $model= new Sewa;
+        $model->unit = $request->unit;
+        $model->nama_kapal = $request->nama_kapal;
+        $model->owner = $request->owner;
+        $model->penanggung_jawab = $request->penanggung_jawab;
+        $model->kru_karyawan = $request->kru_karyawan;
+        $model->no_sertifikat = $request->no_sertifikat;
+        $model->keberangkatan = $request->keberangkatan;
+        $model->tujuan = $request->tujuan;
+        $model->tgl_berangkat = $request->tgl_berangkat;
+        $model->tgl_datang = $request->tgl_datang;
+        $model->keterangan = $request->keterangan;
+        
 
         $unit = $request->unit;
         $nama_kapal = $request->nama_kapal;
@@ -42,73 +53,81 @@ class KapalSewaController extends Controller
         $tujuan = $request->tujuan;
         $tgl_berangkat = $request->tgl_berangkat;
         $tgl_datang = $request->tgl_datang;
+        $keterangan = $request->keterangan;
 
+        
+        if($request->file('image')){
+            $file = $request->file('image');
+            $nama_file = time().str_replace(" ","", $file->getClientOriginalName());
+            $file->move('post-image', $nama_file);
+            $model->image = $nama_file;
+        }
+        $model->save();
+        return redirect('/page_sw')->with('success, Berhasil Simpan');
+        
 
-        $sewa = new Sewa();
-        $sewa->unit = $unit;
-        $sewa->nama_kapal = $nama_kapal;
-        $sewa->owner = $owner;
-        $sewa->penanggung_jawab = $penanggung_jawab;
-        $sewa->kru_karyawan = $kru_karyawan;
-        $sewa->no_sertifikat = $no_sertifikat;
-        $sewa->keberangkatan = $keberangkatan;
-        $sewa->tujuan = $tujuan;
-        $sewa->tgl_berangkat = $tgl_berangkat;
-        $sewa->tgl_datang = $tgl_datang;
-        $sewa->save();
-        // dd($sewa);    
-
-        return redirect()->route('page.sw')->with('pesan','data berhasil di inputkan');
     }
-
-    public function editTable($id)
+    //show
+    public function show(Sewa $sewa)
     {
-        $kapal_sewa = Sewa::find($id);
-        return view('admin.table.editablesw',compact('kapal_sewa'));
-    }
-
-    public function update(Request $request)
-    {
-        $validated = $request->validate([
-            'unit' => 'required',
-            'nama_kapal' => 'required',
-            'owner' => 'required',
-            'penanggung_jawab' => 'required',
-            'kru_karyawan' => 'required',
-            'no_sertifikat' => 'required',
-            'keberangkatan' => 'required',
-            'tujuan' => 'required',
-            'tgl_berangkat' => 'required',
-            'tgl_datang' => 'required',
+        return view('admin.table.show_sw',[
+        'sewa'=> $sewa
         ]);
+    }
 
-        $kapal_sewa = Sewa::find($request->id);
+    //edit
+    public function editTable(Sewa $sewa, $id)
+    {
+        $kapal_sewa = Sewa::findorfail($id);
+        return view('admin.table.edit_sw', compact('kapal_sewa'));
+    }
 
-        $kapal_data = [
-            'unit' => $request->unit, 
-            'nama_kapal' => $request->nama_kapal,
-            'owner' => $request->owner, 
-            'penanggung_jawab' => $request->penanggung_jawab,
-            'kru_karyawan' => $request->kru_karyawan, 
-            'no_sertifikat' => $request->no_sertifikat,
-            'keberangkatan' => $request->keberangkatan, 
-            'tujuan' => $request->tujuan, 
-            'tgl_berangkat' => $request->tgl_berangkat, 
-            'tgl_datang' => $request->tgl_datang, 
+    public function update(Request $request, Sewa $sewa, $id)
+    {
 
-        ];
+        $ven= Sewa::findorfail($id);
+        $model= Sewa::findorfail($id);
+        
+        $model->unit = $request->input('unit');
+        $model->nama_kapal = $request->input('nama_kapal');
+        $model->owner = $request->input('owner');
+        $model->penanggung_jawab = $request->input('penanggung_jawab');
+        $model->kru_karyawan = $request->input('kru_karyawan');
+        $model->keberangkatan = $request->input('keberangkatan');
+        $model->tujuan = $request->input('tujuan');
+        $model->tgl_berangkat = $request->input('tgl_berangkat');
+        $model->tgl_datang = $request->input('tgl_datang');
+        $model->keterangan = $request->input('keterangan');
+        
 
-        $kapal_sewa->update($kapal_data);
+        $unit=$request->unit;
+        $nama_kapal=$request->nama_kapal;
+        $owner=$request->owner;
+        $penanggung_jawab=$request->penanggung_jawab;
+        $kru_karyawan=$request->kru_karyawan;
+        $keberangkatan=$request->keberangkatan;
+        $tujuan=$request->tujuan;
+        $tgl_berangkat=$request->tgl_berangkat;
+        $tgl_datang=$request->tgl_datang;
+        $keterangan=$request->keterangan;
 
-        return redirect()->route('page.sw')->with('pesan','Data berhasil di update...!!!');
+        if($request->file('image')){
+            $file = $request->file('image');
+            $nama_file = time().str_replace(" ","", $file->getClientOriginalName());
+            $file->move('post-image', $nama_file);
+            $model->image = $nama_file;
+        }
+            $model->update();
+        return redirect('/page_sw')->with('success','Berhasil Update Data');
 
     }
 
-    public function hapus($id)
+    public function destroy(Sewa $sewa, $id)
     {
-        $kapal_sewa = Sewa::find($id);
-        $kapal_sewa->delete();
-        return redirect()->back()->with('pesan','Data berhasil di hapus...!!!');
+        Sewa::destroy($id);
+        return back()->with('success', 'Berhasil Terhapus');
+        // Sewa::destroy($kapal_sewa->id);
+        // return redirect('/page_sw')->with('success', 'Berhasil Terhapus');
     }
     
     public function vendor(){

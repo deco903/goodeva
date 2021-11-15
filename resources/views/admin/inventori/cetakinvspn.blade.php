@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+#customers {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#customers td, #customers th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#customers tr:nth-child(even){background-color: #f2f2f2;}
+
+#customers tr:hover {background-color: #ddd;}
+
+#customers th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #04AA6D;
+  color: white;
+}
+</style>
+</head>
+<body>
+
+<h1>Tabel Cetak Inventory SPN</h1>
+
+<table id="customers">
+  <tr>
+    <th>No</th>  
+    <th>Trx Date</th>
+    <th>Nama Barang</th>
+    <th>Unit</th>
+    <th>Stock Record</th>
+    <th>Keterangan</th>
+    <th>Status</th>
+  </tr>
+  @php 
+    $no=1;
+  @endphp
+  @foreach($cetakinvspn as $value)
+   <tr>
+     <td>{{$no++}}</td>
+     <td>{{date('d-M-y', strtotime($value->waktu))}}</td>
+     <td>{{$value->nama_barang}}</td>
+     <td>{{$value->unit}}</td>
+     <td>{{$value->choose}} {{$value->update_stock}}</td>
+     <td>{{$value->text}}</td>
+     <td>{{$value->status}}</td>
+   </tr>
+  @endforeach
+</table>
+<script type="text/javascript">
+  window.print();
+</script>
+</body>
+</html>
+
+

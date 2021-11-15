@@ -1,6 +1,6 @@
 @extends('layouts.template')
+@section('title','Table Kru')
 @section('content')
-
 <div class="content-body">
     <div class="container-fluid">
         <div class="row">
@@ -173,9 +173,7 @@
                                 <div class="form-group">
                                     <button type="submit" class="btn btn-primary">Simpan</button>
                                 </div>
-                               
                             </div>
-                           
                         </div>
                       </form>  
                     </div>

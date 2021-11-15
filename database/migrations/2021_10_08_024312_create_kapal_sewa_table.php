@@ -22,9 +22,11 @@ class CreateKapalSewaTable extends Migration
             $table->string('kru_karyawan');
             $table->string('no_sertifikat');
             $table->string('keberangkatan');
+            $table->string('image')->nullable();
             $table->string('tujuan');
             $table->string('tgl_berangkat');
             $table->string('tgl_datang');
+            $table->string('keterangan');
             $table->timestamps();
         });
     }

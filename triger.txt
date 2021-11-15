@@ -1,0 +1,136 @@
+DELIMITER $$
+CREATE TRIGGER tambahStok
+BEFORE INSERT ON barang
+    FOR EACH ROW
+BEGIN
+    SET NEW.stok = NEW.stok = 1;
+END$$
+DELIMITER ;
+
+=============================================
+
+DELIMITER $$
+CREATE TRIGGER updateStok
+AFTER INSERT ON penjualan
+    FOR EACH ROW
+BEGIN
+    update barang	
+    SET stok = stok - new.jumlah
+    WHERE kode = NEW.kode_barang;	
+END$$
+DELIMITER ;
+
+==============================================
+
+DELIMITER $$
+CREATE TRIGGER deletePenjualan
+AFTER INSERT ON barang
+    FOR EACH ROW
+BEGIN
+    DELETE FROM penjualan
+    WHERE kode_barang = OLD.kode;	
+END$$
+DELIMITER ;
+
+==============================
+
+DELIMITER $$
+CREATE TRIGGER update_satus_news 
+    BEFORE UPDATE 
+    ON news
+    FOR EACH ROW 
+BEGIN
+    INSERT INTO news_status
+    set news_id = OLD.news_id,
+    content_lama=old.content,
+    content_baru=new.content,
+    tag_lama=old.tag,
+    tag_baru=new.tag,
+    waktu = NOW(); 
+END$$
+DELIMITER ;
+
+=======================================================
+
+
+DELIMITER $$
+CREATE TRIGGER insert_status_news AFTER INSERT ON news FOR EACH ROW BEGIN
+    INSERT INTO news_log (user_id,title,content,photo,status_publish,deleted_at)
+    VALUES (NULL,NEW.title,NEW.content,NEW.photo,NEW.status_publish,NULL);
+    INSERT INTO tags_log (news_id,tags_id)
+    VALUES (NULL,NULL);	
+END $$
+DELIMITER ;
+
+============================================
+
+DELIMITER $$
+CREATE TRIGGER insert_status_news AFTER INSERT ON news FOR EACH ROW BEGIN
+    INSERT INTO news_log (keterangan,waktu,title,content,tags,photo,status_publish,deleted_at)
+    VALUES ('tambah data',now(),NEW.title,NEW.content,NEW.tags,NEW.photo,NEW.status_publish,NULL);
+END $$
+DELIMITER ;
+
+DELIMITER $$
+CREATE TRIGGER edit_status_news AFTER UPDATE ON news FOR EACH ROW BEGIN
+    INSERT INTO news_log (keterangan,waktu,title,content,tags,photo,status_publish,deleted_at)
+    VALUES ('edit data',now(),OLD.title,NEW.content,NEW.tags,OLD.photo,OLD.status_publish,NULL);
+END $$
+DELIMITER ;
+
+DELIMITER $$
+CREATE TRIGGER delete_status_news AFTER DELETE ON news FOR EACH ROW BEGIN
+    INSERT INTO news_log (keterangan,waktu,title,content,tags,photo,status_publish,deleted_at)
+    VALUES ('hapus data',now(),OLD.title,NEW.content,NEW.tags,OLD.photo,OLD.status_publish,NULL);
+END $$
+DELIMITER ;
+
+DROP TRIGGER insert_status_news;
+
+show triggers;
+
+tabel : tabel1
+waktu : after
+kejadian : insert
+
+insert into tabel2 values(NULL, NEW.nama);
+
+
+https://stackoverflow.com/questions/53532112/laravel-error-array-to-string-conversion
+https://www.pinterest.com/pin/gym-fit--1036883514177881152/?d=t&mt=login
+
+
+
+
+DELIMITER $$
+CREATE TRIGGER insert_status_inventoryspn AFTER INSERT ON inventoryspn FOR EACH ROW BEGIN
+    INSERT INTO loginvspn (keterangan,status,waktu,nama_barang,stock,choose,update_stock,unit,type,total_stock,text,created_at,updated_at)
+    VALUES ('tambah data','OK',now(),NEW.nama_barang,NEW.stock,NEW.choose,NEW.update_stock,NEW.unit,NEW.type,NEW.total_stock,NEW.text,NEW.created_at,now());
+END $$
+DELIMITER ;
+
+DELIMITER $$
+CREATE TRIGGER edit_status_inventoryspn AFTER UPDATE ON inventoryspn FOR EACH ROW BEGIN
+    INSERT INTO loginvspn (keterangan,status,waktu,nama_barang,stock,choose,update_stock,unit,type,total_stock,text,created_at,updated_at)
+    VALUES ('edit data','OK',now(),NEW.nama_barang,NEW.stock,NEW.choose,NEW.update_stock,NEW.unit,NEW.type,NEW.total_stock,NEW.text,NEW.created_at,now());
+END $$
+DELIMITER ;
+
+DELIMITER $$
+CREATE TRIGGER delete_status_inventoryspn AFTER DELETE ON inventoryspn FOR EACH ROW BEGIN
+    INSERT INTO loginvspn (keterangan,status,waktu,nama_barang,stock,choose,update_stock,unit,type,total_stock,text,created_at,updated_at)
+    VALUES ('hapus data','VOID',now(),OLD.nama_barang,OLD.stock,OLD.choose,OLD.update_stock,OLD.unit,OLD.type,OLD.total_stock,OLD.text,OLD.created_at,now());
+END $$
+DELIMITER ;
+
+
+
+
+show triggers;
+DROP TRIGGER insert_status_inventoryspn;
+DROP TRIGGER edit_status_inventoryspn;
+DROP TRIGGER delete_status_inventoryspn;
+
+
+
+

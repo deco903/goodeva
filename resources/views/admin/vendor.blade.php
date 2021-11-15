@@ -6,7 +6,7 @@
             <div class="row page-titles mx-0">
                 <div class="col-sm-6 p-md-0">
                     <div class="welcome-text">
-                        <h4>Daftar Vendor</h4>
+                        <h4>Data Vendor</h4>
                     </div>
                 </div>
                 <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
@@ -20,90 +20,86 @@
                                 </div>
                                 <input type="search" placeholder="Pencarian.." aria-describedby="button-addon4" class="form-control bg-one border-0">
                             </div>
-                            <button type="button" class="btn btnUnit"><a href="{{ url('page.sw/vendor/table_vendor') }}">Tambah</a></button>
+                            @if( auth()->user()->level == '1')
+                            <button type="button" class="btn btnUnit mb-3"><a href="{{ url ('/page.sw/vendor/table_vendor') }}">Tambah Data Vendor</a></button>
+                            @else
+                            @endif
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-12">
+                
+                <div class="col-lg-12 justify-content">
                     <div class="table-responsive">
-                        <table class="table header-border table-responsive-sm" style="color: black;">
+                        @if(Session::has('success'))
+                            <div class='alert alerts success' role="alert">
+                                {{ Session::get('success') }}
+                            </div>
+                        @endif
+                        <div class="col justify-content-sm-end">
+                        <table class="table">
                             <thead>
                                 <tr>
-                                    <th>#</th>
-                                    <th></th>
-                                    <th>Nama Vendor</th>
-                                    <th>Nama PIC</th>
-                                    <th>Alamat</th>
+                                    <th>No</th>
+                                    <th>Foto</th>
                                     <th>Phone</th>
                                     <th>Mobile</th>
-                                    <th>Email</th>
+                                    <th>Nama Perusahaan</th>
+                                    <th>email</th>
+                                    <th>Nama PIC</th></th>
                                     <th>Website</th>
-                                    <th></th>
+                                    <th>Jabartan</th>
+                                    <th>Provinsi</th>
+                                    <th>Kota</th>
+                                    <th>Kecamatan</th>
+                                    <th>Kelurahan</th>
+                                    <th>rt</th>
+                                    <th>rw</th>
+                                    <th>Alamat Lengkap</th>
+                                    @if( auth()->user()->level == '1')
+                                    <th>Action</th>
+                                    @else
+                                    @endif
                                 </tr>
+                                
+                                @foreach ($vendor as $item)
+                                <tbody>
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>
+                                        <img src="{{asset('image-vendor/'.$item->image)}}" alt="" style="width: 40px;">
+                                    </td>
+                                    <td>{{$item->phone}}</td>
+                                    <td>{{$item->mobile}}</td>
+                                    <td>{{$item->nama_perusahaan}}</td>
+                                    <td>{{$item->email}}</td>
+                                    <td>{{$item->nama_pic}}</td>
+                                    <td>{{$item->website}}</td>
+                                    <td>{{$item->jabatan}}</td>
+                                    <td>{{$item->provinsi}}</td>
+                                    <td>{{$item->kota}}</td>
+                                    <td>{{$item->kecamatan}}</td>
+                                    <td>{{$item->kelurahan}}</td>
+                                    <td>{{$item->rt}}</td>
+                                    <td>{{$item->rw}}</td>
+                                    <td>{{$item->alamat_lengkap}}</td>
+                                    @if( auth()->user()->level == '1')
+                                    <td>
+                                    <a href="/page_sw/vendor_edit/{{ $item->id }}" class='fas fa-edit mr-2'><span data-feather="edit"></span></a>
+                                        <form action='/page_sw/vendor/{{ $item->id }}' method='post' class='d-inline'>
+                                            @csrf
+                                            @method('DELETE')
+                                            <button class='fas fa-trash border-0' onclick="return confirm('hapus?')"><span data-feather="x-circle"></span></button>
+                                        </form>
+                                    </td>
+                                    @else
+                                    @endif
+                                </tr>
+                                @endforeach
                             </thead>
-                            <tbody>
-                                <tr style="background-color: #E8E8E8;">
-                                    <td>#</td>
-                                    <td class="img_Logo"><img src="{{ asset('assets/images/Lorem.png') }}" class="imgLogo"></td>
-                                    <td>PT. Garuda Raya</td>
-                                    <td>Bpk. Bambang</td>
-                                    <td>Jl. Simatupang Blok A <br> Jakarta Indonesia</td>
-                                    <td> +62 812 852 365</td>
-                                    <td>+62 21 217 256</td>
-                                    <td>Bambang@garuda.com</td>
-                                    <td>www.garudaraya.com</td>
-                                    <td>
-                                        <button class="btn btn-icon" type="button"><i class="fas fa-edit"></i></button>
-                                        <button class="btn btn-icon" type="reset"><i class="fas fa-trash"></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>#</td>
-                                    <td class="img_Logo"><img src="{{ asset('assets/images/Lorem.png') }}" class="imgLogo"></td>
-                                    <td>PT. Garuda Raya</td>
-                                    <td>Bpk. Bambang</td>
-                                    <td>Jl. Simatupang Blok A <br> Jakarta Indonesia</td>
-                                    <td> +62 812 852 365</td>
-                                    <td>+62 21 217 256</td>
-                                    <td>Bambang@garuda.com</td>
-                                    <td>www.garudaraya.com</td>
-                                    <td>
-                                        <button class="btn btn-icon" type="button"><i class="fas fa-edit"></i></button>
-                                        <button class="btn btn-icon" type="reset"><i class="fas fa-trash"></i></button>
-                                    </td>
-                                </tr>
-                                <tr style="background-color: #E8E8E8;">
-                                    <td>#</td>
-                                    <td class="img_Logo"><img src="{{ asset('assets/images/Lorem.png') }}" class="imgLogo"></td>
-                                    <td>PT. Garuda Raya</td>
-                                    <td>Bpk. Bambang</td>
-                                    <td>Jl. Simatupang Blok A <br> Jakarta Indonesia</td>
-                                    <td> +62 812 852 365</td>
-                                    <td>+62 21 217 256</td>
-                                    <td>Bambang@garuda.com</td>
-                                    <td>www.garudaraya.com</td>
-                                    <td>
-                                        <button class="btn btn-icon" type="button"><i class="fas fa-edit"></i></button>
-                                        <button class="btn btn-icon" type="reset"><i class="fas fa-trash"></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>#</td>
-                                    <td class="img_Logo"><img src="{{ asset('assets/images/Lorem.png') }}" class="imgLogo"></td>
-                                    <td>PT. Garuda Raya</td>
-                                    <td>Bpk. Bambang</td>
-                                    <td>Jl. Simatupang Blok A <br> Jakarta Indonesia</td>
-                                    <td> +62 812 852 365</td>
-                                    <td>+62 21 217 256</td>
-                                    <td>Bambang@garuda.com</td>
-                                    <td>www.garudaraya.com</td>
-                                    <td>
-                                        <button class="btn btn-icon" type="button"><i class="fas fa-edit"></i></button>
-                                        <button class="btn btn-icon" type="reset"><i class="fas fa-trash"></i></button>
-                                    </td>
-                                </tr>
                             </tbody>
                         </table>
+                     
+                        </div>
                     </div>
                 </div>
             </div>

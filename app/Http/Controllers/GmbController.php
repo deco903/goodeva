@@ -7,6 +7,12 @@ use App\Models\inventorygmb;
 
 class GmbController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+
     public function inventori_gmb(){
         $gmb = inventorygmb::paginate(2);
         return view('admin.inventori.inventori_gmb', compact('gmb'));
@@ -54,8 +60,6 @@ class GmbController extends Controller
       if($request->isMethod('post')){
          $data = $request->all(); 
 
-
-         // dd($data);
             inventorygmb::where(['id'=>$id])->update(['nama_barang'=>$data['nama_barang'],'stock'=>$data['stock'],'unit'=>$data['unit'],'type'=>$data['type'],'total_stock'=>$data['total_stock'],'text'=>$data['text']]);
             return redirect()->back()->with('pesan','data berhasil dirubah..!!');
         }

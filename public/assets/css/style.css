@@ -2370,7 +2370,7 @@ fieldset:disabled a.btn {
   color: #55B0DC;
   text-decoration: none; }
   .btn-link:hover {
-    color: #391faa;
+    color: #55B0DC;
     text-decoration: underline; }
   .btn-link:focus, .btn-link.focus {
     text-decoration: underline;
@@ -2610,7 +2610,7 @@ input[type="button"].btn-block {
   .dropdown-item.active, .dropdown-item:active {
     color: #fff;
     text-decoration: none;
-    background-color: #593bdb; }
+    background-color: #55B0DC; }
   .dropdown-item.disabled, .dropdown-item:disabled {
     color: #6c757d;
     pointer-events: none;
@@ -8441,8 +8441,7 @@ svg.pulse-svg {
   margin-left: 0; }
 
 .header-right {
-  height: 100%; 
-  }
+  height: 100%; }
   .header-right .nav-item {
     height: 100%;
     display: flex;
@@ -10369,9 +10368,16 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
       .quixnav .metismenu ul a {
         padding-left: 54px;
         font-weight: 300; }
-        .quixnav .metismenu ul a:hover, .quixnav .metismenu ul a:focus, .quixnav .metismenu ul a.mm-active {
+        .quixnav .metismenu ul a:focus , .quixnav .metismenu ul a.mm-active {
           text-decoration: none;
-          color: #fff; }
+          color: #55B0DC !important; 
+        }
+
+          .quixnav .metismenu ul a:hover, .quixnav .metismenu ul a:focus, .quixnav .metismenu ul a.mm-active {
+            text-decoration: none;
+            color: #fff;
+            border-radius: 10px;
+           }
         [direction="rtl"] .quixnav .metismenu ul a {
           padding-right: 54px; }
       .quixnav .metismenu ul ul a {

@@ -8,6 +8,10 @@ use PDF;
 
 class SpnController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     public function inventori_spn(){
         $spn = inventoryspn::paginate(2);
         // $spnupdate = inventoryspn::all();
@@ -65,19 +69,17 @@ class SpnController extends Controller
 
         $validated = $request->validate([
             'nama_barang' => 'required',
-            'stock' => 'required',
             'unit' => 'required',
             'type' => 'required',
             'total_stock' => 'required',
             'text' => 'required',
         ]);
 
-        if($request->isMethod('post')){
-            $data = $request->all();
+      if($request->isMethod('post')){
+         $data = $request->all(); 
 
-            // dd($data);
+        //  dd($data);
             inventoryspn::where(['id'=>$id])->update(['nama_barang'=>$data['nama_barang'],'stock'=>$data['stock'],'unit'=>$data['unit'],'type'=>$data['type'],'total_stock'=>$data['total_stock'],'text'=>$data['text']]);
-
             return redirect()->back()->with('pesan','data berhasil dirubah..!!');
         }
 

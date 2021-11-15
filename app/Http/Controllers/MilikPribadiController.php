@@ -9,8 +9,14 @@ use App\Models\kruModel;
 USE Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
+
 class MilikPribadiController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index() {
         $pribadi = Pribadi::all();
         return view('admin.page_km', compact('pribadi'));
@@ -22,66 +28,40 @@ class MilikPribadiController extends Controller
     
     public function storeTablekm(Request $request)
     {
+     // dd($request->all());
+     $model= new Pribadi;
+     $model->no = $request->no;
+     $model->keberangkatan = $request->keberangkatan;
+     $model->nama_kapal = $request->nama_kapal;
+     $model->tujuan = $request->tujuan;
+     $model->nama_kru = $request->nama_kru;
+     $model->mulai_sewa = $request->mulai_sewa;
+     $model->nama_penyewa = $request->nama_penyewa;
+     $model->sewa_selesai = $request->sewa_selesai;
+     $model->keterangan = $request->keterangan;
+     
 
-        // DB::table('kapal_pribadi')->insert([
+     $no = $request->no;
+     $keberangkatan = $request->keberangkatan;
+     $nama_kapal = $request->nama_kapal;
+     $tujuan = $request->tujuan;
+     $nama_kru = $request->nama_kru;
+     $mulai_sewa = $request->mulai_sewa;
+     $nama_penyewa = $request->nama_penyewa;
+     $sewa_selesai = $request->sewa_selesai;
+     $keterangan = $request->keterangan;
 
-        //     'nama_kapal' => $request->nama_kapal,
-        //     'kru_kapal' => $request->kru_kapal,
-        //     'nama_penyewa' => $request->nama_penyewa,
-        //     'tgl_keberangkatan' => $request->tgl_keberangkatan,
-        //     'sertifikat' => $request->sertifikat,
+     
+     if($request->file('image')){
+         $file = $request->file('image');
+         $nama_file = time().str_replace(" ","", $file->getClientOriginalName());
+         $file->move('post-image-pribadi', $nama_file);
+         $model->image = $nama_file;
+     }
+     $model->save();
+     return redirect('/page_km')->with('success, Berhasil Simpan');
+     
 
-        //     'keberangkatan' => $request->keberangkatan,
-        //     'tujuan' => $request->tujuan,
-            
-        //     'tgl_tiba' => $request->tgl_tiba,
-        //     'keterangan' => $request->keterangan,
-
-        // ]);
-
-        $validated = $request->validate([
-            'nama_kapal' => 'required',
-            'keberangkatan' => 'required',
-            'kru_kapal' => 'required',
-             'tujuan' => 'required',
-            'nama_penyewa' => 'required',
-            'tgl_keberangkatan' => 'required',
-            'sertifikat' => 'required',
-            'tgl_tiba' => 'required',
-            'keterangan' => 'required',
-
-        ]);
-
-        $nama_kapal = $request->nama_kapal;
-        $keberangkatan = $request->keberangkatan;
-        $kru_kapal = $request->kru_kapal;
-        $tujuan = $request->tujuan;
-        $nama_penyewa = $request->nama_penyewa;
-        $tgl_keberangkatan = $request->tgl_keberangkatan;
-        $sertifikat = $request->sertifikat; 
-        $tgl_tiba = $request->tgl_tiba;
-        $keterangan = $request->keterangan;
-
-
-        $pribadi = new Pribadi();
-        $pribadi->nama_kapal = $nama_kapal;
-        $pribadi->keberangkatan = $keberangkatan;
-        $pribadi->kru_kapal = $kru_kapal;
-        $pribadi->tujuan = $tujuan;
-        $pribadi->nama_penyewa = $nama_penyewa;
-        $pribadi->tgl_keberangkatan = $tgl_keberangkatan;
-        $pribadi->sertifikat = $sertifikat;
-        $pribadi->tgl_tiba = $tgl_tiba;
-        $pribadi->keterangan = $keterangan;
-
-        // dd($pribadi);
-        if($pribadi->save()){
-            return redirect()->route('page.km')->with('pesan','data berhasil di inputkan');
-        }else{
-            return redirect()->back()->with('pesan','data gagal di inputkan'); 
-        }
-        
-        
     }
 
     public function storePhoto(Request $request){
@@ -126,14 +106,11 @@ class MilikPribadiController extends Controller
         // }else{
         //     return redirect()->back()->with('pesan','data gagal di inputkan'); 
         // }
-
-     
-
     }
 
     public function editTablekm($id)
     {
-        $pribadi = Pribadi::find($id);
+        $pribadi = Pribadi::findorfail($id);
         return view('admin.table.editTablekm', compact('pribadi'));
     }
 
@@ -167,10 +144,14 @@ class MilikPribadiController extends Controller
         ];
 
     }
+    public function destroy(Pribadi $pribadi, $id)
+    {
+        Pribadi::destroy($id);
+        return back()->with('success', 'Berhasil Terhapus');
+    }
 
+    //Kru
     
-  
-
     public function kru(){
         $kru = kruModel::paginate(2);
         return view('admin.kru',compact('kru'));
