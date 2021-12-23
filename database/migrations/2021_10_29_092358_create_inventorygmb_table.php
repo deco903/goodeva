@@ -16,6 +16,8 @@ class CreateInventorygmbTable extends Migration
         Schema::create('inventorygmb', function (Blueprint $table) {
             $table->id();
             $table->string('nama_barang');
+            $table->string('harga');
+            $table->string('stock_awal')->default(0);
             $table->integer('stock');
             $table->string('choose')->default(' ');
             $table->integer('update_stock')->default(0);

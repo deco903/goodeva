@@ -9,7 +9,14 @@ class Gambar extends Model
 {
     use HasFactory;
     protected $table ='gambar';
-    protected $fillable = ['id_kapal','photo','nama_file','no_izin','tgl_terbitfile','tgl_berakhirfile'];
+    protected $fillable = [
+                          'id_kapal',
+                          'photo',
+                          'nama_file',
+                          'no_izin',
+                          'tgl_terbitfile',
+                          'tgl_berakhirfile'
+                        ];
 
     
     // public function pribadi()

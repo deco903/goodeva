@@ -9,5 +9,14 @@ class inventoryspn extends Model
 {
     use HasFactory;
     protected $table = 'inventoryspn'; 
-    protected $fillable = ['nama_barang','unit','stock','choose','update_stock','type','total_stock','text'];
+    protected $fillable = ['nama_barang',
+                           'unit',
+                           'stock_awal',
+                           'stock',
+                           'choose',
+                           'update_stock',
+                           'type',
+                           'total_stock',
+                           'text'
+                        ];
 }

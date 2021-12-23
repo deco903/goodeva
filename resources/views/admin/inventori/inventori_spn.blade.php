@@ -4,7 +4,7 @@
 <div class="content-body">
     <div class="container-fluid">
         <div class="row">
-            <div class="row page-titles mx-0">
+            <div class="row page-titles mx-0 col-md-12">
                 <div class="col-sm-6 p-md-0">
                     <div class="welcome-text">
                         <h4>Inventory SPN</h4>
@@ -13,28 +13,33 @@
                 <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
                     <div class="page-header">
                         <div class="page-title">
+                            <form action="{{route('carispn')}}" method="GET">   
+                            @csrf  
                             <div class="input-group inputSearch mb-4 border rounded-pill p-1">
                                 <div class="input-group-prepend border-0">
-                                    <button id="button-addon4" type="button" class="btn btn-link">
+                                    <button id="button-addon4" type="submit" class="btn btn-link">
                                         <i class="fa fa-search icon-fa"></i>
                                     </button>
                                 </div>
-                                <input type="search" placeholder="Pencarian.." aria-describedby="button-addon4" class="form-control bg-one border-0">
+                                <input type="search" name="nama_barang" placeholder="Pencarian.." aria-describedby="button-addon4" class="form-control bg-one border-0">
                             </div>
+                            </form>
                             <button type="button" class="btn btnUnit" data-toggle="modal" data-target="#modalCreate">Tambah</button>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-12">
+                  @include('admin.inventori.notif.success')
+                </div>
+                <div class="col-lg-12">
                     <div class="table-responsive">
-                        <table class="table table-responsive-sm">
+                        <table class="table table-responsive-sm ">
                             <thead>
                                 <tr class="table-iven">
                                     <th>#</th>
-                                    <th> Nama Barang</th>
+                                    <th>Nama Barang</th>
+                                    <th>Harga Beli</th>
                                     <th>Unit</th>
-                                    <th>Stock</th>
-                                    <th>Update Stock</th>
                                     <th>Total Stock</th>
                                     <th>Keterangan</th>
                                     <th>Terakhir diUbah</th>
@@ -48,12 +53,11 @@
                                 <tr>
                                     <th>{{$res + $spn->firstitem()}}</th>
                                     <td>{{$key->nama_barang}}</td>
+                                    <td>Rp. {{($key->harga) }}</td>
                                     <td>{{$key->unit}}</td>
-                                    <td>{{$key->stock}}</td>
-                                    <td>{{$key->choose}} {{$key->update_stock}}</td>
                                     <td>{{$key->total_stock}}</td>
                                     <td>{{$key->text}}</td>
-                                    <td>Admin 1</td>
+                                    <td>{{Auth::user()->name}}</td>
                                     <td>
                                         <a href="{{route('cetakspn', $key->id)}}" class="btn btn-icon" type="menu"><i class="fas fa-file"></i></a>
                                         <button class="btn btn-icon" id="btnStock" data-toggle="modal" data-target="#modalStock-{{$key->id}}" ><i class="fas fa-edit"></i></button>
@@ -91,9 +95,16 @@
                                                 <label>Nama Barang</label>
                                                 <input type="text" name="nama_barang" class="form-control" placeholder="Nama Barang">
                                             </div>
+                                            <div class="form-group col-md-12">
+                                                <input type="hidden" name="stock_awal" class="form-control" placeholder="Nama Barang">
+                                            </div>
                                             <div class="form-group col-md-6">
                                                 <label>Stock</label>
                                                 <input type="number" name="stock" id="value1" class="form-control" min="0" placeholder="Stock" required/>
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label>Harga Beli </label>
+                                                <input type="text" name="harga" id="angkaspn" class="form-control" min="0" placeholder="harga beli" required/>
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label>Unit</label>
@@ -119,15 +130,13 @@
                                             </div>
                                         </div>
                                         <div class="basic-form">
-                                                <div class="form-group">
-                                                    <textarea name="text" class="form-control" rows="4" id="comment" placeholder="Note"></textarea>
-                                                </div>
+                                            <div class="form-group">
+                                                <textarea name="text" class="form-control" rows="4" id="comment" placeholder="Note"></textarea>
+                                            </div>
                                         </div>
-                                        <div class="from-group col-md-6">
-                                            <div class="row">
-                                                <div class="col-3">
-                                                    <button type="submit" class="btn btn-default" style="background-color: #55B0DC; color: #fff;">Save</button>
-                                                </div>
+                                        <div class="basic-form">
+                                            <div class="form-group">
+                                               <button type="submit" class="btn btn-default" style="background-color: #55B0DC; color: #fff;">Save</button>
                                             </div>
                                         </div>
                                     </form>
@@ -136,8 +145,7 @@
                         </div>
                     </div>
                 </div>
-                    
-                    <!-- End of modal create-->
+                <!-- End of modal create-->
         
 
                     <!----Modal edit stock-->
@@ -159,8 +167,12 @@
                                                 <input type="text" name="nama_barang" class="form-control" placeholder="Nama Barang" value="{{$data->nama_barang}}">
                                             </div>
                                             <div class="form-group col-md-6">
+                                                <label>Harga Beli</label>
+                                                <input type="text" name="harga" id="belieditspn-{{$data->id}}" class="form-control" min="0" value="{{$data->harga}}"/>
+                                            </div>
+                                            <div class="form-group col-md-6">
                                                 <label>Stock</label>
-                                                <input type="number" name="stock" id="stockspn-{{$data->id}}" class="form-control" min="0" placeholder="Stock" value="{{$data->stock}}">
+                                                <input type="number" name="stock" id="stockspn-{{$data->id}}" class="form-control" min="0" placeholder="Stock" value="{{$data->total_stock}}">
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label>Unit</label>
@@ -186,18 +198,13 @@
                                             </div>
                                         </div>
                                         <div class="basic-form">
-                                                <div class="form-group">
-                                                    <textarea name="text" class="form-control" rows="4" id="comment" placeholder="Note">{{$data->text}}</textarea>
-                                                </div>
+                                            <div class="form-group">
+                                              <textarea name="text" class="form-control" rows="4" id="comment" placeholder="Note">{{$data->text}}</textarea>
+                                            </div>
                                         </div>
-                                        <div class="from-group col-md-6">
-                                            <div class="row">
-                                                <div class="col-3">
-                                                    <button type="submit" class="btn btn-default" style="background-color: #55B0DC; color: #fff;">Edit</button>
-                                                </div>&nbsp;&nbsp;&nbsp;&nbsp;
-                                                <div class="col-3">
-                                                    <button type="cancel" class="btn btn-default" style="background-color: #FF0000; color: #fff;">Cancel</button>
-                                                </div>
+                                        <div class="basic-form">
+                                            <div class="form-group">
+                                              <button type="submit" class="btn btn-default" style="background-color: #55B0DC; color: #fff;">Edit</button>
                                             </div>
                                         </div>
                                     </form>
@@ -230,7 +237,7 @@
                                                 </div>
                                                 <div class="form-group col-md-6">
                                                     <label>Stock</label>
-                                                    <input id="stockInit2-{{$res->id}}" type="number" name="stock" class="form-control" value="{{$res->stock}}" readonly>
+                                                    <input id="stockInit2-{{$res->id}}" type="number" name="stock" class="form-control" value="{{$res->total_stock}}" readonly>
                                                 </div>
                                                
                                                 <div class="form-group col-md-6">
@@ -263,23 +270,17 @@
                                                 </div>
                                                 <div class="form-group col-md-6">
                                                   <label>Total Stock</label>
-                                                  <input type="number" name="total_stock" id="totalStock2-{{$res->id}}" class="form-control" value="{{$res->total_stock}}" readonly>
+                                                  <input type="hidden" name="total_stock" id="totalStock2-{{$res->id}}" class="form-control" value="{{$res->total_stock}}" readonly>
                                                 </div>
                                             </div>
                                             <div class="basic-form">
                                                 <div class="form-group">
-                                                    <textarea name="text" id="updatetext" class="form-control" rows="4" placeholder="Note">{{$res->text}}</textarea>
+                                                  <textarea name="text" id="updatetext" class="form-control" rows="4" placeholder="Note">{{$res->text}}</textarea>
                                                 </div>
                                             </div>
-                                            
-                                            <div class="from-group col-md-6">
-                                                <div class="row">
-                                                    <div class="col-3">
-                                                        <button type="submit" class="btn btn-default" style="background-color: #55B0DC; color: #fff;">Update</button>
-                                                    </div>
-                                                    <div class="col-3">
-                                                        <button class="btn btn-danger" onclick="closeModal()">Cancel</button>
-                                                    </div>
+                                            <div class="basic-form">
+                                                <div class="form-group">
+                                                  <button type="submit" class="btn btn-default" style="background-color: #55B0DC; color: #fff;">Update</button>
                                                 </div>
                                             </div>
                                         </form>
@@ -350,4 +351,25 @@
     });
 </script>
 @endforeach
+
+<script>
+      $(document).ready(function(){
+        $("#angkaspn").keyup(function(){
+            // console.log("berhasil")
+            $(this).maskNumber({integer: true, thousands: "."})
+        })
+    })
+</script>
+
+@foreach($spn as $data)
+<script>
+      $(document).ready(function(){
+        $("#belieditspn-{{$data->id}}").keyup(function(){
+            // console.log("berhasil")
+            $(this).maskNumber({integer: true, thousands: "."})
+        })
+    })      
+</script>
+@endforeach
+
 @endpush

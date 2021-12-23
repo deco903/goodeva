@@ -12,18 +12,22 @@
                 
                 <div class="col-lg-12">
                     <div class="table-responsive">
-                    <form action="{{route('storeTablekm')}}" method="POST" enctype="multipart/form-data">
+                    <form action="" method="POST" enctype="multipart/form-data">
                        @csrf
                         <div class="card-body">
                             <div class="form-row">
+                                <!-- <div class="form-group col-md-6">
+                                    <label>No</label>
+                                    <input type="hidden" name="id" class="form-control" placeholder="No" value="{{ Session::pull('id') }}" required>
+                                </div> -->
                                 <div class="form-group col-md-6">
                                     <label>No</label>
-                                    <input type="number" name="no" class="form-control" placeholder="No" value="" required>
+                                    <input type="number" name="no" class="form-control" placeholder="No" value="{{ Session::pull('no') }}" required>
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label>Destinasi Keberangkatan</label>
                                     <select name="keberangkatan" id="inputState" class="form-control">
-                                        <option selected>Pilih Keberangkatan...</option>
+                                        <option selected>{{ Session::pull('keberangkatan') }}</option>
                                         <option>Jakarta</option>
                                         <option>Bandung</option>
                                         <option>Madura</option>
@@ -31,12 +35,12 @@
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label>Nama Kapal</label>
-                                    <input type="text" name="nama_kapal" class="form-control" placeholder="Nama Kapal">
+                                    <input type="text" name="nama_kapal" class="form-control" value="{{ Session::pull('nama_kapal') }}" placeholder="Nama Kapal">
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label>Destinasi Tujuan</label>
                                     <select name="tujuan" id="inputState" class="form-control">
-                                        <option selected>Pilih Tujuan...</option>
+                                        <option selected>{{ Session::pull('tujuan') }}</option>
                                         <option>Bandung</option>
                                         <option>Jakarta</option>
                                         <option>Madura</option>
@@ -46,7 +50,7 @@
                                     <label>Nama Kru</label>
                                     <input type="text" name="nama_kru" class="form-control" placeholder="Nama Kru">
                                 </div> -->
-                                <div class="form-group col-md-6">
+                                <!-- <div class="form-group col-md-6">
                                     <label>Nama Kru</label>
                                     <select multiple class="chosen-select form-control" name="nama_kru" tabindex="22" id="multiple-label-example">
                                         <option value=""></option>
@@ -59,30 +63,32 @@
                                         <option>Polar </option>
                                         <option>Spectacled</option>
                                     </select>
+                                </div> -->
+                                <div class="form-group col-md-6">
+                                    <label>Nama Kru</label>
+                                    <input type="text" name="nama_kru" class="form-control" placeholder="No" value="{{ Session::pull('nama_kru') }}" required>
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label>Mulai Sewa</label>
                                     <div class="dateMounth">
-                                        <input type="date" name="mulai_sewa" id="" class="dateTerm">
+                                        <input type="date" name="mulai_sewa" value="{{ Session::pull('mulai_sewa') }}" class="dateTerm">
                                     </div>
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label>Nama Penyewa</label>
-                                    <input type="text" name="nama_penyewa" class="form-control" placeholder="Nama Penyewa">
+                                    <input type="text" name="nama_penyewa" class="form-control" value="{{ Session::pull('nama_penyewa') }}" placeholder="Nama Penyewa">
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label>Sewa Selesai</label>
                                     <div class="dateMounth">
-                                        <input type="date" name="sewa_selesai" id="" class="dateTerm">
+                                        <input type="date" name="sewa_selesai" value="{{ Session::pull('sewa_selesai') }}" class="dateTerm">
                                     </div>
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="image" class="form-label">Masukan Gambar</label>
-                                    <input class="form-control @error('image') is-invalid @enderror" type="file" id="image" name="image">
+                                    <input class="form-control @error('image') is-invalid @enderror" type="file" id="image" name="image" value="{{ Session::pull('image') }}">
                                 </div>
-            
-
                                 <div class="form-group col-md-6">
                                     <div class="row">
                                         <a type="menu" class="btn plusSa" data-toggle="modal" data-target="#UploadFile">
@@ -92,7 +98,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group col-md-12">
-                                    <textarea name="keterangan" class="form-control" rows="4" id="comment" placeholder="Note"></textarea>
+                                    <textarea name="keterangan" class="form-control" rows="4" id="comment" placeholder="Note">{{ Session::pull('keterangan') }}</textarea>
                                 </div>
                                 <div class="form-group">
                                     <div class="form-check">
@@ -111,10 +117,6 @@
                     </div>
                 </div>    
 
-
-
-
-
                 <!----Modal Upload File-->
                     <div class="modal show" id="UploadFile" role="dialog">
                         <div class="modal-dialog" id="modalTemp">
@@ -124,28 +126,32 @@
                                     <h4 class="modal-title">Upload File</h4>
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                 </div>
+                                <form action="{{route('storephoto.km')}}" method="POST" enctype="multipart/form-data">
+                                      @csrf
                                 <div class="row">
                                     <div class="col-md-6">
+                                     
                                         <div class="upload-btn-info">
-                                            <button class="btn-upload-text"><i class="fas fa-plus"></i></button>
-                                            <input type="file" name="myfile" />
-                                            <p class="text-upload-file">Unggah File</p>
+                                        <img id="preview" src="#" alt="" style="width:100px;height:96px;margin-left:15px;margin-top:15px;margin-right:10px;"/> 
+                                            <input type="file" id="myfiles" name="myfile" />
+                                            <p class="text-upload-file ml-3">Unggah File</p>
                                         </div>
                                     </div>
                                     <div class="col-md-6" style="padding-right: 35px">
-                                        <input type="name" class="form-control inputText" placeholder="Nama File" />
-                                        <input type="name" class="form-control inputText" placeholder="Nama Perizinan" />
-                                        <input type="name" class="form-control inputText" placeholder="Nama Tanggal Terbit File" />
-                                        <input type="name" class="form-control inputText" placeholder="Nama Tanggal Berakhir File" />
+                                        <input type="text" name="nama_file" class="form-control inputText" placeholder="Nama File" />
+                                        <input type="text" name="nama_perizinan" class="form-control inputText" placeholder="Nama Perizinan" />
+                                        <input type="date" name="terbit_file" class="form-control inputText" placeholder="Nama Tanggal Terbit File" />
+                                        <input type="date" name="akhir_file" class="form-control inputText" placeholder="Nama Tanggal Berakhir File" />
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col">
-                                        <button class="btn btnroot" type="button" id="addFile">Simpan</button>
-                                        <button class="btn btnroot" type="button" id="addFile" style="margin-right: 1em">Tambah File</button>
+                                        <button class="btn btnroot" type="submit" id="addFile">Simpan</button>
+                                        <button class="btn btnroot" type="#" id="addFile" style="margin-right: 1em">Tambah File</button>
                                     </div>
                                 </div>
                             </div>
+                          </form>
                         </div>
                     </div>
                 </div>
@@ -155,21 +161,20 @@
 </div>
 @endsection
 @push('script')
-<script type="text/javascript">
-    function removeDataImgSession() {
-        document.getElementById('btnReset').value = '';
-        $.getJSON("/page_km/table_km/reset_session/dataImg", function(data) {
-        });
-        location.reload();
-    };
+<script>
+    function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
 
-    var idx = 0;
-    var duplicateBase = document.getElementById('duplicater');
-    function multipleCertificate() {
-        var clone = duplicateBase.cloneNode(true); // "deep" clone
-        clone.id = "duplicater" + ++idx;
-        // or clone.id = ""; if the divs don't need an ID
-        duplicateBase.parentNode.appendChild(clone);
+        reader.onload = function(e) {
+            $('#preview').attr('src', e.target.result);
+        }
+        reader.readAsDataURL(input.files[0]);
     }
+}
+
+$("#myfiles").change(function() {
+    readURL(this);
+});
 </script>
 @endpush

@@ -28,6 +28,7 @@
     integrity="sha256-HwWONEZrpuoh951cQD1ov2HUK5zA5DwJ1DNUXaM6FsY="
     crossorigin="anonymous"></script>
 
+     
     <!---Fontawesome-->
     <link
     rel="stylesheet"
@@ -154,6 +155,9 @@
 
     <!--sweeet alert custom-->
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="{{ asset('assets/js/jquery.masknumber.js') }}"></script>
+
+    
     @stack('script')
 </body>
 </html>

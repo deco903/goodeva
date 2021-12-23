@@ -4,7 +4,7 @@
 <div class="content-body">
     <div class="container-fluid">
         <div class="row">
-            <div class="row page-titles mx-0">
+            <div class="row page-titles mx-0 col-md-12">
                 <div class="col-sm-6 p-md-0">
                     <div class="welcome-text">
                         <h4>Inventory GBM</h4>
@@ -13,17 +13,24 @@
                 <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
                     <div class="page-header">
                         <div class="page-title">
+                          <form action="{{route('carigmb')}}" method="GET">
+                            @csrf   
                             <div class="input-group inputSearch mb-4 border rounded-pill p-1">
                                 <div class="input-group-prepend border-0">
-                                    <button id="button-addon4" type="button" class="btn btn-link">
+                                    <button id="button-addon4" type="submit" class="btn btn-link">
                                         <i class="fa fa-search icon-fa"></i>
                                     </button>
                                 </div>
-                                <input type="search" placeholder="Pencarian.." aria-describedby="button-addon4" class="form-control bg-one border-0">
+                                <input type="search" name="nama_barang" placeholder="Pencarian.." aria-describedby="button-addon4" class="form-control bg-one border-0">
                             </div>
+                           </form> 
                             <button type="button" class="btn btnUnit" data-toggle="modal" data-target="#modalCreate">Tambah</button>
+                            <a href="{{route('customergmb')}}"><button type="button" class="btn btnUnit mr-1" data-toggle="" data-target="">Customer GMB</button></a>
                         </div>
                     </div>
+                </div>
+                <div class="col-lg-12">
+                  @include('admin.inventori.notif.success')
                 </div>
                 <div class="col-lg-12">
                     <div class="table-responsive">
@@ -31,10 +38,9 @@
                             <thead>
                                 <tr class="table-iven">
                                     <th>#</th>
-                                    <th> Nama Barang</th>
+                                    <th>Nama Barang</th>
+                                    <th>Harga Beli</th>
                                     <th>Unit</th>
-                                    <th>Stock</th>
-                                    <th>Update Stock</th>
                                     <th>Total Stock</th>
                                     <th>Keterangan</th>
                                     <th>Terakhir diUbah</th>
@@ -45,14 +51,13 @@
                             <?php $no=1; ?>
                             @foreach($gmb as $res=>$key_gmb)
                                 <tr>
-                                <th>{{$res + $gmb->firstitem()}}</th>
+                                    <th>{{$res + $gmb->firstitem()}}</th>
                                     <td>{{$key_gmb->nama_barang}}</td>
+                                    <td>Rp. {{$key_gmb->harga}}</td>
                                     <td>{{$key_gmb->unit}}</td>
-                                    <td>{{$key_gmb->stock}}</td>
-                                    <td>{{$key_gmb->choose}} {{$key_gmb->update_stock}}</td>
                                     <td>{{$key_gmb->total_stock}}</td>
                                     <td>{{$key_gmb->text}}</td>
-                                    <td>Admin 1</td>
+                                    <td>{{Auth::user()->name}}</td>
                                     <td>
                                         <button class="btn btn-icon" type="menu"><i class="fas fa-file"></i></button>
                                         <button class="btn btn-icon" id="btnStock" data-toggle="modal" data-target="#modalStock-{{$key_gmb->id}}" ><i class="fas fa-edit"></i></button>
@@ -86,9 +91,16 @@
                                                 <label>Nama Barang</label>
                                                 <input type="text" name="nama_barang" class="form-control" placeholder="Nama Barang">
                                             </div>
+                                            <div class="form-group col-md-12">
+                                                <input type="hidden" name="stock_awal" class="form-control" placeholder="Nama Barang">
+                                            </div>
                                             <div class="form-group col-md-6">
                                                 <label>Stock</label>
                                                 <input type="number" name="stock" id="value1" class="form-control" min="0" placeholder="Stock" required/>
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label>Harga Beli</label>
+                                                <input type="text" name="harga" id="hargagmb" class="form-control" min="0" placeholder="harga beli" required/>
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label>Unit</label>
@@ -118,11 +130,9 @@
                                                 <textarea name="text" class="form-control" rows="4" id="comment" placeholder="Note"></textarea>
                                             </div>
                                         </div>
-                                        <div class="from-group col-md-6">
-                                            <div class="row">
-                                                <div class="col-3">
-                                                    <button type="submit" class="btn btn-default" style="background-color: #55B0DC; color: #fff;">Save</button>
-                                                </div>
+                                        <div class="basic-form">
+                                            <div class="form-group">
+                                                <button type="submit" class="btn btn-default" style="background-color: #55B0DC; color: #fff;">Save</button>
                                             </div>
                                         </div>
                                     </form>
@@ -131,7 +141,6 @@
                         </div>
                     </div>
                 </div>
-            
             <!-- /# -->
 
 
@@ -154,8 +163,12 @@
                                                 <input type="text" name="nama_barang" class="form-control" placeholder="Nama Barang" value="{{$data_gmb->nama_barang}}">
                                             </div>
                                             <div class="form-group col-md-6">
+                                                <label>Harga Beli</label>
+                                                <input type="text" name="harga" id="belieditgmb-{{$data_gmb->id}}" class="form-control" min="0" value="{{ number_format($data_gmb->harga) }}"/>
+                                            </div>
+                                            <div class="form-group col-md-6">
                                                 <label>Stock</label>
-                                                <input type="number" name="stock" id="stockgmb-{{$data_gmb->id}}" class="form-control" min="0" placeholder="Stock" value="{{$data_gmb->stock}}">
+                                                <input type="number" name="stock" id="stockgmb-{{$data_gmb->id}}" class="form-control" min="0" placeholder="Stock" value="{{$data_gmb->total_stock}}">
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label>Unit</label>
@@ -181,19 +194,14 @@
                                             </div>
                                         </div>
                                         <div class="basic-form">
-                                                <div class="form-group">
-                                                    <textarea name="text" class="form-control" rows="4" id="comment" placeholder="Note">{{$data_gmb->text}}</textarea>
-                                                </div>
-                                        </div>
-                                        <div class="from-group col-md-6">
-                                            <div class="row">
-                                                <div class="col-3">
-                                                    <button type="submit" class="btn btn-default" style="background-color: #55B0DC; color: #fff;">Edit</button>
-                                                </div>&nbsp;&nbsp;&nbsp;&nbsp;
-                                                <div class="col-3">
-                                                    <button type="cancel" class="btn btn-default" style="background-color: #FF0000; color: #fff;">Cancel</button>
-                                                </div>
+                                            <div class="form-group">
+                                                <textarea name="text" class="form-control" rows="4" id="comment" placeholder="Note">{{$data_gmb->text}}</textarea>
                                             </div>
+                                        </div>
+                                        <div class="basic-form">
+                                          <div class="form-group">
+                                            <button type="submit" class="btn btn-default" style="background-color:#55B0DC; color: #fff;">Edit</button>
+                                          </div>
                                         </div>
                                     </form>
                                 </div>
@@ -225,7 +233,7 @@
                                                 </div>
                                                 <div class="form-group col-md-6">
                                                     <label>Stock</label>
-                                                    <input id="stockInitgmb-{{$res_gmb->id}}" type="number" name="stock" class="form-control" value="{{$res_gmb->stock}}" readonly>
+                                                    <input id="stockInitgmb-{{$res_gmb->id}}" type="number" name="stock" class="form-control" value="{{$res_gmb->total_stock}}" readonly>
                                                 </div>
                                                
                                                 <div class="form-group col-md-6">
@@ -259,7 +267,7 @@
                                                 </div>
                                                 <div class="form-group col-md-6">
                                                   <label>Total Stock</label>
-                                                  <input type="number" name="total_stock" id="totalStockgmb-{{$res_gmb->id}}"  class="form-control" value="{{$res_gmb->total_stock}}" readonly>
+                                                  <input type="hidden" name="total_stock" id="totalStockgmb-{{$res_gmb->id}}"  class="form-control" value="{{$res_gmb->total_stock}}" readonly>
                                                 </div>
                                             </div>
                                             <div class="basic-form">
@@ -267,15 +275,9 @@
                                                     <textarea name="text" id="updatetext" class="form-control" rows="4" placeholder="Note">{{$res_gmb->text}}</textarea>
                                                 </div>
                                             </div>
-                                            
-                                            <div class="from-group col-md-6">
-                                                <div class="row">
-                                                    <div class="col-3">
-                                                        <button type="submit" class="btn btn-default" style="background-color: #55B0DC; color: #fff;">Update</button>
-                                                    </div>
-                                                    <div class="col-3">
-                                                        <button class="btn btn-danger" onclick="closeModal()">Cancel</button>
-                                                    </div>
+                                            <div class="basic-form">
+                                                <div class="form-group">
+                                                    <button type="submit" class="btn btn-default" style="background-color: #55B0DC; color: #fff;">Update</button>
                                                 </div>
                                             </div>
                                         </form>
@@ -345,5 +347,28 @@
     });
 </script>
 @endforeach
+
+<script>
+      $(document).ready(function(){
+        $("#hargagmb").keyup(function(){
+            // console.log("berhasil")
+            $(this).maskNumber({integer: true, thousands: "."})
+        })
+    })
+</script>
+
+@foreach($gmb as $data_gmb)
+<script>
+      $(document).ready(function(){
+        $("#belieditgmb-{{$data_gmb->id}}").keyup(function(){
+            // console.log("berhasil")
+            $(this).maskNumber({integer: true, thousands: "."})
+        })
+    })      
+</script>
+@endforeach
+
+
+
 
 @endpush

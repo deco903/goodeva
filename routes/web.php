@@ -12,6 +12,8 @@ use App\Http\Controllers\KapalSewaController;
 use App\Http\Controllers\MilikPribadiController;
 use App\Http\Controllers\UploadgambarController;
 use App\Http\Controllers\InventoriController;
+use App\Http\Controllers\custGmbController;
+use App\Http\Controllers\agencyController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -54,6 +56,11 @@ Route::delete('/table_sw/hapus/{id}', [KapalSewaController::class, 'destroy'])->
 Route::get('/data-gambar', [UploadgambarController::class, 'index'])->name('data-gambar'); //index
 Route::post('/simpan-gambar', [UploadgambarController::class, 'store'])->name('simpan-gambar');//store
 
+//agency
+Route::get('/agency', [AgencyController::class, 'index'])->name('agency'); //index
+Route::post('/agency/store', [AgencyController::class, 'store'])->name('agencystore');
+Route::get('/agency/search', [AgencyController::class, 'search'])->name('agencysearch'); 
+
 
 //Vendor
 Route::get('/page_sw/vendor', [VendorController::class, 'index']);
@@ -71,6 +78,7 @@ Route::get('page_km/inventori_spn/cetak/{id}', [SpnController::class, 'cetakSpn'
 Route::match(['get','post'], '/spn/edit/{id}', [SpnController::class, 'edit']);
 Route::match(['get','post'], '/spn/edit/update/{id}', [SpnController::class, 'editUpdate']);
 Route::get('/delete/{id}', [SpnController::class, 'delete'])->name('delete');
+Route::get('carispn', [SpnController::class, 'cariSpn'])->name('carispn');
 
 //Inventory gmb
 Route::get('page_km/inventori_gmb', [GmbController::class, 'inventori_gmb'])->name('invgmb');
@@ -78,12 +86,25 @@ Route::post('page_km/inventori_gmb/store', [GmbController::class, 'store'])->nam
 Route::match(['get','post'], '/gmb/edit/{id}', [GmbController::class, 'edit']);
 Route::match(['get','post'], '/gmb/edit/update/{id}', [GmbController::class, 'editUpdate']);
 Route::get('/delete/gmb/{id}', [GmbController::class, 'delete'])->name('delete');
+Route::get('carigmb', [GmbController::class, 'cariGmb'])->name('carigmb');
+
+//Customer gmb
+Route::get('page_km/inventori_gmb/customergmb', [custGmbController::class, 'customer_gmb'])->name('customergmb');
+Route::post('page_km/inventori_gmb/customergmb/store', [custGmbController::class, 'customergmbStore'])->name('customergmbstore');
+Route::get('caricustgmb', [custGmbController::class, 'cariCustGmb'])->name('caricustgmb');
 
 // Report inventori
-Route::get('/inventoryspn', [InventoriController::class, 'index'])->name('inventori');
+
+Route::get('/inventoryspn', [InventoriController::class, 'indexSpnTgl'])->name('indexspntgl');
+Route::get('/inventoryspn/searchDate', [InventoriController::class, 'index'])->name('inventori');
+Route::get('/inventoryspn/searchListspn', [InventoriController::class, 'searchListSpn'])->name('searchlistspn');
 Route::get('/inventoryspn/cetakpdf/', [InventoriController::class, 'cetakinvSpn'])->name('cetakinvspn');
 Route::get('/inventoryspn/cetakexcel/', [InventoriController::class, 'cetakinvSpnExcel'])->name('cetakinvspnexcel');
-Route::get('/inventory/gmb', [InventoriController::class, 'invGmb'])->name('inventorigmb');
+Route::get('/inventorygmb', [InventoriController::class, 'indexGmb'])->name('indexgmb');
+Route::get('/inventorygmb/searchDate', [InventoriController::class, 'invGmb'])->name('inventorigmb');
+Route::get('/inventorygmb/searchListgbm', [InventoriController::class, 'searchListGmb'])->name('searchlistgmb');
+Route::get('/inventorygmb/cetakpdf/', [InventoriController::class, 'cetakinvGmb'])->name('cetakinvgmb');
+Route::get('/inventorygmb/cetakexcel/', [InventoriController::class, 'cetakinvGmbExcel'])->name('cetakinvgmbexcel');
 
 
 
@@ -92,6 +113,7 @@ Route::get('page_km/kru', [MilikPribadiController::class, 'kru'])->name('kru');
 Route::get('page_km/kru/table_kru', [MilikPribadiController::class, 'table_kru'])->name('tablekru');
 Route::post('page_km/kru/table_kru/store', [MilikPribadiController::class, 'storekru'])->name('storekru');
 Route::get('/page_km/table_km/reset_session/{key}', [MilikPribadiController::class, 'resetSession']);
+Route::get('cari/kru', [MilikPribadiController::class, 'cariKru'])->name('carikru');
 
 
 // login 

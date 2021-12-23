@@ -1,7 +1,7 @@
 @extends('layouts.template')
 @section('content')
 <div class="content-body">
-            <!-- row -->
+    
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-8 p-r-0 title-margin-right">
@@ -11,7 +11,7 @@
                     </div>
                 </div>
             </div>
-            <!-- /# column -->
+            
             <div class="col-lg-4 p-l-0 title-margin-left">
                 <div class="page-header">
                     <div class="page-title">
@@ -30,7 +30,59 @@
 
         <section id="main-content">
             <div class="row">
-                <div class="col-lg-4">
+
+            <div class="col-xl-4 col-md-6 mb-4">
+                <div class="card border-left-info shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-uppercase" style="color: #000;">
+                                    Kapal On Duty</div>
+                            </div>
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-light text-uppercase mb-1 ml-5 mt-4">Unit</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">3</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-4 col-md-6 mb-4">
+                <div class="card border-left-secondary shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-uppercase" style="color: #000;">
+                                    Kapal Idle</div>
+                            </div>
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-light text-uppercase mb-1 ml-5 mt-4">Unit</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">3</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-4 col-md-6 mb-4">
+                <div class="card border-left-success shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-uppercase" style="color: #000;">
+                                    Total Kapal</div>
+                            </div>
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-light text-uppercase mb-1 ml-5 mt-4">Unit</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">3</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+                <!-- <div class="col-lg-4">
                     <div class="card" style="height: 145px;">
                         <div class="stat-widget-one">
                             <div class="row">
@@ -86,9 +138,11 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
         </section>
+
+        
 
 
         <section>
@@ -218,15 +272,12 @@
 
 
         
-                <!-- row -->
-
-
+      <!-- row -->
         <div class="row">
             <div class="col-lg-3">
                 <div class="card">
                     <div class="card-body">
                         <h4 class="card-intro-title">Calendar</h4>
-
                         <div class="">
                             <div id="external-events" class="my-3">
                                 <p>Drag and drop your event or click in the calendar</p>
@@ -274,7 +325,7 @@
                 </div>
             </div>
             <!-- Modal Add Category -->
-            <div class="modal fade none-border" id="add-category">
+            <<div class="modal fade none-border" id="add-category">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -310,5 +361,5 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
 @endsection

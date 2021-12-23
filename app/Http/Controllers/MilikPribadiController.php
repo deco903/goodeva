@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Pribadi;
 use App\Models\Gambar;
 use App\Models\kruModel;
+use App\Models\kapal_pribadi;
 USE Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
@@ -28,84 +29,159 @@ class MilikPribadiController extends Controller
     
     public function storeTablekm(Request $request)
     {
-     // dd($request->all());
-     $model= new Pribadi;
-     $model->no = $request->no;
-     $model->keberangkatan = $request->keberangkatan;
-     $model->nama_kapal = $request->nama_kapal;
-     $model->tujuan = $request->tujuan;
-     $model->nama_kru = $request->nama_kru;
-     $model->mulai_sewa = $request->mulai_sewa;
-     $model->nama_penyewa = $request->nama_penyewa;
-     $model->sewa_selesai = $request->sewa_selesai;
-     $model->keterangan = $request->keterangan;
-     
 
-     $no = $request->no;
-     $keberangkatan = $request->keberangkatan;
-     $nama_kapal = $request->nama_kapal;
-     $tujuan = $request->tujuan;
-     $nama_kru = $request->nama_kru;
-     $mulai_sewa = $request->mulai_sewa;
-     $nama_penyewa = $request->nama_penyewa;
-     $sewa_selesai = $request->sewa_selesai;
-     $keterangan = $request->keterangan;
+        $validated = $request->validate([
+            'no' => 'required',
+            'keberangkatan' => 'required',
+            'nama_kapal' => 'required',
+            'tujuan' => 'required',
+            'nama_kru' => 'required',
+            'mulai_sewa' => 'required',
+            'nama_penyewa' => 'required',
+            'sewa_selesai' => 'required',
+            'myfile' => 'required|mimes:jpg,jpeg,bmp,png|max:1024',
+            'keterangan' => 'required',
+        ]);
 
-     
-     if($request->file('image')){
-         $file = $request->file('image');
-         $nama_file = time().str_replace(" ","", $file->getClientOriginalName());
-         $file->move('post-image-pribadi', $nama_file);
-         $model->image = $nama_file;
-     }
-     $model->save();
-     return redirect('/page_km')->with('success, Berhasil Simpan');
+        //   $pribadi = pribadi::find($id);
+
+            $no = $request->no;
+            $keberangkatan = $request->keberangkatan;
+            $nama_kapal = $request->nama_kapal;
+            $tujuan = $request->tujuan;
+            $nama_kru = $request->nama_kru;
+            $mulai_sewa = $request->mulai_sewa;
+            $nama_penyewa = $request->nama_penyewa;
+            $sewa_selesai = $request->sewa_selesai;
+            $image = $request->file('image');
+            $imageName = Request()->no.'.'.$image->getClientOriginalExtension();
+            $image->move(public_path('uploads/img'),$imageName);
+
+
+            $pribadi_data = [
+                'no' => $request->no,
+                'kebeangkatan' => $request->kebeangkatan,
+                'nama_kapal' => $request->nama_kapal,
+                'tujuan' => $request->tujuan,
+                'nama_kru' => $request->nama_kru,
+                'mulai_sewa' => $request->mulai_sewa,
+                'nama_penyewa' => $request->nama_penyewa,
+                'sewa_selesai' => $request->sewa_selesai,
+                'image' =>  $imageName
+            ];
+
+
+            // dd($request->all());
+            // $model= new Pribadi;
+            // $model->no = $request->no;
+            // $model->keberangkatan = $request->keberangkatan;
+            // $model->nama_kapal = $request->nama_kapal;
+            // $model->tujuan = $request->tujuan;
+            // $model->nama_kru = $request->nama_kru;
+            // $model->mulai_sewa = $request->mulai_sewa;
+            // $model->nama_penyewa = $request->nama_penyewa;
+            // $model->sewa_selesai = $request->sewa_selesai;
+            // $model->keterangan = $request->keterangan;
+            
+
+            // $no = $request->no;
+            // $keberangkatan = $request->keberangkatan;
+            // $nama_kapal = $request->nama_kapal;
+            // $tujuan = $request->tujuan;
+            // $nama_kru = $request->nama_kru;
+            // $mulai_sewa = $request->mulai_sewa;
+            // $nama_penyewa = $request->nama_penyewa;
+            // $sewa_selesai = $request->sewa_selesai;
+            // $keterangan = $request->keterangan;
+
+            
+            // if($request->file('image')){
+            //     $file = $request->file('image');
+            //     $nama_file = time().str_replace(" ","", $file->getClientOriginalName());
+            //     $file->move('post-image-pribadi', $nama_file);
+            //     $model->image = $nama_file;
+            // }
+            // $model->save();
+            $pribadi->update($pribadi_data);   
+            dd($pribadi);
+            return redirect('/page_km')->with('success, Berhasil Simpan');
      
 
     }
 
-    public function storePhoto(Request $request){
+    public function storePhoto(Request $request)
+    {
+        $validated = $request->validate([
+            'nama_file' => 'required',
+            'nama_perizinan' => 'required',
+            'terbit_file' => 'required',
+            'akhir_file' => 'required',
+            'myfile' => 'required|mimes:jpg,jpeg,bmp,png|max:1024',
+        ]);
 
-        
-     $validated = $request->validate([
-        'nama_file' => 'required',
-        'no_izin' => 'required',
-        'tgl_terbitfile' => 'required',
-        'tgl_berakhirfile' => 'required',
-        'photo' => 'required|mimes:jpg,jpeg,bmp,png|max:1024',
-    ]);
 
+     
+        $no = $request->no;
+        $keberangkatan = $request->keberangkatan;
+        $nama_kapal = $request->nama_kapal;
+        $tujuan = $request->tujuan;
+        $nama_kru = $request->nama_kru;
+        $mulai_sewa = $request->mulai_sewa;
+        $nama_penyewa = $request->nama_penyewa;
+        $sewa_selesai = $request->sewa_selesai;
+        $image = $request->image;
 
-        $image = $request->file('photo');
+        $image = $request->file('myfile');
         $imageName = Request()->nama_file.'.'.$image->getClientOriginalExtension();
         $image->move(public_path('uploads1/img'),$imageName);
         $nama_file = $request->nama_file;
-        $no_izin = $request->no_izin;
-        $tgl_terbitfile = $request->tgl_terbitfile;
-        $tgl_berakhirfile = $request->tgl_berakhirfile;
+        $nama_perizinan = $request->nama_perizinan;
+        $terbit_file = $request->terbit_file;
+        $akhir_file = $request->akhir_file;
+
+        $keterangan = $request->keterangan;
 
 
-        // $gambar = new Gambar();
-        // $gambar->nama_file = $nama_file;
-        // $gambar->no_izin = $no_izin;
-        // $gambar->tgl_terbitfile = $tgl_terbitfile;
-        // $gambar->tgl_berakhirfile = $tgl_berakhirfile;
-        // $gambar->photo = $imageName;
+        $gambar = new pribadi();
+        $gambar->no = '';
+        $gambar->keberangkatan = '';
+        $gambar->nama_kapal = '';
+        $gambar->tujuan = '';
+        $gambar->nama_kru = '';
+        $gambar->mulai_sewa = '';
+        $gambar->nama_penyewa = '';
+        $gambar->sewa_selesai = '';
+        $gambar->image = '';
+        $gambar->nama_file = $nama_file;
+        $gambar->nama_perizinan = $nama_perizinan;
+        $gambar->terbit_file = $terbit_file;
+        $gambar->akhir_file = $akhir_file;
+        $gambar->myfile = $imageName;
+        $gambar->keterangan = '';
+        if($gambar->save()){
+            $request->session()->put('id', $gambar->id);
+            return redirect()->back()->with('pesan','data sertifikat berhasil ditambah');
+        }
+
 
         // dd($gambar);
-        $dataImg = [
-            'nama_file' => $nama_file,
-            'no_izin' => $no_izin,
-            'tgl_terbit' => $tgl_terbitfile,
-            'tgl_berakhir' => $tgl_berakhirfile,
-            'photo' => $imageName
-        ];
-        $request->session()->put('dataImg', $dataImg);
+        // $dataImg = [
+        //     'nama_file' => $nama_file,
+        //     'no_izin' => $no_izin,
+        //     'tgl_terbit' => $tgl_terbitfile,
+        //     'tgl_berakhir' => $tgl_berakhirfile,
+        //     'photo' => $imageName
+        // ];
+        // $request->session()->put('dataImg', $dataImg);
+
+        // return redirect()->back()->with('pesan','data sertifikat berhasil ditambah');
+
         // if($gambar->save()){
-            return redirect()->back()->with('pesan','data sertifikat berhasil ditambah');
+        //     return redirect()->back()->with('pesan','data sertifikat berhasil ditambah');
         // }else{
         //     return redirect()->back()->with('pesan','data gagal di inputkan'); 
         // }
+
     }
 
     public function editTablekm($id)
@@ -153,7 +229,7 @@ class MilikPribadiController extends Controller
     //Kru
     
     public function kru(){
-        $kru = kruModel::paginate(2);
+        $kru = kruModel::paginate(10);
         return view('admin.kru',compact('kru'));
     }
 
@@ -165,7 +241,7 @@ class MilikPribadiController extends Controller
     {
         $validated = $request->validate([
             'photo' => 'required|mimes:jpg,jpeg,bmp,png|max:1024',
-            'phone' => 'required',
+            'phone' => 'required|min:13|numeric',
             'nama' => 'required',
             'email' => 'required|email',
             'tempat_lahir' => 'required',
@@ -184,6 +260,10 @@ class MilikPribadiController extends Controller
             'rt' => 'required',
             'rw' => 'required',
             'alamat' => 'required',
+            'sign_off' => 'required',
+            'status_perkawinan' => 'required',
+            'npwp' => 'required',
+            'jabatan' => 'required',
         ]);
 
 
@@ -209,6 +289,10 @@ class MilikPribadiController extends Controller
         $rt = $request->rt;
         $rw = $request->rw;
         $alamat = $request->alamat;
+        $sign_off = $request->sign_off;
+        $status_perkawinan = $request->status_perkawinan;
+        $npwp = $request->npwp;
+        $jabatan = $request->jabatan; 
 
         $kru = new kruModel();
         $kru->photo = $imageName;
@@ -231,13 +315,23 @@ class MilikPribadiController extends Controller
         $kru->rt = $rt;
         $kru->rw = $rw;
         $kru->alamat = $alamat;
-
+        $kru->sign_off = $sign_off;
+        $kru->status_perkawinan = $status_perkawinan;
+        $kru->npwp = $npwp;
+        $kru->jabatan = $jabatan;
         $kru->save();
 
         // dd($kru);
 
         return redirect()->route('kru')->with('pesan','Data Berhasil di Input');
 
+    }
+
+    public function cariKru(Request $request)
+    {
+        $namakru = $request->nama;
+        $kru = kruModel::where('nama','like',"%".$namakru."%")->paginate(100);
+        return view('admin.kru',compact('kru'));
     }
 
     public function resetSession($key) {

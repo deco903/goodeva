@@ -104,22 +104,22 @@ https://www.pinterest.com/pin/gym-fit--1036883514177881152/?d=t&mt=login
 
 DELIMITER $$
 CREATE TRIGGER insert_status_inventoryspn AFTER INSERT ON inventoryspn FOR EACH ROW BEGIN
-    INSERT INTO loginvspn (keterangan,status,waktu,nama_barang,stock,choose,update_stock,unit,type,total_stock,text,created_at,updated_at)
-    VALUES ('tambah data','OK',now(),NEW.nama_barang,NEW.stock,NEW.choose,NEW.update_stock,NEW.unit,NEW.type,NEW.total_stock,NEW.text,NEW.created_at,now());
+    INSERT INTO loginvspn (keterangan,status,waktu,nama_barang,stock_awal,stock,choose,update_stock,unit,type,total_stock,text,created_at,updated_at)
+    VALUES ('tambah data','OK',now(),NEW.nama_barang,NEW.stock_awal,NEW.stock,NEW.choose,NEW.update_stock,NEW.unit,NEW.type,NEW.total_stock,NEW.text,NEW.created_at,now());
 END $$
 DELIMITER ;
 
 DELIMITER $$
 CREATE TRIGGER edit_status_inventoryspn AFTER UPDATE ON inventoryspn FOR EACH ROW BEGIN
-    INSERT INTO loginvspn (keterangan,status,waktu,nama_barang,stock,choose,update_stock,unit,type,total_stock,text,created_at,updated_at)
-    VALUES ('edit data','OK',now(),NEW.nama_barang,NEW.stock,NEW.choose,NEW.update_stock,NEW.unit,NEW.type,NEW.total_stock,NEW.text,NEW.created_at,now());
+    INSERT INTO loginvspn (keterangan,status,waktu,nama_barang,stock_awal,stock,choose,update_stock,unit,type,total_stock,text,created_at,updated_at)
+    VALUES ('edit data','OK',now(),NEW.nama_barang,NEW.stock_awal,NEW.stock,NEW.choose,NEW.update_stock,NEW.unit,NEW.type,NEW.total_stock,NEW.text,NEW.created_at,now());
 END $$
 DELIMITER ;
 
 DELIMITER $$
 CREATE TRIGGER delete_status_inventoryspn AFTER DELETE ON inventoryspn FOR EACH ROW BEGIN
-    INSERT INTO loginvspn (keterangan,status,waktu,nama_barang,stock,choose,update_stock,unit,type,total_stock,text,created_at,updated_at)
-    VALUES ('hapus data','VOID',now(),OLD.nama_barang,OLD.stock,OLD.choose,OLD.update_stock,OLD.unit,OLD.type,OLD.total_stock,OLD.text,OLD.created_at,now());
+    INSERT INTO loginvspn (keterangan,status,waktu,nama_barang,stock_awal,stock,choose,update_stock,unit,type,total_stock,text,created_at,updated_at)
+    VALUES ('hapus data','VOID',now(),OLD.nama_barang,OLD.stock_awal,OLD.stock,OLD.choose,OLD.update_stock,OLD.unit,OLD.type,OLD.total_stock,OLD.text,OLD.created_at,now());
 END $$
 DELIMITER ;
 
@@ -131,6 +131,34 @@ DROP TRIGGER insert_status_inventoryspn;
 DROP TRIGGER edit_status_inventoryspn;
 DROP TRIGGER delete_status_inventoryspn;
 
+
+=====================================================================================================
+
+DELIMITER $$
+CREATE TRIGGER insert_status_loginvspn AFTER INSERT ON loginvspn FOR EACH ROW BEGIN
+    INSERT INTO spnexel (waktu,nama_barang,unit,total_stock,text,status)
+    VALUES (now(),NEW.nama_barang,NEW.unit,NEW.total_stock,NEW.text,'OK');
+END $$
+DELIMITER ;
+
+DELIMITER $$
+CREATE TRIGGER edit_status_loginvspn AFTER UPDATE ON loginvspn FOR EACH ROW BEGIN
+    INSERT INTO spnexel (waktu,nama_barang,unit,total_stock,text,status)
+    VALUES (now(),NEW.nama_barang,NEW.unit,NEW.total_stock,NEW.text,'OK');
+END $$
+DELIMITER ;
+
+DELIMITER $$
+CREATE TRIGGER delete_status_loginvspn AFTER DELETE ON loginvspn FOR EACH ROW BEGIN
+    INSERT INTO spnexel (waktu,nama_barang,unit,total_stock,text,status)
+    VALUES (now(),OLD.nama_barang,OLD.unit,OLD.total_stock,OLD.text,OLD.status);
+END $$
+DELIMITER ;
+
+
+DROP TRIGGER insert_status_loginvspn;
+DROP TRIGGER edit_status_loginvspn;
+DROP TRIGGER delete_status_loginvspn;
 
 
 

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\inventorygmb;
+use App\Models\loginvgmb_m;
+
 
 class GmbController extends Controller
 {
@@ -14,15 +16,17 @@ class GmbController extends Controller
 
 
     public function inventori_gmb(){
-        $gmb = inventorygmb::paginate(2);
+        $gmb = inventorygmb::paginate(10);
         return view('admin.inventori.inventori_gmb', compact('gmb'));
     }
 
+    
     public function store(Request $request)
     {
 
         $validated = $request->validate([
             'nama_barang' => 'required',
+            'harga' => 'required|numeric',
             'stock' => 'required',
             'unit' => 'required',
             'type' => 'required',
@@ -31,6 +35,7 @@ class GmbController extends Controller
         ]);
 
         $nama_barang = $request->nama_barang;
+        $harga = $request->harga;
         $stock = $request->stock;
         $unit = $request->unit;
         $type = $request->type;
@@ -39,6 +44,7 @@ class GmbController extends Controller
 
         $inventory_gmb = new inventorygmb();
         $inventory_gmb->nama_barang = $nama_barang;
+        $inventory_gmb->harga = $harga;
         $inventory_gmb->stock = $stock;
         $inventory_gmb->unit = $unit;
         $inventory_gmb->type = $type;
@@ -48,7 +54,7 @@ class GmbController extends Controller
 
         // dd($inventory_spn);
 
-        return redirect()->back();
+        return redirect()->back()->with('pesan','Input Inventori GMB Berhasil....!!!');
        
     }
 
@@ -56,11 +62,19 @@ class GmbController extends Controller
     public function edit(Request $request, $id=null)
     {
 
+        $validated = $request->validate([
+            'nama_barang' => 'required',
+            'harga' => 'required|numeric',
+            'unit' => 'required',
+            'type' => 'required',
+            'total_stock' => 'required',
+            'text' => 'required',
+        ]); 
 
       if($request->isMethod('post')){
          $data = $request->all(); 
 
-            inventorygmb::where(['id'=>$id])->update(['nama_barang'=>$data['nama_barang'],'stock'=>$data['stock'],'unit'=>$data['unit'],'type'=>$data['type'],'total_stock'=>$data['total_stock'],'text'=>$data['text']]);
+            inventorygmb::where(['id'=>$id])->update(['nama_barang'=>$data['nama_barang'],'harga'=>$data['harga'],'stock'=>$data['stock'],'unit'=>$data['unit'],'type'=>$data['type'],'total_stock'=>$data['total_stock'],'text'=>$data['text']]);
             return redirect()->back()->with('pesan','data berhasil dirubah..!!');
         }
 
@@ -94,6 +108,11 @@ class GmbController extends Controller
         return redirect()->back()->with('pesan','data berhasil dihapus..!!');
     }
 
-    
+    public function cariGmb(Request $request)
+    {
+        $namabrg = $request->nama_barang;
+        $gmb = inventorygmb::where('nama_barang','like',"%".$namabrg."%")->paginate(2);
+        return view('admin.inventori.inventori_gmb', compact('gmb'));
+    }
 
 }

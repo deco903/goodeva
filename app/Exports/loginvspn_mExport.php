@@ -2,7 +2,7 @@
 
 namespace App\Exports;
 
-use App\Models\loginvspn_m;
+use App\Models\spnexel_M;
 use Maatwebsite\Excel\Concerns\FromCollection;
 
 class loginvspn_mExport implements FromCollection
@@ -12,6 +12,6 @@ class loginvspn_mExport implements FromCollection
     */
     public function collection()
     {
-        return loginvspn_m::all();
+        return spnexel_M::all();
     }
 }

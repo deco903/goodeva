@@ -49,7 +49,7 @@
      <td>{{date('d-M-y', strtotime($value->waktu))}}</td>
      <td>{{$value->nama_barang}}</td>
      <td>{{$value->unit}}</td>
-     <td>{{$value->choose}} {{$value->update_stock}}</td>
+     <td>{{$value->total_stock}}</td>
      <td>{{$value->text}}</td>
      <td>{{$value->status}}</td>
    </tr>

@@ -17,7 +17,7 @@ class CreateKruTable extends Migration
             $table->id(); 
             $table->string('photo');
             $table->string('nama');
-            $table->integer('phone');
+            $table->bigInteger('phone');
             $table->string('tempat_lahir');
             $table->date('tgl_lahir');
             $table->enum('jenis_kelamin', ['perempuan', 'laki-laki']);
@@ -35,6 +35,10 @@ class CreateKruTable extends Migration
             $table->string('no_sertifikat');
             $table->date('tgl_gabung');
             $table->string('status');
+            $table->date('sign_off');
+            $table->string('status_perkawinan');
+            $table->string('npwp');
+            $table->string('jabatan');
             $table->timestamps();
         });
     }

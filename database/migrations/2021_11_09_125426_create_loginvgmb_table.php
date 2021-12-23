@@ -19,6 +19,7 @@ class CreateLoginvgmbTable extends Migration
             $table->string('status');
             $table->datetime('waktu');
             $table->string('nama_barang');
+            $table->integer('stock_awal')->nullable(0);
             $table->integer('stock');
             $table->string('choose')->default(' ');
             $table->integer('update_stock')->default(0);
