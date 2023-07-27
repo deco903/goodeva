@@ -1,7 +1,7 @@
 @extends('admin.auth.header.app')
 <body class="h-100" style="background-color: #5AB6DE">
 <div class="authincation h-100">
-    <div class="container-fluid h-100 w-50">
+    <div class="container-fluid col-md-10 col-xl-8 col-lg-8 w-100">
         <div class="row justify-content-center h-100 align-items-center">
             <div class="col-md-6">
                 <div class="authincation-content">
@@ -24,7 +24,7 @@
                         </div>
 
                         <div class="form-group"> 
-                            <input type="password" name="password" id="password"  class="form-control" placeholder="Password" required>
+                            <input type="password" name="password" id="password"  class="form-control" placeholder="Password" required><i class="toggle-password fa fa-fw fa-eye-slash"></i>
                                 @error('password')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>

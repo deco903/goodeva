@@ -24,7 +24,13 @@
                                 <input type="search" name="nama_barang" placeholder="Pencarian.." aria-describedby="button-addon4" class="form-control bg-one border-0">
                             </div>
                             </form>
+                            @if( auth()->user()->level == '1')
                             <button type="button" class="btn btnUnit" data-toggle="modal" data-target="#modalCreate">Tambah</button>
+                            @elseif ( auth()->user()->level == '2')
+                            <button type="button" class="btn btnUnit" data-toggle="modal" data-target="#modalCreate">Tambah</button>
+                            @else
+                            @endif
+                            
                         </div>
                     </div>
                 </div>
@@ -43,7 +49,12 @@
                                     <th>Total Stock</th>
                                     <th>Keterangan</th>
                                     <th>Terakhir diUbah</th>
+                                        @if( auth()->user()->level == '1')
                                     <th>Action</th>
+                                        @elseif ( auth()->user()->level == '2')
+                                    <th>Action</th>
+                                        @else
+                                        @endif
                                 </tr>
                             </thead>
                             <tbody>
@@ -58,12 +69,22 @@
                                     <td>{{$key->total_stock}}</td>
                                     <td>{{$key->text}}</td>
                                     <td>{{Auth::user()->name}}</td>
+                                    @if( auth()->user()->level == '1')
                                     <td>
                                         <a href="{{route('cetakspn', $key->id)}}" class="btn btn-icon" type="menu"><i class="fas fa-file"></i></a>
                                         <button class="btn btn-icon" id="btnStock" data-toggle="modal" data-target="#modalStock-{{$key->id}}" ><i class="fas fa-edit"></i></button>
                                         <button class="btn btn-icon" id="btnStock" data-toggle="modal" data-target="#modalUpdate-{{$key->id}}" ><i class="fas fa-user-edit"></i></button>
                                         <button data-id="{{$key->id}}" data-nama="{{$key->nama_barang}}" class="btn btn-icon delete" id="deletestock" type="reset"><i class="fas fa-trash"></i></button>
                                     </td>
+                                    @elseif ( auth()->user()->level == '2')
+                                    <td>
+                                        <a href="{{route('cetakspn', $key->id)}}" class="btn btn-icon" type="menu"><i class="fas fa-file"></i></a>
+                                        <button class="btn btn-icon" id="btnStock" data-toggle="modal" data-target="#modalStock-{{$key->id}}" ><i class="fas fa-edit"></i></button>
+                                        <button class="btn btn-icon" id="btnStock" data-toggle="modal" data-target="#modalUpdate-{{$key->id}}" ><i class="fas fa-user-edit"></i></button>
+                                        <button data-id="{{$key->id}}" data-nama="{{$key->nama_barang}}" class="btn btn-icon delete" id="deletestock" type="reset"><i class="fas fa-trash"></i></button>
+                                    </td>
+                                    @else
+                                    @endif
                                 </tr>
                                 @endforeach
                               @else
@@ -258,15 +279,11 @@
                                                 </div>
                                                 <div class="form-group col-md-6">
                                                     <label>Unit</label>
-                                                    <select name="unit" id="inputState" class="form-control" readonly>
-                                                        <option selected>{{$res->unit}}</option>
-                                                    </select>
+                                                    <input type="text" name="unit" class="form-control" value="{{$res->unit}}" readonly>
                                                 </div>
                                                 <div class="form-group col-md-6">
                                                     <label>Type</label>
-                                                    <select name="type" id="inputState" class="form-control" readonly>
-                                                       <option selected>{{$res->type}}</option>
-                                                    </select>
+                                                    <input type="text" name="type" class="form-control" value="{{$res->type}}" readonly>
                                                 </div>
                                                 <div class="form-group col-md-6">
                                                   <label>Total Stock</label>

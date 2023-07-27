@@ -50,6 +50,7 @@
                                     <th>Muatan</th>
                                     <th>Detail</th>
                                     <th>Keterangan</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -71,6 +72,10 @@
                                  <td>{{$key->muatan}}</td>
                                  <td>{{$key->detail}}</td>
                                  <td>{{$key->keterangan}}</td>
+                                 <td>
+                                     <button class="btn btn-icon" id="btnStock" data-toggle="modal" data-target="#modalUpdate-{{$key->id}}" ><i class="fas fa-user-edit"></i></button>
+                                     <button data-id="{{$key->id}}" data-nama="{{$key->nama_kapal}}" class="btn btn-icon delete" id="deletestock" type="reset"><i class="fas fa-trash"></i></button>
+                                 </td>
                                </tr>
                               @endforeach
                              @else
@@ -116,13 +121,7 @@
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label>Port Asal</label>
-                                                <select name="port_asal" id="inputState" class="form-control">
-                                                    <option selected>Pilih Unit</option>
-                                                    <option>Makassar</option>
-                                                    <option>Batam</option>
-                                                    <option>Jakarta</option>
-                                                    <option>Balikpapan</option>
-                                                </select>
+                                                <input type="text" name="port_asal" id="value1" class="form-control" min="0" placeholder="Masukan Port Asal" required/>
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label>Tanggal Kedatangan</label>
@@ -134,15 +133,7 @@
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label>Jenis Muatan</label>
-                                                <select name="jenis_muatan" id="inputState" class="form-control">
-                                                    <option selected>Pilih Unit</option>
-                                                    <option>Batu</option>
-                                                    <option>Kayu</option>
-                                                    <option>Emas</option>
-                                                    <option>Timah</option>
-                                                    <option>Besi</option>
-                                                    <option>Gergaji</option>
-                                                </select>
+                                                <input type="text" name="jenis_muatan" id="value1" class="form-control" min="0" placeholder="Masukan Jenis Muatan" required/>
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label>Tanggal Keberangkatan</label>
@@ -178,7 +169,88 @@
                     </div>
                 </div>
                 <!-- End of modal create-->
-        
+
+                <!--Modal Edit-->
+                @foreach($data as $res)
+                <div class="modal fade" id="modalUpdate-{{$res->id}}" role="dialog">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h6 class="modal-title titleModal">Update Barang</h6>
+                                <div class="vl"></div>
+                            </div>
+                            <div class="card-body">
+                                <div class="basic-form">
+                                    <form action="{{url('/agency/edit/update/'.$res->id)}}" method="POST">
+                                      @csrf 
+                                        <div class="form-row">
+                                            <div class="form-group col-md-12">
+                                                <label>Nama Kapal</label>
+                                                <input type="text" name="nama_kapal" class="form-control" value="{{$res->nama_kapal}}" required/>
+                                            </div>
+                                            <div class="form-group col-md-12">
+                                                <label>Voy</label>
+                                                <input type="text" name="voy" class="form-control" value="{{$res->voy}}" required/>
+                                            </div>
+                                            <div class="form-group col-md-12">
+                                                <label>Bendera</label>
+                                                <input type="text" name="bendera" class="form-control" value="{{$res->bendera}}" required/>
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label>GT</label>
+                                                <input type="text" name="gt" id="value1" class="form-control" min="0" value="{{$res->gt}}" required/>
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label>Port Asal</label>
+                                                <input type="text" name="port_asal" id="value1" class="form-control" min="0" value="{{$res->port_asal}}" required/>
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label>Tanggal Kedatangan</label>
+                                                <input type="date" name="tgl_kedatangan" id="sum"  value="{{$res->tgl_kedatangan}}" class="form-control"/>
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label>Muatan Bongkar</label>
+                                                <input type="text" name="muatan_bongkar" id="sum" class="form-control" value="{{$res->muatan_bongkar}}" />
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label>Jenis Muatan</label>
+                                                <input type="text" name="jenis_muatan" id="value1" class="form-control" min="0" value="{{$res->jenis_muatan}}"  required/>
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label>Tanggal Keberangkatan</label>
+                                                <input type="date" name="tgl_keberangkatan" id="sum" value="{{$res->tgl_keberangkatan}}" class="form-control"/>
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label>Tujuan</label>
+                                                <input type="text" name="tujuan" id="sum" class="form-control" value="{{$res->tujuan}}"/>
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label>Muatan</label>
+                                                <input type="text" name="muatan" id="sum" class="form-control" value="{{$res->muatan}}"/>
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label>Detail</label>
+                                                <input type="text" name="detail" id="sum" class="form-control" value="{{$res->detail}}"/>
+                                            </div>
+                                        </div>
+                                        <div class="basic-form">
+                                            <div class="form-group">
+                                                <textarea name="keterangan" class="form-control" rows="4" id="comment" placeholder="Note">{{$res->keterangan}}</textarea>
+                                            </div>
+                                        </div>
+                                        <div class="basic-form">
+                                            <div class="form-group">
+                                               <button type="submit" class="btn btn-default" style="background-color: #55B0DC; color: #fff;">Update</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @endforeach
+                <!--End Of Modal edit-->
                     
             </div>
         </div>
@@ -186,3 +258,29 @@
 </div>
 
 @endsection
+@push('script')
+<script>
+    $('.delete').click(function(){
+       var agenid = $(this).attr('data-id');
+       var agenkpl = $(this).attr('data-nama');
+        swal({
+            title: "Yakin?",
+            text: "data "+agenkpl+" akan dihapus",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+            })
+            .then((willDelete) => {
+            if (willDelete) {
+                window.location =  "/agencyelete/"+agenid+""
+                swal("data berhasil dihapus", {
+                icon: "success",
+                });
+            } else {
+                swal("Data tidak jadi dihapus");
+            }
+        });
+    });
+    
+</script>
+@endpush

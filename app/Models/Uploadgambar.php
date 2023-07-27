@@ -9,7 +9,7 @@ class Uploadgambar extends Model
 {
     use HasFactory;
     protected $table ='gambar';
-    protected $fillable = ['photo','nama_file','no_izin','tgl_terbitfile','tgl_berakhirfile'];
+    protected $fillable = ['id_kapal','jenis_kapal','photo','nama_file','no_izin','jenis_berkas','tgl_terbitfile','tgl_berakhirfile'];
     
     
     public function sewa()

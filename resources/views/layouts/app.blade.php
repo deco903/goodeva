@@ -27,7 +27,7 @@
         type="text/css"
         href="https://stackpath.boostrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
     />
-
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     @stack('custom-css')
     </head>
 <body>
@@ -108,6 +108,8 @@
 
 
     <script src="{{ asset('assets/js/dashboard/dashboard-1.js') }}"></script>
+    
     @stack('script')
+    
 </body>
 </html>

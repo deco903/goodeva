@@ -28,7 +28,6 @@
     integrity="sha256-HwWONEZrpuoh951cQD1ov2HUK5zA5DwJ1DNUXaM6FsY="
     crossorigin="anonymous"></script>
 
-     
     <!---Fontawesome-->
     <link
     rel="stylesheet"
@@ -41,7 +40,11 @@
     type="text/css"
     href="https://stackpath.boostrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
   />
-    
+
+  <!-- Calendar -->
+       <!-- Custiom Calendar -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
   @stack('custom-css')
   
 </head>
@@ -118,13 +121,15 @@
 
 
     <!---vendor calender--->
-    <script src="{{ asset('assets/js/styleSwitcher.js') }}"></script>
+    <!-- <script src="{{ asset('assets/js/styleSwitcher.js') }}"></script>
     <script src="{{ asset('assets/vendor/jqueryui/js/jquery-ui.min.js') }}"></script>
     <script src="{{ asset('assets/vendor/moment/moment.min.js') }}"></script>
 
     <script src="{{ asset('assets/vendor/fullcalendar/js/fullcalendar.min.js') }}"></script>
-    <script src="{{ asset('assets/js/plugins-init/fullcalendar-init.js') }}"></script>
-
+    <script src="{{ asset('assets/js/plugins-init/fullcalendar-init.js') }}"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
 
 
@@ -156,8 +161,6 @@
     <!--sweeet alert custom-->
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="{{ asset('assets/js/jquery.masknumber.js') }}"></script>
-
-    
     @stack('script')
 </body>
 </html>

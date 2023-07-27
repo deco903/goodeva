@@ -8418,6 +8418,18 @@ svg.pulse-svg {
     @media only screen and (max-width: 575px) {
       .header-left .search_bar {
         position: static; }
+        .page-titles{
+          overflow: scroll;
+        }
+        .header-left input{
+          border-color: #000;
+          border-radius: 5px !important;
+          width: 50%;
+          margin-left: 8em;
+        }
+        .header-left .search_bar .search_icon{
+          background: none !important; 
+        }
         .header-left .search_bar .dropdown-menu {
           width: 100vw;
           left: -98px; }
@@ -11809,13 +11821,13 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
     color: #b3b3b3; }
   [data-sibebarbg="color_4"] .quixnav .metismenu > li:hover > a, [data-sibebarbg="color_4"] .quixnav .metismenu > li:focus > a, [data-sibebarbg="color_4"] .quixnav .metismenu > li.mm-active > a {
     background-color: #4527a0;
-    color: #fff; }
+    color: #0000FF; }
   [data-layout="horizontal"][data-sibebarbg="color_4"] .quixnav .metismenu > li {
     border-color: #5731c9; }
   [data-sibebarbg="color_4"] .quixnav .metismenu a {
     color: #b3b3b3; }
     [data-sibebarbg="color_4"] .quixnav .metismenu a:hover, [data-sibebarbg="color_4"] .quixnav .metismenu a:focus, [data-sibebarbg="color_4"] .quixnav .metismenu a.mm-active {
-      color: #fff; }
+      color: #0000FF; }
   [data-sibebarbg="color_4"] .quixnav .metismenu ul {
     background-color: #331d77; }
 
@@ -13621,6 +13633,7 @@ input[type="checkbox"]:checked:after {
 
 .form-check-inline .form-check-input {
   margin-right: 0.625rem; }
+  
 
 .js-switch + .switchery {
   border-radius: 50px;
@@ -15178,6 +15191,13 @@ button {
 
 .toggle-dropdown::after {
   margin-left: 0.755em; }
+
+  .toggle-password {
+    float: right;
+    cursor: pointer;
+    margin-right: 10px;
+    margin-top: -25px;
+  }
 
 .social-btn-icon .btn {
   min-width: 7.5rem;

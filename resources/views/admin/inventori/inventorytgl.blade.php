@@ -7,7 +7,7 @@
             <div class="row page-titles col-sm-12 ml-1">
                 <div class="col-sm-6 p-md-0">
                     <div class="welcome-text">
-                        <h4 style="color:black;">Report Inventory SPN 14 Hari Terakhir</h4>
+                        <h4 style="color:black;">Report Inventory SPN 7 Hari Terakhir</h4>
                     </div><br>
                     <div class="welcome-text col-sm-3" style="margin-left:-15px;">
                        <a ><button type="button" class="btn btn-primary" style="height:35px;margin-bottom:2px;">SPN</button></a>

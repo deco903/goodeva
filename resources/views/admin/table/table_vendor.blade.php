@@ -61,45 +61,40 @@
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label>Jabatan</label>
-                                    <select id="jabatan" name="jabatan" class="form-control" required>
-                                        <option selected>Pilih...</option>
-                                        <option>Direktur</option>
-                                        <option>Manager</option>
-                                    </select>
+                                    <input id="jabatan" list="jabatans" name="jabatan" class="form-control" placeholder="Jabatan" required>
+                                    <datalist id="jabatans">
+                                    <option value="Direktur">
+                                    <option value="Manajer">
+                                    <option value="Staff">
+                                    <option value="Administrasi">
+                                    <option value="Divisi">
+                                    </datalist>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="row">
                                         <div class="form-group col-md-3">
                                             <label>Provinsi</label>
-                                            <select id="provinsi" name="provinsi" class="form-control" required>
-                                                <option selected>Jawa Barat</option>
-                                                <option>Jawa Tengah</option>
-                                                <option>Jawa Timur</option>
-                                            </select>
+                                            
+                                            <input id="provinsi" list="prov" name="provinsi" class="form-control" placeholder="Provinsi" required>
+                                            <datalist id="prov">
+                                            <option value="DKI Jakarta">
+                                            <option value="Jawa Barat">
+                                            <option value="Jawa Timur">
+                                            <option value="Jawa Tengah">
+                                            <option value="Papua">
+                                            </datalist>
                                         </div>
                                         <div class="form-group col-md-3">
                                             <label>Kota</label>
-                                            <select id="kota" name="kota" class="form-control" required>
-                                                <option selected>Depok</option>
-                                                <option>DKI Jakarta</option>
-                                                <option>Yogyakarta</option>
-                                            </select>
+                                            <input type="kota" id="kota" name="kota" class="form-control" placeholder="Kota" required/>
                                         </div>
                                         <div class="form-group col-md-3">
                                             <label>Kecamatan</label>
-                                            <select id="kecamatan" name="kecamatan" class="form-control" required>
-                                                <option selected>Limo</option>
-                                                <option>Jagakarsa</option>
-                                                <option>Pasar Minggu</option>
-                                            </select>
+                                            <input type="kecamatan" id="kecamatan" name="kecamatan" class="form-control" placeholder="Kecamatan" required/>
                                         </div>
                                         <div class="form-group col-md-3">
                                             <label>Kelurahan</label>
-                                            <select id="kelurahan" name="kelurahan" class="form-control" required>
-                                                <option selected>Krukut</option>
-                                                <option>Gandul</option>
-                                                <option>Cilandak</option>
-                                            </select>
+                                            <input type="kelurahan" id="kelurahan" name="kelurahan" class="form-control" placeholder="Kelurahan" required/>
                                         </div>
                                     </div>
                                 <div class="col-md-12">

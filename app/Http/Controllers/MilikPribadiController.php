@@ -2,13 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Pribadi;
+use PDF;
 use App\Models\Gambar;
+use App\Models\Pribadi;
 use App\Models\kruModel;
+use App\Models\Notifikasi;
+use App\Models\Uploadgambar;
+use Illuminate\Http\Request;
 use App\Models\kapal_pribadi;
-USE Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Session;
+use App\Exports\KapalPribadi_mExport;
+use App\Imports\KapalPribadi_mImport;
+use Maatwebsite\Excel\Facades\Excel;
+
+
 
 
 class MilikPribadiController extends Controller
@@ -18,325 +29,240 @@ class MilikPribadiController extends Controller
         $this->middleware('auth');
     }
 
-    public function index() {
-        $pribadi = Pribadi::all();
-        return view('admin.page_km', compact('pribadi'));
-    }
+    public function prnpriview($id)
+      {
+        $pribadi = Pribadi::where('id', $id)->get();
+        view()->share('pribadi', $pribadi);
+        $pdf = PDF::loadview('admin.print.kapal_km');
+        return $pdf->download('data.pdf');
+      }
 
-    public function table_km(Request $request){
-        return view('admin.table.table_km');
+    public function index() {
+        $pribadi = Pribadi::with('gambar')->paginate(10);
+        $data_foto = Uploadgambar::all();
+        $notif = Notifikasi::with('users')->orderBy('created_at','desc')->paginate(5);
+        $notifall = Notifikasi::all();
+        return view('admin.page_km', compact('pribadi'),['notifall' => $notifall, 'notif' => $notif, 'pribadi' => $pribadi,'nama_kru' => kruModel::all(), 'data_foto' => $data_foto]);
     }
     
-    public function storeTablekm(Request $request)
-    {
-
-        $validated = $request->validate([
-            'no' => 'required',
-            'keberangkatan' => 'required',
-            'nama_kapal' => 'required',
-            'tujuan' => 'required',
-            'nama_kru' => 'required',
-            'mulai_sewa' => 'required',
-            'nama_penyewa' => 'required',
-            'sewa_selesai' => 'required',
-            'myfile' => 'required|mimes:jpg,jpeg,bmp,png|max:1024',
-            'keterangan' => 'required',
-        ]);
-
-        //   $pribadi = pribadi::find($id);
-
-            $no = $request->no;
-            $keberangkatan = $request->keberangkatan;
-            $nama_kapal = $request->nama_kapal;
-            $tujuan = $request->tujuan;
-            $nama_kru = $request->nama_kru;
-            $mulai_sewa = $request->mulai_sewa;
-            $nama_penyewa = $request->nama_penyewa;
-            $sewa_selesai = $request->sewa_selesai;
-            $image = $request->file('image');
-            $imageName = Request()->no.'.'.$image->getClientOriginalExtension();
-            $image->move(public_path('uploads/img'),$imageName);
-
-
-            $pribadi_data = [
-                'no' => $request->no,
-                'kebeangkatan' => $request->kebeangkatan,
-                'nama_kapal' => $request->nama_kapal,
-                'tujuan' => $request->tujuan,
-                'nama_kru' => $request->nama_kru,
-                'mulai_sewa' => $request->mulai_sewa,
-                'nama_penyewa' => $request->nama_penyewa,
-                'sewa_selesai' => $request->sewa_selesai,
-                'image' =>  $imageName
-            ];
-
-
-            // dd($request->all());
-            // $model= new Pribadi;
-            // $model->no = $request->no;
-            // $model->keberangkatan = $request->keberangkatan;
-            // $model->nama_kapal = $request->nama_kapal;
-            // $model->tujuan = $request->tujuan;
-            // $model->nama_kru = $request->nama_kru;
-            // $model->mulai_sewa = $request->mulai_sewa;
-            // $model->nama_penyewa = $request->nama_penyewa;
-            // $model->sewa_selesai = $request->sewa_selesai;
-            // $model->keterangan = $request->keterangan;
-            
-
-            // $no = $request->no;
-            // $keberangkatan = $request->keberangkatan;
-            // $nama_kapal = $request->nama_kapal;
-            // $tujuan = $request->tujuan;
-            // $nama_kru = $request->nama_kru;
-            // $mulai_sewa = $request->mulai_sewa;
-            // $nama_penyewa = $request->nama_penyewa;
-            // $sewa_selesai = $request->sewa_selesai;
-            // $keterangan = $request->keterangan;
-
-            
-            // if($request->file('image')){
-            //     $file = $request->file('image');
-            //     $nama_file = time().str_replace(" ","", $file->getClientOriginalName());
-            //     $file->move('post-image-pribadi', $nama_file);
-            //     $model->image = $nama_file;
-            // }
-            // $model->save();
-            $pribadi->update($pribadi_data);   
-            dd($pribadi);
-            return redirect('/page_km')->with('success, Berhasil Simpan');
-     
-
+    public function kapalpribadiexport(){
+        return Excel::download(new KapalPribadi_mExport,'kapalpribadi.xlsx');
     }
 
-    public function storePhoto(Request $request)
+    public function kapalpribadiimport(Request $request){
+        $file = $request->file('file');
+        $namaFile = $file->getClientOriginalName();
+        $file->move('datakapalribadi',$namaFile );
+        excel::import('KapalPribadi_mImport', public_path('/datakapapribadi/', $namaFile));
+        return redirect('page.km');
+    }
+    public function table_km(Request $request){
+        $data_foto = Uploadgambar::where('id_kapal', $request->session()->get('id_kapalpribadi_form'))->get();
+        $data_tujuan =  ['Pelabuhan Tanjung Priok', 'Pelabuhan Tanjung Perak', 'Pelabuhan Ketapang', 'Pelabuhan Harbour Bay', 'Pelabuhan Tanjung Mas', 'Pelabuhan Sunda Kelapa', 'Pelabuhan Sorekarno-Hatta', 'Pelabuhan Merak', 'Pelabuhan Batam-Center','Pelabuhan Bakauheni','Pelabuhan Gorontalo','Pelabuhan Banjarmasin','Pelabuhan Gilimanuk','Pelabuhan Jayapura'];
+        $notif = Notifikasi::with('users')->orderBy('created_at','desc')->paginate(5);
+        $notifall = Notifikasi::all();
+        if ($request->session()->has('id_kapalpribadi_form')) {
+            $data_form = Pribadi::find($request->session()->get('id_kapalpribadi_form'));
+            return view('admin.table.table_km', ['notifall' => $notifall, 'data_foto' => $data_foto, 'data_form' => $data_form, 'data_tujuan' => $data_tujuan,  'nama_kru' => kruModel::all(), 'notif' => $notif]);
+        } else {
+            return view('admin.table.table_km', ['notifall' => $notifall,'data_foto' => $data_foto, 'data_tujuan' => $data_tujuan,  'nama_kru' => kruModel::all(), 'notif' => $notif]);
+        }
+    }
+    
+    public function storeTablekm(Request $request, kruModel $kruModel)
     {
-        $validated = $request->validate([
-            'nama_file' => 'required',
-            'nama_perizinan' => 'required',
-            'terbit_file' => 'required',
-            'akhir_file' => 'required',
-            'myfile' => 'required|mimes:jpg,jpeg,bmp,png|max:1024',
-        ]);
-
-
-     
-        $no = $request->no;
-        $keberangkatan = $request->keberangkatan;
+        $id = $request->id;
+        $customer = $request->customer;
         $nama_kapal = $request->nama_kapal;
-        $tujuan = $request->tujuan;
+        $keberangkatan = $request->keberangkatan;
         $nama_kru = $request->nama_kru;
-        $mulai_sewa = $request->mulai_sewa;
+        $krus = implode(' - ' , $nama_kru);
+        $tujuan = $request->tujuan;
         $nama_penyewa = $request->nama_penyewa;
+        $mulai_sewa = $request->mulai_sewa;
         $sewa_selesai = $request->sewa_selesai;
-        $image = $request->image;
-
-        $image = $request->file('myfile');
-        $imageName = Request()->nama_file.'.'.$image->getClientOriginalExtension();
-        $image->move(public_path('uploads1/img'),$imageName);
-        $nama_file = $request->nama_file;
-        $nama_perizinan = $request->nama_perizinan;
-        $terbit_file = $request->terbit_file;
-        $akhir_file = $request->akhir_file;
-
+        $harga_sewa_customer = $request->harga_sewa_customer;
         $keterangan = $request->keterangan;
 
+        if (!$request->session()->has('id_kapalpribadi_form')) {
+            $model= new Pribadi;
+            $model->customer = $request->customer;
+            $model->nama_kapal = $request->nama_kapal;
+            $model->keberangkatan = $request->keberangkatan;
+            $model->nama_kru = $krus;
+            $model->tujuan = $request->tujuan;
+            $model->nama_penyewa = $request->nama_penyewa;
+            $model->mulai_sewa = $request->mulai_sewa;
+            $model->sewa_selesai = $request->sewa_selesai;
+            $model->harga_sewa_customer = $request->harga_sewa_customer;
+            $model->keterangan = $request->keterangan;
+            $model->save();
+            $request->session()->put('id_kapalpribadi_form', $model->id);
+            return redirect('/page_km/table_km')->with('success, Berhasil Simpan. Tambahkan sertifikat untuk melanjutkan');
+        } else {
+            Pribadi::where('id', $id)->update([
+                'customer' => $customer,
+                'nama_kapal' => $nama_kapal,
+                'keberangkatan' => $keberangkatan,
+                'nama_kru' => $krus,
+                'tujuan' => $tujuan,
+                'nama_penyewa' => $nama_penyewa,
+                'mulai_sewa' => $mulai_sewa,
+                'sewa_selesai' => $sewa_selesai,
+                'harga_sewa_customer' => $harga_sewa_customer,
+                'keterangan' => $keterangan
+            ]);
+            $request->session()->forget('id_kapalpribadi_form', $id);
+            $user = Auth::user();
 
-        $gambar = new pribadi();
-        $gambar->no = '';
-        $gambar->keberangkatan = '';
-        $gambar->nama_kapal = '';
-        $gambar->tujuan = '';
-        $gambar->nama_kru = '';
-        $gambar->mulai_sewa = '';
-        $gambar->nama_penyewa = '';
-        $gambar->sewa_selesai = '';
-        $gambar->image = '';
-        $gambar->nama_file = $nama_file;
-        $gambar->nama_perizinan = $nama_perizinan;
-        $gambar->terbit_file = $terbit_file;
-        $gambar->akhir_file = $akhir_file;
-        $gambar->myfile = $imageName;
-        $gambar->keterangan = '';
-        if($gambar->save()){
-            $request->session()->put('id', $gambar->id);
-            return redirect()->back()->with('pesan','data sertifikat berhasil ditambah');
+            Notifikasi::create([
+            'user_id' => $user->id,
+            'log_id' => '1',
+            'task' => 'Add Data Kapal Pribadi'
+            ]);
+            return redirect('/page_km')->with('success, Berhasil Simpan.');
         }
+    
+    }
 
+    public function storebyclick(Request $request) {
+        $id = $request->id;
+        $customer = $request->customer;
+        $nama_kapal = $request->nama_kapal;
+        $keberangkatan = $request->keberangkatan;
+        $nama_kru = $request->nama_kru;
+        $krus = implode('  -  '  , $nama_kru);
+        $tujuan = $request->tujuan;
+        $nama_penyewa = $request->nama_penyewa;
+        $mulai_sewa = $request->mulai_sewa;
+        $sewa_selesai = $request->sewa_selesai;
+        $harga_sewa_customer = $request->harga_sewa_customer;
+        $keterangan = $request->keterangan;
 
-        // dd($gambar);
-        // $dataImg = [
-        //     'nama_file' => $nama_file,
-        //     'no_izin' => $no_izin,
-        //     'tgl_terbit' => $tgl_terbitfile,
-        //     'tgl_berakhir' => $tgl_berakhirfile,
-        //     'photo' => $imageName
-        // ];
-        // $request->session()->put('dataImg', $dataImg);
-
-        // return redirect()->back()->with('pesan','data sertifikat berhasil ditambah');
-
-        // if($gambar->save()){
-        //     return redirect()->back()->with('pesan','data sertifikat berhasil ditambah');
-        // }else{
-        //     return redirect()->back()->with('pesan','data gagal di inputkan'); 
-        // }
-
+        if (!$id) {
+            $model= new Pribadi;
+            $model->customer = $request->customer;
+            $model->nama_kapal = $request->nama_kapal;
+            $model->keberangkatan = $request->keberangkatan;
+            $model->nama_kru = $krus;
+            $model->tujuan = $request->tujuan;
+            $model->nama_penyewa = $request->nama_penyewa;
+            $model->mulai_sewa = $request->mulai_sewa;
+            $model->sewa_selesai = $request->sewa_selesai;
+            $model->harga_sewa_customer = $request->harga_sewa_customer;
+            $model->keterangan = $request->keterangan;
+            $model->save();
+            $request->session()->put('id_kapalpribadi_form', $model->id);
+            return response()->json([
+                'id' => $model->id
+            ]);
+        } else {
+            Pribadi::where('id', $id)->update([
+                'customer' => $customer,
+                'nama_kapal' => $nama_kapal,
+                'keberangkatan' => $keberangkatan,
+                'nama_kru' => $krus,
+                'tujuan' => $tujuan,
+                'nama_penyewa' => $nama_penyewa,
+                'mulai_sewa' => $mulai_sewa,
+                'sewa_selesai' => $sewa_selesai,
+                'harga_sewa_customer' => $harga_sewa_customer,
+                'keterangan' => $keterangan
+            ]);
+            return response()->json([
+                'id' => $id
+            ]);
+        }
     }
 
     public function editTablekm($id)
     {
         $pribadi = Pribadi::findorfail($id);
-        return view('admin.table.editTablekm', compact('pribadi'));
+        $data_foto = Uploadgambar::where('id_kapal', $id)->get();
+        $data_tujuan =  ['Pelabuhan Tanjung Priok', 'Pelabuhan Tanjung Perak', 'Pelabuhan Ketapang', 'Pelabuhan Harbour Bay', 'Pelabuhan Tanjung Mas', 'Pelabuhan Sunda Kelapa', 'Pelabuhan Sorekarno-Hatta', 'Pelabuhan Merak', 'Pelabuhan Batam-Center','Pelabuhan Bakauheni','Pelabuhan Gorontalo','Pelabuhan Banjarmasin','Pelabuhan Gilimanuk','Pelabuhan Jayapura'];
+        $nama_kru = kruModel::all();
+        $notif = Notifikasi::with('users')->orderBy('created_at','desc')->paginate(5);
+        $notifall = Notifikasi::all();
+        return view('admin.table.editTablekm', ['notifall' => $notifall, 'notif' => $notif, 'pribadi' => $pribadi, 'data_foto' => $data_foto, 'data_tujuan' => $data_tujuan, 'nama_kru' => $nama_kru]);
     }
 
-    public function updateTablekm(Request $request)
+    public function updateTablekm(Request $request, Pribadi $pribadi, $id )
     {
-        $validated = $request->validate([
-            'nama_kapal' => 'required',
-            'keberangkatan' => 'required',
-            'kru_kapal' => 'required',
-            'tujuan' => 'required',
-            'nama_penyewa' => 'required',
-            'tgl_keberangkatan' => 'required',
-            'sertifikat' => 'required',
-            'tgl_tiba' => 'required',
-            'keterangan' => 'required',
+        $customer=$request->customer;
+        $nama_kapal=$request->nama_kapal;
+        $keberangkatan=$request->keberangkatan;
+        $nama_kru=$request->nama_kru;
+        $krus = implode(" - " , $nama_kru);
+        $tujuan=$request->tujuan;
+        $nama_penyewa=$request->nama_penyewa;
+        $mulai_sewa=$request->mulai_sewa;
+        $sewa_selesai=$request->sewa_selesai;
+        $harga_sewa_customer=$request->harga_sewa_customer;
+        $keterangan=$request->keterangan;
+        
+        $pribadi = Pribadi::findorfail($id);
+        $model = Pribadi::findorfail($id);
+        
+        $model->customer = $request->input('customer');
+        $model->nama_kapal = $request->input('nama_kapal');
+        $model->keberangkatan = $request->input('keberangkatan');
+        $model->nama_kru = $krus;
+        $model->tujuan = $request->input('tujuan');
+        $model->nama_penyewa = $request->input('nama_penyewa');
+        $model->mulai_sewa = $request->input('mulai_sewa');
+        $model->sewa_selesai = $request->input('sewa_selesai');
+        $model->harga_sewa_customer = $request->input('harga_sewa_customer');
+        $model->keterangan = $request->input('keterangan');
 
-        ]);
+        if($request->file('image')){
+            $file = $request->file('image');
+            $nama_file = time().str_replace(" ","", $file->getClientOriginalName());
+            $file->move('post-image', $nama_file);
+            $model->image = $nama_file;
+        }
+        $model->update();
+        $user = Auth::user();
 
-        $pribadi = Pribadi::find($request->id);
-
-        $pribadi_data = [
-            'nama_kapal' => $request->nama_kapal, 
-            'keberangkatan' => $request->keberangkatan,
-            'kru_kapal' => $request->kru_kapal, 
-            'tujuan' => $request->tujuan,
-            'nama_penyewa' => $request->nama_penyewa, 
-            'tgl_keberangkatan' => $request->tgl_keberangkatan,
-            'sertifikat' => $request->sertifikat, 
-            'tgl_tiba' => $request->tgl_tiba,
-
-        ];
+            Notifikasi::create([
+            'user_id' => $user->id,
+            'log_id' => '2',
+            'task' => 'Update Data Kapal Pribadi'
+            ]);
+        return redirect('/page_km')->with('success','Berhasil Update Data');
 
     }
     public function destroy(Pribadi $pribadi, $id)
     {
         Pribadi::destroy($id);
-        return back()->with('success', 'Berhasil Terhapus');
-    }
+        Uploadgambar::where('id_kapal', $id)->delete();
+        $user = Auth::user();
 
-    //Kru
-    
-    public function kru(){
-        $kru = kruModel::paginate(10);
-        return view('admin.kru',compact('kru'));
-    }
-
-    public function table_kru(){
-        return view ('admin.table.table_kru');
-    }
-
-    public function storeKru(Request $request)
-    {
-        $validated = $request->validate([
-            'photo' => 'required|mimes:jpg,jpeg,bmp,png|max:1024',
-            'phone' => 'required|min:13|numeric',
-            'nama' => 'required',
-            'email' => 'required|email',
-            'tempat_lahir' => 'required',
-            'tgl_lahir' => 'required',
-            'nama_sertifikat' => 'required',
-            'no_sertifikat' => 'required',
-            'jenis_kelamin' => 'required',
-            'tgl_gabung' => 'required',
-            'identitas' => 'required',
-            'no_identitas' => 'required',
-            'status' => 'required',
-            'provinsi' => 'required',
-            'kota' => 'required',
-            'kecamatan' => 'required',
-            'kelurahan' => 'required',
-            'rt' => 'required',
-            'rw' => 'required',
-            'alamat' => 'required',
-            'sign_off' => 'required',
-            'status_perkawinan' => 'required',
-            'npwp' => 'required',
-            'jabatan' => 'required',
+        Notifikasi::create([
+        'user_id' => $user->id,
+        'log_id' => '3',
+        'task' => 'Delete Data Kapal Pribadi'
         ]);
-
-
-        $image = $request->file('photo');
-        $imageName = Request()->nama.'.'.$image->getClientOriginalExtension();
-        $image->move(public_path('uploads/img_kru'),$imageName);
-        $phone = $request->phone;
-        $nama = $request->nama;
-        $email = $request->email;
-        $tempat_lahir = $request->tempat_lahir;
-        $tgl_lahir = $request->tgl_lahir;
-        $nama_sertifikat = $request->nama_sertifikat;
-        $no_sertifikat = $request->no_sertifikat;
-        $jenis_kelamin = $request->jenis_kelamin;
-        $tgl_gabung = $request->tgl_gabung;
-        $identitas = $request->identitas;
-        $no_identitas = $request->no_identitas;
-        $status = $request->status;
-        $provinsi = $request->provinsi;
-        $kota = $request->kota;
-        $kecamatan = $request->kecamatan;
-        $kelurahan = $request->kelurahan;
-        $rt = $request->rt;
-        $rw = $request->rw;
-        $alamat = $request->alamat;
-        $sign_off = $request->sign_off;
-        $status_perkawinan = $request->status_perkawinan;
-        $npwp = $request->npwp;
-        $jabatan = $request->jabatan; 
-
-        $kru = new kruModel();
-        $kru->photo = $imageName;
-        $kru->phone = $phone;
-        $kru->nama = $nama;
-        $kru->email = $email;
-        $kru->tempat_lahir = $tempat_lahir;
-        $kru->tgl_lahir = $tgl_lahir;
-        $kru->nama_sertifikat = $nama_sertifikat;
-        $kru->no_sertifikat = $no_sertifikat;
-        $kru->jenis_kelamin = $jenis_kelamin;
-        $kru->tgl_gabung = $tgl_gabung;
-        $kru->identitas = $identitas;
-        $kru->no_identitas = $no_identitas;
-        $kru->status = $status;
-        $kru->provinsi = $provinsi;
-        $kru->kota = $kota;
-        $kru->kecamatan = $kecamatan;
-        $kru->kelurahan = $kelurahan;
-        $kru->rt = $rt;
-        $kru->rw = $rw;
-        $kru->alamat = $alamat;
-        $kru->sign_off = $sign_off;
-        $kru->status_perkawinan = $status_perkawinan;
-        $kru->npwp = $npwp;
-        $kru->jabatan = $jabatan;
-        $kru->save();
-
-        // dd($kru);
-
-        return redirect()->route('kru')->with('pesan','Data Berhasil di Input');
-
+        return back()->with('success', 'Berhasil Terhapus');
+           
     }
 
-    public function cariKru(Request $request)
+    public function show(Pribadi $pribadi, $id)
+     {
+        $pribadi = Pribadi::findorfail($id);
+        $data_foto = Uploadgambar::where('id_kapal', $id)->get();
+        $notif = Notifikasi::with('users')->orderBy('created_at','desc')->paginate(5);
+        $notifall = Notifikasi::all();
+        
+        return view('admin.table.show_km', ['notifall' => $notifall, 'notif' => $notif, 'pribadi' => $pribadi, 'data_foto' => $data_foto, 'nama_kru' => kruModel::all(),]);
+    }
+
+    public function carikm(Request $request)
     {
-        $namakru = $request->nama;
-        $kru = kruModel::where('nama','like',"%".$namakru."%")->paginate(100);
-        return view('admin.kru',compact('kru'));
+        $namakapal = $request->nama_kapal;
+        $pribadi = Pribadi::where('nama_kapal','like',"%".$namakapal."%")->paginate(5);
+        $notif = Notifikasi::with('users')->orderBy('created_at','desc')->paginate(5);
+        $notifall = Notifikasi::all();
+        return view('admin.page_km', compact('pribadi'), ['notif' => $notif, 'notifall' => $notifall]);
     }
 
-    public function resetSession($key) {
-        if (Session::has($key)) {
-            Session::forget($key);
-        }
-    }
 }

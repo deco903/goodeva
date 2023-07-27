@@ -36,7 +36,7 @@
                         @include('admin.notif.successkru')
                         <table class="table header-border table-responsive-sm" style="color: black;">
                             <thead>
-                                <tr>
+                                <tr align="center">
                                     <th>#</th>
                                     <th>Foto Profile</th>
                                     <th>Nama</th>
@@ -48,13 +48,14 @@
                                     <th>Nama Sertifikat</th>
                                     <th>Bergabung Sejak</th>
                                     <th>Berhenti Sejak</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <?php $no=1; ?>
                             @if($kru->count() > 0)
                               @foreach($kru as $kru_data=>$res)
                                 <tbody>
-                                    <tr>
+                                    <tr align="center">
                                         <td>{{$kru_data + $kru->firstitem()}}</td>
                                         <td>
                                             <img src="{{ url('uploads/img_kru/'.$res->photo) }}"  width="50px;">
@@ -67,7 +68,19 @@
                                         <td>{{$res->no_sertifikat}}</td>
                                         <td>{{$res->nama_sertifikat}}</td>
                                         <td>{{date('d-M-y', strtotime($res->tgl_gabung))}}</td>
-                                        <td>{{date('d-M-y', strtotime($res->sign_off))}}</td>
+                                          @if($res->sign_off == NULL)
+                                            <td> - </td>
+                                            @else
+                                            <td>{{date('d-M-y', strtotime($res->sign_off))}}</td>
+                                          @endif
+                                        <td>
+                                        <form action='/table_kru/{{ $res->id }}' method='post' class='d-inline'>
+                                            @method('DELETE')    
+                                            @csrf
+                                            <a href="{{route('editkru', $res->id)}}"><i class="fas fa-user-edit"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <button class='fas fa-trash border-0' onclick="return confirm('Benar ingin Hapus?')"><span data-feather="x-circle"></span></button>
+                                        </form>
+                                        </td>
                                     </tr>
                                 </tbody>
                                @endforeach

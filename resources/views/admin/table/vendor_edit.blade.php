@@ -60,49 +60,25 @@
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label>Jabatan</label>
-                                    <select id="jabatan" name="jabatan" class="form-control" value="{{$ven->jabatan}}">
-                                        <option selected>Pilih Jabatan...</option>
-                                        <option value="Direktur" {{ $ven->jabatan =='Direktur'?'selected':'' }}>Direktur</option>
-                                        <option value="Manager" {{ $ven->jabatan =='Manager'?'selected':'' }}>Manager</option>
-                                    </select>
+                                    <input type="text" id="jabatan" name="jabatan" class="form-control" placeholder="Jabatan" value="{{$ven->jabatan}}" />
                                 </div>
                                 <div class="col-md-12">
                                     <div class="row">
                                         <div class="form-group col-md-3">
                                             <label>Provinsi</label>
-                                            <select id="provinsi" name="provinsi" class="form-control" value="{{$ven->provinsi}}" >
-                                                <option selected>Pilih Provinsi...</option>
-                                                <option value="Jawa Barat" {{ $ven->provinsi =='Jawa Barat'?'selected':'' }}>Jawa Barat</option>
-                                                <option value="Jawa Tengah" {{ $ven->provinsi =='Jawa Tengah'?'selected':'' }}>Jawa Tengah</option>
-                                                <option value="Jawa Timur" {{ $ven->provinsi =='Jawa Timur'?'selected':'' }}>Jawa Timur</option>
-                                            </select>
+                                            <input type="text" id="provinsi" name="provinsi" class="form-control" placeholder="Provinsi" value="{{$ven->provinsi}}" />
                                         </div>
                                         <div class="form-group col-md-3">
                                             <label>Kota</label>
-                                            <select id="kota" name="kota" class="form-control" value="{{$ven->kota}}" >
-                                                <option selected>Pilih Kota...</option>
-                                                <option value="Depok" {{ $ven->kota =='Depok'?'selected':'' }}>Depok</option>
-                                                <option value="DKI Jakarta" {{ $ven->kota =='DKI Jakarta'?'selected':'' }}>DKI Jakarta</option>
-                                                <option value="Yogyakarta" {{ $ven->kota =='Yogyakarta'?'selected':'' }}>Yogyakarta</option>
-                                            </select>
+                                            <input type="text" id="kota" name="kota" class="form-control" placeholder="Kota" value="{{$ven->kota}}" />
                                         </div>
                                         <div class="form-group col-md-3">
                                             <label>Kecamatan</label>
-                                            <select id="kecamatan" name="kecamatan" class="form-control" value="{{$ven->kecamatan}}" >
-                                                <option selected>Pilih Kecamatan...</option>
-                                                <option value="Limo" {{ $ven->kecamatan =='Limo'?'selected':'' }}>Limo</option>
-                                                <option value="Jagakarsa" {{ $ven->kecamatan =='Jagakarsa'?'selected':'' }}>Jagakarsa</option>
-                                                <option value="Pasar Minggu" {{ $ven->kecamatan =='Pasar Minggu'?'selected':'' }}>Pasar Minggu</option>
-                                            </select>
+                                            <input type="text" id="kecamatan" name="kecamatan" class="form-control" placeholder="Kecamatan" value="{{$ven->kecamatan}}" />
                                         </div>
                                         <div class="form-group col-md-3">
                                             <label>Kelurahan</label>
-                                            <select id="kelurahan" name="kelurahan" class="form-control" value="{{$ven->kelurahan}}" >
-                                                <option selected>Pilih Kelurahan...</option>
-                                                <option value="Krukut" {{ $ven->kelurahan =='Krukut'?'selected':'' }}>Krukut</option>
-                                                <option value="Gandul" {{ $ven->kelurahan =='Gandul'?'selected':'' }}>Gandul</option>
-                                                <option value="Cilandak" {{ $ven->kelurahan =='Cilandak'?'selected':'' }}>Cilandak</option>
-                                            </select>
+                                            <input type="text" id="kelurahan" name="kelurahan" class="form-control" placeholder="Kelurahan" value="{{$ven->kelurahan}}" />
                                         </div>
                                     </div>
                                 <div class="col-md-12">

@@ -9,104 +9,124 @@
                         <h4>Data Kapal Sewa</h4>
                     </div>
                 </div>
+                @if(Session::has('success'))
+                        <div class='alert alerts success' role="alert">
+                        {{ Session::get('success') }}
+                        </div>
+                    @endif
                 <div class="col-lg-12">
                     <div class="table-responsive">
-                    <form action="{{route('storetable.sw')}}" method="POST" enctype="multipart/form-data">
+                    <form action="{{route('storetable.sw')}}" method="POST" id="formKapalSewa" enctype="multipart/form-data">
                        @csrf
                         <div class="card-body">
                             <div class="form-row">
                                 <div class="form-group col-md-6">
-                                    <label>Unit</label>
-                                    <input type="text" name="unit" class="form-control" placeholder="No" value="{{old('unit')}}" required>
+                                    <label>No</label>
+                                    <input type="hidden" name="id" class="form-control" placheholder="ID Kapal" value="{{ Session::has('id_kapalsewa_form') ? Session::get('id_kapalsewa_form') : '' }}">
+                                    <input type="text" name="unit" class="form-control" placeholder="No" value="{{ Session::has('id_kapalsewa_form') ? $data_form->unit : '' }}" required>
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <label>Destinasi Keberangkatan</label>
-                                    <select name="keberangkatan" id="inputState" class="form-control" required>
-                                        <option selected>Pilih Keberangkatan...</option>
-                                        <option>Jakarta</option>
-                                        <option>Bandung</option>
-                                        <option>Madura</option>
-                                    </select>
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <label>Nama Kapal</label>
-                                    <input type="text" name="nama_kapal" class="form-control" placeholder="Nama Kapal" required>
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <label>Destinasi Tujuan</label>
-                                    <select name="tujuan" id="inputState" class="form-control" required>
-                                        <option selected>Pilih Tujuan...</option>
-                                        <option>Bandung</option>
-                                        <option>Jakarta</option>
-                                        <option>Madura</option>
-                                    </select>
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <label>Owner</label>
-                                    <input type="text" name="owner" class="form-control" placeholder="Owner" required>
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <label>Tanggal Keberangkatan</label>
-                                    <div class="dateMounth">
-                                        <input type="date" name="tgl_berangkat" id="" class="dateTerm" required>
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <label>Tanggal Datang</label>
-                                    <div class="dateMounth">
-                                        <input type="date" name="tgl_datang" id="" class="dateTerm" required>
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <label>Penanggu Jawab</label>
-                                    <input type="text" name="penanggung_jawab" class="form-control" placeholder="Penanggung Jawab" required>
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <label>Nama Kru</label>
-                                    <input type="text" name="kru_karyawan" class="form-control" placeholder="Nama Kru" required>
+                                    <label>Keberangkatan</label>
+                                    <input type="text" name="keberangkatan" class="form-control" placeholder="Keberangkatan" value="{{ Session::has('id_kapalsewa_form') ? $data_form->keberangkatan : '' }}" required>
                                 </div>
                                 <!-- <div class="form-group col-md-6">
-                                    <label>Nama Kru</label>
-                                    <select multiple name="kru_karyawan" class="chosen-select form-control" tabindex="22" id="multiple-label-example">
-                                        
-                                        <option value=""></option>
-                                        <option>Bambang</option>
-                                        <option>Jame</option>
-                                        <option>Luniar</option>
-                                        <option selected>Giant</option>
-                                        <option>neekade</option>
-                                        <option>Sun</option>
-                                        <option>Polar </option>
-                                        <option>Spectacled</option>
+                                    <label>Destinasi Keberangkatan</label>
+                                    <select name="keberangkatan" id="inputState" class="form-control" required>
+                                        <option value="">Pilih Keberangkatan...</option>
+                                        @foreach($data_tujuan as $tujuan)
+                                            @if(Session::has('id_kapalsewa_form') && $tujuan==$data_form->keberangkatan)
+                                                <option value="{{ $tujuan }}" selected>{{ strtoupper($tujuan) }}</option>
+                                            @else
+                                                <option value="{{ $tujuan }}">{{ strtoupper($tujuan) }}</option>
+                                            @endif
+                                        @endforeach
                                     </select>
                                 </div> -->
                                 <div class="form-group col-md-6">
-                                    <label>No Sertifikat</label>
-                                    <input type="text" name="no_sertifikat" class="form-control" placeholder="No Sertifikat" value="{{ Session::has('PHOTO_DATA') ? Session::get('PHOTO_DATA') : '' }}" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="image" class="form-label">Masukan Gambar</label>
-                                    <input class="form-control @error('image') is-invalid @enderror" type="file" id="image" name="image" required>
+                                    <label>Nama Kapal</label>
+                                    <input type="text" name="nama_kapal" class="form-control" placeholder="Nama Kapal" value="{{ Session::has('id_kapalsewa_form') ? $data_form->nama_kapal : '' }}" required>
                                 </div>
                                 <div class="form-group col-md-6">
+                                    <label>Tujuan</label>
+                                    <input type="text" name="tujuan" class="form-control" placeholder="Tujuan" value="{{ Session::has('id_kapalsewa_form') ? $data_form->tujuan : '' }}" required>
+                                </div>
+                                <!-- <div class="form-group col-md-6">
+                                    <label>Destinasi Tujuan</label>
+                                    <select name="tujuan" id="inputState" class="form-control" required>
+                                        <option value="">Pilih Tujuan...</option>
+                                        @foreach($data_tujuan as $tujuan)
+                                            @if(Session::has('id_kapalsewa_form') && $tujuan==$data_form->tujuan)
+                                                <option value="{{ $tujuan }}" selected>{{ strtoupper($tujuan) }}</option>
+                                            @else
+                                                <option value="{{ $tujuan }}">{{ strtoupper($tujuan) }}</option>
+                                            @endif
+                                        @endforeach
+                                    </select>
+                                </div> -->
+                                <div class="form-group col-md-6">
+                                    <label>Owner</label>
+                                    <input type="text" name="owner" class="form-control" placeholder="Owner" value="{{ Session::has('id_kapalsewa_form') ? $data_form->owner : '' }}" required>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label>Tanggal Penyewaan</label>
+                                    <div class="dateMounth">
+                                        <input type="date" name="tgl_berangkat" class="dateTerm" value="{{ Session::has('id_kapalsewa_form') ? $data_form->tgl_berangkat : '' }}" required>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label>Nama PIC</label>
+                                    <input type="text" name="penanggung_jawab" class="form-control" placeholder="Penanggung Jawab" value="{{ Session::has('id_kapalsewa_form') ? $data_form->penanggung_jawab : '' }}" required>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label>Selesai Sewa</label>
+                                    <div class="dateMounth">
+                                        <input type="date" name="tgl_datang" class="dateTerm" value="{{ Session::has('id_kapalsewa_form') ? $data_form->tgl_datang : '' }}" required>
+                                    </div>
+                                </div>
+                                @if ( auth()->user()->level == '1')
+                                <div class="form-group col-md-6">
+                                    <label>Harga Sewa dari Owner</label>
+                                    <input type="text" id="dengan-rupiah" name="harga_sewa_owner" class="form-control" placeholder="Rp.xxx.xxx" value="{{ Session::has('id_kapalsewa_form') ? $data_form->harga_sewa_owner : '' }}" required>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label>Harga Sewa Ke Customer</label>
+                                    <input type="text" id="dengan-rupiahh" name="harga_sewa_customer" class="form-control" placeholder="Rp.xxx.xxx" value="{{ Session::has('id_kapalsewa_form') ? $data_form->harga_sewa_customer : '' }}" required>
+                                </div>
+                                @else
+                                @endif
+                                <div class="form-group col-md-6">
+                                    <label>Data Customer</label>
+                                    <input type="text" name="customer" class="form-control" placeholder="Nama PT Customer" value="{{ Session::has('id_kapalsewa_form') ? $data_form->customer : '' }}" required>
+                                </div>
+
+                                <div class="form-group col-md-6">
                                     <div class="row">
-                                        <a type="menu" class="btn plusSa" data-toggle="modal" data-target="#UploadFile">
-                                            <i class="fas fa-plus"></i>
+                                        <a type="menu" class="btn plusSa" data-toggle="modal" data-target="#UploadFile" onclick="storebyclick()">
+                                        <i class="fas fa-plus"></i>
                                         </a>
                                         <p class="textIcon">Upload File</p>
                                     </div>
                                 </div>
+                                <div id="list" class="form-group col-md-12">
+                                    @foreach ($data_foto as $foto)
+                                        <a href="{{ url('/table_sw/delete_img').'/'.$foto->id }}" class="hover-delete" onclick="return confirm('Anda yakin mau menghapus foto ini?')">
+                                            <span class="mdi mdi-delete"></span>
+                                            <embed src="{{ asset('assets/images/file.png') }}" class="thumb-cert">
+                                        </a>
+                                    @endforeach
+                                </div>
+
                                 <div class="form-group col-md-12">
-                                    <textarea class="form-control" name="keterangan" rows="4" id="comment" placeholder="Note" required></textarea>
+                                    <textarea class="form-control" name="keterangan" rows="4" id="comment" placeholder="Note" required>{{ Session::has('id_kapalsewa_form') ? $data_form->keterangan : '' }}</textarea>
                                 </div>
                                 <div class="form-group">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox">
+                                        <input class="form-check-input" type="checkbox" name="check1">
                                         <label class="form-check-label mb-5">
                                             Data yang di isi sudah sesuai
                                         </label>
                                     </div>
-                                    <a href="/page_sw" class="btn btnUnit ">Back</a>
+                                    <a href="/table_sw/back" class="btn btnUnit ">Back</a>
                                     <button id="submit-input" type="submit" class="btn btnUnit mr-2">Simpan Data</button>
                                 </div>
                             </div>
@@ -120,7 +140,7 @@
 
                             <!--Content model-->
                             <div class="modal-content">
-                              <form action="{{route('simpan-gambar')}}" method="POST" enctype="multipart/form-data">
+                              <form method="post" action="{{ url('/simpan-gambar') }}" enctype="multipart/form-data" id="form-upload">
                                 @csrf 
                                 <div class="modal-header">
                                     <h4 class="modal-title">Upload File</h4>
@@ -128,35 +148,33 @@
                                 </div>
                                 <div class="entityWrapper">
                                     <div class="row input-clone" id="inputClone"> 
-                                        <div class="col-md-6">
+                                        <!-- <div class="col-md-6">  
                                             <div class="upload-btn-info">
-                                                <button class="btn-upload-text"><i class="fas fa-plus"></i></button>
-                                                <input type="file" id="photo" name="photo[]" multiple/>
-                                                <p class="text-upload-file">Unggah File</p>
+                                                <img class="ml-5 border-0 " id="preview" src="{{ asset('assets/images/uploads.jpg') }}" alt="" style="width:100px;height:96px;margin-left:15px;margin-top:15px;margin-right:10px;"/>
+                                                <input type="file" id="photo" name="photo" accept="application/pdf"  />
+                                                <p class="text-upload-file ml-5">Unggah File</p>
                                             </div>
-                                        </div>
-                                        <div class="col-md-6" style="padding-right: 35px;">
-                                            <input type="text" id="nama_file" name="nama_file[]" class="form-control inputText" placeholder="Nama Sertifikat">
-                                            <input type="text" id="no_izin" name="no_izin[]" class="form-control inputText" placeholder="Nomor Perizinan" >
-                                            <input type="text" id="tgl_terbitfile" name="tgl_terbitfile[]" class="form-control inputText" placeholder="Tanggal Terbit File">
-                                            <input type="text" id="tgl_berakhirfile" name="tgl_berakhirfile[]" class="form-control inputText" placeholder="Tanggal Berakhir File">
+                                        </div> -->
+                                        <div class="col-md-12" style="padding-right: 35px;">
+                                            <input type="hidden" id="kpid" name="kpid" class="form-control inputText" placeholder="ID Kapal" value="{{ Session::has('id_kapalsewa_form') ? Session::get('id_kapalsewa_form') : '' }}">
+                                            <input type="text" id="nama_file" name="nama_file" class="form-control inputText" placeholder="Nama Kontrak" required>
+                                            <input type="text" id="no_izin" name="no_izin" class="form-control inputText" placeholder="Nomor Perizinan" required>
+                                            <input type="date" id="tgl_terbitfile" name="tgl_terbitfile" class="form-control inputText" placeholder="Tanggal Terbit File" required>
+                                            <input type="date" id="tgl_berakhirfile" name="tgl_berakhirfile" class="form-control inputText" placeholder="Tanggal Berakhir File" required>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col">
-                                        <button class="btn btnroot" type="submit" id="addFile">Simpan</button>
-                                        <button class="btn btnroot" type="button" id="addEntity">Tambah</button>
+                                        <center><button class="btn btnroot mt-3" id="addFile" type="submit" onclick="return confirm('Kontrak Sudah Benar?')">Simpan</button></center>
+                                        <!-- <button class="btn btnroot" type="button" id="addEntity">Tambah</button> -->
                                     </div>
                                 </div>
                               </form>
                             </div>
                         </div>
                     </div>
-                    
-
                     </div>
-
                 </div>
             </div>
         </div>
@@ -166,57 +184,96 @@
 @endsection
 @push('script')
 
-
 <script>
-    $("#photo").click(function() {
-        if($("#photo").val() == "") {
-            $("#photo").removeAttr("disabled");
-        } else {
-            $("#photo").attr("disabled", true);
-            $("#photo").attr("style", "background: rgba(0, 0, 0, 0.4)")
+    $('#photo').change(function() {
+        readFile(this);
+    });
+
+    function readFile(input) {
+        if (input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#preview').attr('src', e.target.result);
+            }
+            reader.readAsDataURL(input.files[0]);
+            console.log(input.files[0]);
         }
-    });
-    $("#addEntity").click(function() {
-        $("#inputClone").clone().appendTo(".entityWrapper");
-    });
-    $("#btnReset").click(function() {
-        sessionStorage.removeItem('dataImg');
-    });
-    $("#photo").change(function() {
-        $("#nama_file").val($(this).val());
-    });
-</script>
-<script type="text/javascript">
-    function removeDataImgSession() {
-        document.getElementById('btnReset').value = '';
-        $.getJSON("/page_km/table_km/reset_session/dataImg", function(data) {
+    }
+
+    function storebyclick() {
+        var serializedData = $('#formKapalSewa').serialize();
+        var url = "{{ url('/table_sw/storebyclick'); }}";
+        var request = $.ajax({
+            url: url,
+            type: 'post',
+            data: serializedData
         });
-        location.reload();
-    };
 
-    var idx = 0;
-    var duplicateBase = document.getElementById('duplicater');
-    function multipleCertificate() {
-        var clone = duplicateBase.cloneNode(true); // "deep" clone
-        clone.id = "duplicater" + ++idx;
-        // or clone.id = ""; if the divs don't need an ID
-        duplicateBase.parentNode.appendChild(clone);
+        request.done(function(response) {
+            $("input[name='id']").val(response.id);
+            $('#kpid').val(response.id);
+            return console.log(response.id);
+        });
+
+        request.fail(function() {
+            return console.log("error!");
+        });
     }
+</script>
+<script>
+    /* Dengan Rupiah */
+    var dengan_rupiah = document.getElementById('dengan-rupiah');
+    dengan_rupiah.addEventListener('keyup', function(e)
+    {
+        dengan_rupiah.value = formatRupiah(this.value, 'Rp. ');
+    });
+    
+    /* Fungsi */
+    function formatRupiah(angka, prefix)
+    {
+        var number_string = angka.replace(/[^,\d]/g, '').toString(),
+            split    = number_string.split(','),
+            sisa     = split[0].length % 3,
+            rupiah     = split[0].substr(0, sisa),
+            ribuan     = split[0].substr(sisa).match(/\d{3}/gi);
+            
+        if (ribuan) {
+            separator = sisa ? '.' : '';
+            rupiah += separator + ribuan.join('.');
+        }
+        
+        rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+        return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
+    }
+
 </script>
 
 <script>
-    function addZero(value){
-        if(value < 10){
-            value='0'+value
+    /* Dengan Rupiah */
+    var dengan_rupiahh = document.getElementById('dengan-rupiahh');
+    dengan_rupiahh.addEventListener('keyup', function(e)
+    {
+        dengan_rupiahh.value = formatRupiahh(this.value, 'Rp. ');
+    });
+    
+    /* Fungsi */
+    function formatRupiahh(angka, prefix)
+    {
+        var number_string = angka.replace(/[^,\d]/g, '').toString(),
+            split    = number_string.split(','),
+            sisa     = split[0].length % 3,
+            rupiah     = split[0].substr(0, sisa),
+            ribuan     = split[0].substr(sisa).match(/\d{3}/gi);
+            
+        if (ribuan) {
+            separator = sisa ? '.' : '';
+            rupiah += separator + ribuan.join('.');
         }
-        return value
+        
+        rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+        return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
     }
 
-        const date=new Date()
-        var jam = addZero(date.getHours)
-        var menit = addZero(date.getMinutes)
-        var waktu = jam + ':' + menit
-        document.getElementId("waktu-notif").innerHtml=waktu
 </script>
 
 

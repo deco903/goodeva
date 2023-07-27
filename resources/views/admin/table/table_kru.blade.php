@@ -29,31 +29,26 @@
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label>Phone</label>
-                                    <input type="number" name="phone" class="form-control" placeholder="No" />
+                                    <input type="number" name="phone" class="form-control" placeholder="No" required/>
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label>Nama</label>
-                                    <input type="nama" name="nama" class="form-control" placeholder="Nama" />
+                                    <input type="nama" name="nama" class="form-control" placeholder="Nama" required/>
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label>Email</label>
-                                    <input type="email" name="email" class="form-control" placeholder="email" />
+                                    <input type="email" name="email" class="form-control" placeholder="email" required/>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="row">
                                         <div class="form-group col-md-6">
                                             <label>Tempat Lahir</label>
-                                                <select name="tempat_lahir" id="inputState" class="form-control">
-                                                    <option selected>Choose...</option>
-                                                    <option>Jakarta</option>
-                                                    <option>Bandung</option>
-                                                    <option>Madura</option>
-                                                </select>
+                                            <input type="text" name="tempat_lahir" class="form-control" placeholder="Tempat Lahir" required/>
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label>Tanggal Lahir</label>
                                             <div class="dateMounth">
-                                                <input type="date" name="tgl_lahir" id="dateofbirth" class="dateTerm" />
+                                                <input type="date" name="tgl_lahir" id="dateofbirth" class="dateTerm" required/>
                                             </div>
                                         </div>
                                     </div>
@@ -62,17 +57,17 @@
                                     <div class="row">
                                         <div class="form-group col-md-6">
                                             <label>Nama Sertifikat</label>
-                                            <input type="text" name="nama_sertifikat" class="form-control" placeholder="Nama Sertifikat" />
+                                            <input type="text" name="nama_sertifikat" class="form-control" placeholder="Nama Sertifikat" required/>
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label>No Sertifikat</label>
-                                            <input type="number" name="no_sertifikat" class="form-control" placeholder="No Sertifikat" />
+                                            <input type="number" name="no_sertifikat" class="form-control" placeholder="No Sertifikat" required/>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label>Jenis Kelamin</label>
-                                    <select name="jenis_kelamin" id="inputState" class="form-control">
+                                    <select name="jenis_kelamin" id="inputState" class="form-control" required>
                                         <option value="">Choose...</option>
                                         <option value="perempuan">Perempuan</option>
                                         <option value="laki-laki">Laki - Laki</option>
@@ -83,13 +78,13 @@
                                         <div class="form-group col-md-6">
                                             <label>Bergabung Sejak</label>
                                             <div class="dateMounth">
-                                                <input type="date" name="tgl_gabung" id="dateofbirth" class="dateTerm" />
+                                                <input type="date" name="tgl_gabung" id="dateofbirth" class="dateTerm" required/>
                                             </div>
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label>Sign Off</label>
                                             <div class="dateMounth">
-                                                <input type="date" name="sign_off" id="dateofbirth" class="dateTerm" required/>
+                                                <input type="date" name="sign_off" id="dateofbirth" class="dateTerm"/>
                                             </div>
                                         </div>
                                     </div>
@@ -118,12 +113,7 @@
                                         </div>
                                         <div class="form-group col-md-6">
                                         <label>Jabatan</label>
-                                            <select name="jabatan" id="inputState" class="form-control" required>
-                                                <option value="">Choose</option>
-                                                <option value="direktur">Direktur</option>
-                                                <option value="lead_IT">Lead IT</option>
-                                                <option value="staff">Staff</option>
-                                            </select>
+                                           <input type="text" name="jabatan" class="form-control" placeholder="Masukan Jabatan" required/>
                                         </div>
                                     </div>
                                 </div>
@@ -139,50 +129,25 @@
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label>Status Karyawan</label>
-                                    <select name="status" id="inputState" class="form-control">
-                                       <option value="">Choose...</option>
-                                       <option value="magang">Magang</option>
-                                       <option value="kontrak">Kontrak</option>
-                                       <option value="tetap">Tetap</option>
-                                    </select>
+                                    <input type="text" name="status" class="form-control" placeholder="Masukan Status Karyawan" required/>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="row">
                                         <div class="form-group col-md-3">
                                             <label>Provinsi</label>
-                                            <select name="provinsi" id="inputState" class="form-control">
-                                                <option value="">Choose...</option>
-                                                <option value="jawa barat">Jawa Barat</option>
-                                                <option value="jawa tengah">Jawa Tengah</option>
-                                                <option value="jawa timur">Jawa Timur</option>
-                                            </select>
+                                            <input type="text" name="provinsi" class="form-control" placeholder="Masukan Provinsi" required/>
                                         </div>
                                         <div class="form-group col-md-3">
                                             <label>Kota</label>
-                                            <select name="kota" id="inputState" class="form-control">
-                                                <option value="">Choose...</option>
-                                                <option value="depok">Depok</option>
-                                                <option value="dki jakarta">DKI Jakarta</option>
-                                                <option value="yogyakarta">Yogyakarta</option>
-                                            </select>
+                                            <input type="text" name="kota" class="form-control" placeholder="Masukan Kota" required/>
                                         </div>
                                         <div class="form-group col-md-3">
                                             <label>Kecamatan</label>
-                                            <select name="kecamatan" id="inputState" class="form-control">
-                                                <option value="">Choose...</option>
-                                                <option value="limo">Limo</option>
-                                                <option value="jagakarsa">Jagakarsa</option>
-                                                <option value="pasar minggu">Pasar Minggu</option>
-                                            </select>
+                                            <input type="text" name="kecamatan" class="form-control" placeholder="Masukan Kecamatan" required/>
                                         </div>
                                         <div class="form-group col-md-3">
                                             <label>Kelurahan</label>
-                                            <select name="kelurahan" id="inputState" class="form-control">
-                                                <option value="">Choose...</option>
-                                                <option value="krukut">Krukut</option>
-                                                <option value="gandul">Gandul</option>
-                                                <option value="cilandak">Cilandak</option>
-                                            </select>
+                                            <input type="text" name="kelurahan" class="form-control" placeholder="Masukan Kelurahan" required/>
                                         </div>
                                     </div>
                                 <div class="col-md-12">

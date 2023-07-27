@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\inventoryspn;
-use App\Models\loginvspn_m;
 use PDF;
+use App\Models\Notifikasi;
+use App\Models\loginvspn_m;
+use App\Models\inventoryspn;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class SpnController extends Controller
 {
@@ -17,7 +20,9 @@ class SpnController extends Controller
     public function inventori_spn()
     {
         $spn = inventoryspn::paginate(10);
-        return view('admin.inventori.inventori_spn', compact('spn'));
+        $notif = Notifikasi::with('users')->orderBy('created_at','desc')->paginate(5);
+        $notifall = Notifikasi::all();
+        return view('admin.inventori.inventori_spn', compact('spn'),['notif' => $notif, 'notifall' => $notifall]);
     }
     
     
@@ -53,7 +58,13 @@ class SpnController extends Controller
         $inventory_spn->save();
 
         // dd($inventory_spn);
+        $user = Auth::user();
 
+        Notifikasi::create([
+        'user_id' => $user->id,
+        'log_id' => '1',
+        'task' => 'Add Data Inventori SPN'
+        ]);
         return redirect()->back()->with('pesan','Input Inventori SPN Berhasil....!!!');
        
     }
@@ -84,6 +95,13 @@ class SpnController extends Controller
 
         //  dd($data);
             inventoryspn::where(['id'=>$id])->update(['nama_barang'=>$data['nama_barang'],'harga'=>$data['harga'],'stock'=>$data['stock'],'unit'=>$data['unit'],'type'=>$data['type'],'total_stock'=>$data['total_stock'],'text'=>$data['text']]);
+            $user = Auth::user();
+
+            Notifikasi::create([
+            'user_id' => $user->id,
+            'log_id' => '2',
+            'task' => 'Update Data Inventori SPN'
+            ]);
             return redirect()->back()->with('pesan','data berhasil dirubah..!!');
         }
 
@@ -105,6 +123,13 @@ class SpnController extends Controller
 
         //   dd($res);
             inventoryspn::where(['id'=>$id])->update(['choose'=>$res['choose'],'update_stock'=>$res['update_stock'],'total_stock'=>$res['total_stock'],'text'=>$res['text']]);
+            $user = Auth::user();
+
+            Notifikasi::create([
+            'user_id' => $user->id,
+            'log_id' => '2',
+            'task' => 'Update Data Stok Inventori SPN'
+            ]);
             return redirect()->back()->with('pesan','data berhasil dirubah..!!');
 
         }
@@ -114,6 +139,13 @@ class SpnController extends Controller
     public function delete($id=null)
     {
         inventoryspn::where(['id'=>$id])->delete();
+        $user = Auth::user();
+
+        Notifikasi::create([
+        'user_id' => $user->id,
+        'log_id' => '3',
+        'task' => 'Delete Data Inventori SPN'
+        ]);
         return redirect()->back()->with('pesan','data berhasil dihapus..!!');
     }
 
@@ -121,7 +153,8 @@ class SpnController extends Controller
     {
         $namabrg = $request->nama_barang;
         $spn = inventoryspn::where('nama_barang','like',"%".$namabrg."%")->paginate(2);
-        return view('admin.inventori.inventori_spn', compact('spn'));
+        $notifall = Notifikasi::all();
+        return view('admin.inventori.inventori_spn', compact('spn'),['notif' => $notif, 'notifall' => $notifall]);
     }
 
 }

@@ -24,7 +24,13 @@
                                 <input type="search" name="nama_barang" placeholder="Pencarian.." aria-describedby="button-addon4" class="form-control bg-one border-0">
                             </div>
                            </form> 
+                            @if( auth()->user()->level == '1')
                             <button type="button" class="btn btnUnit" data-toggle="modal" data-target="#modalCreate">Tambah</button>
+                            @elseif ( auth()->user()->level == '2')
+                            <button type="button" class="btn btnUnit" data-toggle="modal" data-target="#modalCreate">Tambah</button>
+                            @else
+                            @endif 
+                           
                             <a href="{{route('customergmb')}}"><button type="button" class="btn btnUnit mr-1" data-toggle="" data-target="">Customer GMB</button></a>
                         </div>
                     </div>
@@ -44,12 +50,18 @@
                                     <th>Total Stock</th>
                                     <th>Keterangan</th>
                                     <th>Terakhir diUbah</th>
+                                        @if( auth()->user()->level == '1')
                                     <th>Action</th>
+                                        @elseif ( auth()->user()->level == '2')
+                                    <th>Action</th>
+                                        @else
+                                        @endif
                                 </tr>
                             </thead>
                             <tbody>
                             <?php $no=1; ?>
-                            @foreach($gmb as $res=>$key_gmb)
+                            @if($gmb->count() > 0)
+                              @foreach($gmb as $res=>$key_gmb)
                                 <tr>
                                     <th>{{$res + $gmb->firstitem()}}</th>
                                     <td>{{$key_gmb->nama_barang}}</td>
@@ -58,14 +70,29 @@
                                     <td>{{$key_gmb->total_stock}}</td>
                                     <td>{{$key_gmb->text}}</td>
                                     <td>{{Auth::user()->name}}</td>
+                                    @if( auth()->user()->level == '1')
                                     <td>
                                         <button class="btn btn-icon" type="menu"><i class="fas fa-file"></i></button>
                                         <button class="btn btn-icon" id="btnStock" data-toggle="modal" data-target="#modalStock-{{$key_gmb->id}}" ><i class="fas fa-edit"></i></button>
                                         <button class="btn btn-icon" id="btnStock" data-toggle="modal" data-target="#modalUpdate-{{$key_gmb->id}}" ><i class="fas fa-user-edit"></i></button>
                                         <button gmb-id="{{$key_gmb->id}}" gmb-nama="{{$key_gmb->nama_barang}}" class="btn btn-icon deletegmb" id="deletestock" type="reset"><i class="fas fa-trash"></i></button>
                                     </td>
+                                    @elseif ( auth()->user()->level == '2')
+                                    <td>
+                                        <button class="btn btn-icon" type="menu"><i class="fas fa-file"></i></button>
+                                        <button class="btn btn-icon" id="btnStock" data-toggle="modal" data-target="#modalStock-{{$key_gmb->id}}" ><i class="fas fa-edit"></i></button>
+                                        <button class="btn btn-icon" id="btnStock" data-toggle="modal" data-target="#modalUpdate-{{$key_gmb->id}}" ><i class="fas fa-user-edit"></i></button>
+                                        <button gmb-id="{{$key_gmb->id}}" gmb-nama="{{$key_gmb->nama_barang}}" class="btn btn-icon deletegmb" id="deletestock" type="reset"><i class="fas fa-trash"></i></button>
+                                    </td>
+                                    @else
+                                    @endif
                                 </tr>
                                 @endforeach
+                                @else
+                                <tr>
+                                    <td colspan="8"><center>Data Masih Kosong</center></td>
+                                </tr>
+                            @endif
                             </tbody>
                         </table>
                         {{$gmb->links()}}
@@ -164,7 +191,7 @@
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label>Harga Beli</label>
-                                                <input type="text" name="harga" id="belieditgmb-{{$data_gmb->id}}" class="form-control" min="0" value="{{ number_format($data_gmb->harga) }}"/>
+                                                <input type="text" name="harga" id="belieditgmb-{{$data_gmb->id}}" class="form-control" min="0" value="{{($data_gmb->harga) }}"/>
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label>Stock</label>
@@ -254,16 +281,11 @@
                                                 </div>
                                                 <div class="form-group col-md-6">
                                                     <label>Unit</label>
-                                                    <select name="unit" id="inputState" class="form-control" readonly>
-                                                        <option selected>{{$res_gmb->unit}}</option>
-                                                        
-                                                    </select>
+                                                    <input type="text" name="unit" class="form-control" value="{{$res_gmb->unit}}" readonly>
                                                 </div>
                                                 <div class="form-group col-md-6">
                                                     <label>Type</label>
-                                                    <select name="type" id="inputState" class="form-control" readonly>
-                                                       <option selected>{{$res_gmb->type}}</option>
-                                                    </select>
+                                                    <input type="text" name="type" class="form-control" value="{{$res_gmb->type}}" readonly>
                                                 </div>
                                                 <div class="form-group col-md-6">
                                                   <label>Total Stock</label>

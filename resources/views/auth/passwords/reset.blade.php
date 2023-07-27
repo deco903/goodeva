@@ -1,7 +1,7 @@
 @extends('admin.auth.header.app')
 <body class="h-100" style="background-color: #5AB6DE">
 <div class="authincation h-100">
-    <div class="container-fluid h-100 w-50">
+    <div class="container-fluid col-md-10 col-xl-8 col-lg-8 w-100">
         <div class="row justify-content-center h-100 align-items-center">
             <div class="col-md-6">
                 <div class="authincation-content">
@@ -34,7 +34,7 @@
                             <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
 
                             <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
+                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password"><i class="toggle-password fa fa-fw fa-eye-slash"></i>
 
                                 @error('password')
                                     <span class="invalid-feedback" role="alert">

@@ -159,6 +159,3 @@ DELIMITER ;
 DROP TRIGGER insert_status_loginvspn;
 DROP TRIGGER edit_status_loginvspn;
 DROP TRIGGER delete_status_loginvspn;
-
-
-

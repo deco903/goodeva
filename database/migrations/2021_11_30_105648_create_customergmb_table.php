@@ -15,9 +15,17 @@ class CreateCustomergmbTable extends Migration
     {
         Schema::create('customergmb', function (Blueprint $table) {
             $table->id();
-            $table->string('nama_kapal');
             $table->string('nama_barang');
-            $table->string('pcs');
+            $table->string('harga_beli');
+            $table->string('harga_jual');
+            $table->string('stock_awal')->default(0);
+            $table->integer('stock');
+            $table->string('choose')->default(' ');
+            $table->integer('update_stock')->default(0);
+            $table->string('unit');
+            $table->string('type');
+            $table->integer('total_stock');
+            $table->text('text');
             $table->timestamps();
         });
     }

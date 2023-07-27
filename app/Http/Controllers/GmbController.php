@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\inventorygmb;
+use App\Models\Notifikasi;
 use App\Models\loginvgmb_m;
+use App\Models\inventorygmb;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 
 class GmbController extends Controller
@@ -16,8 +19,10 @@ class GmbController extends Controller
 
 
     public function inventori_gmb(){
+        $notif = Notifikasi::with('users')->orderBy('created_at','desc')->paginate(5);
+        $notifall = Notifikasi::all();
         $gmb = inventorygmb::paginate(10);
-        return view('admin.inventori.inventori_gmb', compact('gmb'));
+        return view('admin.inventori.inventori_gmb', compact('gmb'),['notif' => $notif, 'notifall' => $notifall]);
     }
 
     
@@ -53,7 +58,13 @@ class GmbController extends Controller
         $inventory_gmb->save();
 
         // dd($inventory_spn);
+        $user = Auth::user();
 
+        Notifikasi::create([
+        'user_id' => $user->id,
+        'log_id' => '1',
+        'task' => 'Add Data Inventori GBM'
+        ]);
         return redirect()->back()->with('pesan','Input Inventori GMB Berhasil....!!!');
        
     }
@@ -73,8 +84,16 @@ class GmbController extends Controller
 
       if($request->isMethod('post')){
          $data = $request->all(); 
-
+         $notif = Notifikasi::with('users')->orderBy('created_at','desc')->paginate(5);
+        $notifall = Notifikasi::all();
             inventorygmb::where(['id'=>$id])->update(['nama_barang'=>$data['nama_barang'],'harga'=>$data['harga'],'stock'=>$data['stock'],'unit'=>$data['unit'],'type'=>$data['type'],'total_stock'=>$data['total_stock'],'text'=>$data['text']]);
+            $user = Auth::user();
+
+            Notifikasi::create([
+            'user_id' => $user->id,
+            'log_id' => '2',
+            'task' => 'Update Data Inventori GBM'
+            ]);
             return redirect()->back()->with('pesan','data berhasil dirubah..!!');
         }
 
@@ -96,6 +115,13 @@ class GmbController extends Controller
 
         //   dd($res);
             inventorygmb::where(['id'=>$id])->update(['choose'=>$res_gmb['choose'],'update_stock'=>$res_gmb['update_stock'],'total_stock'=>$res_gmb['total_stock'],'text'=>$res_gmb['text']]);
+            $user = Auth::user();
+
+            Notifikasi::create([
+            'user_id' => $user->id,
+            'log_id' => '2',
+            'task' => 'Update Data Stok Inventori GBM'
+            ]);
             return redirect()->back()->with('pesan','data berhasil dirubah..!!');
 
         }
@@ -105,14 +131,23 @@ class GmbController extends Controller
     public function delete($id=null)
     {
         inventorygmb::where(['id'=>$id])->delete();
+        $user = Auth::user();
+
+        Notifikasi::create([
+        'user_id' => $user->id,
+        'log_id' => '3',
+        'task' => 'Delete Data Inventori GBM'
+        ]);
         return redirect()->back()->with('pesan','data berhasil dihapus..!!');
     }
 
     public function cariGmb(Request $request)
     {
+        $notif = Notifikasi::with('users')->orderBy('created_at','desc')->paginate(5);
+        $notifall = Notifikasi::all();
         $namabrg = $request->nama_barang;
         $gmb = inventorygmb::where('nama_barang','like',"%".$namabrg."%")->paginate(2);
-        return view('admin.inventori.inventori_gmb', compact('gmb'));
+        return view('admin.inventori.inventori_gmb', compact('gmb'),['notif' => $notif, 'notifall' => $notifall]);
     }
 
 }

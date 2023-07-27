@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Vendor;
+use App\Models\Notifikasi;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class VendorController extends Controller
 {
@@ -20,8 +23,10 @@ class VendorController extends Controller
     public function index()
     {
         $vendor = Vendor::paginate(10);
-        $vendor = Vendor::all();
-        return view('admin.vendor',compact('vendor'));
+        $notif = Notifikasi::with('users')->orderBy('created_at','desc')->paginate(5);
+        $notifall = Notifikasi::all();
+        
+        return view('admin.vendor',compact('vendor'), ['notif' => $notif, 'notifall' => $notifall]);
     }
 
     /**
@@ -31,7 +36,9 @@ class VendorController extends Controller
      */
     public function create()
     {
-        return view('admin.table.table_vendor');
+        $notif = Notifikasi::with('users')->orderBy('created_at','desc')->paginate(5);
+        $notifall = Notifikasi::all();
+        return view('admin.table.table_vendor',['notif' => $notif, 'notifall' => $notifall]);
     }
 
     /**
@@ -74,22 +81,7 @@ class VendorController extends Controller
         $rt=$request->rt;
         $rw=$request->rw;
         $alamat_lengkap=$request->alamat_lengkap;
-        // $validateData = $request->validate([
-        //     'phone'=>'required|max:13',
-        //     'mobile'=>'required|max:13',
-        //     'nama_perusahaan'=>'required',
-        //     'email'=>'required|email:dns',
-        //     'nama_pic' => 'required',
-        //     'website' => 'required',
-        //     'jabatan' => 'required',
-        //     'provinsi' => 'required',
-        //     'kota' => 'required',
-        //     'kecamatan' => 'required',
-        //     'kelurahan' => 'required',
-        //     'rt' => 'required',
-        //     'rw' => 'required',
-        //     'alamat_lengkap' => 'required'
-        // ]);
+        
 
         if($request->file('image')){
             $file = $request->file('image');
@@ -98,6 +90,14 @@ class VendorController extends Controller
             $model->image = $nama_file;
         }
             $model->save();
+            $user = Auth::user();
+
+            Notifikasi::create([
+            'user_id' => $user->id,
+            'log_id' => '1',
+            'task' => 'Add Data Vendor'
+            ]);
+        
             return redirect('/page_sw/vendor')->with('success','Berhasil Menambah Post');
        
     }
@@ -122,7 +122,9 @@ class VendorController extends Controller
     public function edit(Vendor $vendor , $id)
     {
         $ven= Vendor::findorfail($id);
-        return view('admin.table.vendor_edit', compact('ven'));
+        $notif = Notifikasi::with('users')->orderBy('created_at','desc')->paginate(5);
+        $notifall = Notifikasi::all();
+        return view('admin.table.vendor_edit', compact('ven'),['notif' => $notif, 'notifall' => $notifall]);
     }
 
     /**
@@ -175,6 +177,13 @@ class VendorController extends Controller
             $model->image = $nama_file;
         }
             $model->update();
+            $user = Auth::user();
+
+            Notifikasi::create([
+            'user_id' => $user->id,
+            'log_id' => '2',
+            'task' => 'Update Data Vendor'
+            ]);
         return redirect('/page_sw/vendor')->with('success','Berhasil Update Data');
     }
 
@@ -187,6 +196,13 @@ class VendorController extends Controller
     public function destroy(Vendor $vendor, $id)
     {
         Vendor::destroy($id);
+        $user = Auth::user();
+
+            Notifikasi::create([
+            'user_id' => $user->id,
+            'log_id' => '3',
+            'task' => 'Delete Data Vendor'
+            ]);
         return redirect('/page_sw/vendor')->with('success','Berhasil Dihapus!');
     }
 }
